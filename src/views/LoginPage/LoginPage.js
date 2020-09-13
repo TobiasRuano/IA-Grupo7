@@ -55,56 +55,11 @@ export default function LoginPage(props) {
               <Card className={classes[cardAnimaton]}>
                 <form className={classes.form}>
                   <CardHeader color="primary" className={classes.cardHeader}>
-                    <h4>Login</h4>
-                    <div className={classes.socialLine}>
-                      <Button
-                        justIcon
-                        href="#pablo"
-                        target="_blank"
-                        color="transparent"
-                        onClick={e => e.preventDefault()}
-                      >
-                        <i className={"fab fa-twitter"} />
-                      </Button>
-                      <Button
-                        justIcon
-                        href="#pablo"
-                        target="_blank"
-                        color="transparent"
-                        onClick={e => e.preventDefault()}
-                      >
-                        <i className={"fab fa-facebook"} />
-                      </Button>
-                      <Button
-                        justIcon
-                        href="#pablo"
-                        target="_blank"
-                        color="transparent"
-                        onClick={e => e.preventDefault()}
-                      >
-                        <i className={"fab fa-google-plus-g"} />
-                      </Button>
-                    </div>
+                    <h2><b>Iniciar Sesion</b></h2>
                   </CardHeader>
-                  <p className={classes.divider}>Or Be Classical</p>
                   <CardBody>
                     <CustomInput
-                      labelText="First Name..."
-                      id="first"
-                      formControlProps={{
-                        fullWidth: true
-                      }}
-                      inputProps={{
-                        type: "text",
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <People className={classes.inputIconsColor} />
-                          </InputAdornment>
-                        )
-                      }}
-                    />
-                    <CustomInput
-                      labelText="Email..."
+                      labelText="Mail"
                       id="email"
                       formControlProps={{
                         fullWidth: true
@@ -119,7 +74,7 @@ export default function LoginPage(props) {
                       }}
                     />
                     <CustomInput
-                      labelText="Password"
+                      labelText="Contraseña"
                       id="pass"
                       formControlProps={{
                         fullWidth: true
@@ -138,15 +93,25 @@ export default function LoginPage(props) {
                     />
                   </CardBody>
                   <CardFooter className={classes.cardFooter}>
-                    <Button simple color="primary" size="lg">
-                      Get started
+                    <Button href="/MisTurnos" simple color="primary" size="lg">
+                      Continuar
                     </Button>
                   </CardFooter>
                 </form>
               </Card>
+
+              <Card className={classes[cardAnimaton]}>
+                <form className={classes.form}>
+                  <CardBody>
+                    <Button href="" simple color="primary" size="lg">
+                      Crear una cuenta
+                    </Button>
+                  </CardBody>
+                </form>
+              </Card>
             </GridItem>
           </GridContainer>
-        </div>
+          </div>
         <Footer whiteFont />
       </div>
     </div>
