@@ -49,7 +49,7 @@ export default function MisTurnosPage(props) {
           <Header
             color="transparent"
             routes={dashboardRoutes}
-            brand="Material Kit React"
+            brand="Home"
             rightLinks={<HeaderLinks />}
             fixed
             changeColorOnScroll={{
