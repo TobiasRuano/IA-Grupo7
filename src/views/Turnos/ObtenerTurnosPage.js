@@ -106,7 +106,7 @@ export default function ObtenerTurnosPage(props) {
                     </div>
                   </CardBody>
                   <CardFooter className={classes.cardFooter}>
-                    <Button href="/MisTurnos" simple color="primary" size="lg">
+                    <Button href="/turnos" simple color="primary" size="lg">
                       Chequear disponibilidad
                     </Button>
                   </CardFooter>
