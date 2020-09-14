@@ -5,7 +5,6 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import Icon from "@material-ui/core/Icon";
 // @material-ui/icons
 import Email from "@material-ui/icons/Email";
-import People from "@material-ui/icons/People";
 // core components
 import Header from "components/Header/Header.js";
 import HeaderLinks from "components/Header/HeaderLinks.js";
@@ -32,12 +31,29 @@ export default function LoginPage(props) {
   }, 700);
   const classes = useStyles();
   const { ...rest } = props;
+
+  function handleLoginClick() {
+    // this.setState({isLoggedIn: true});
+    console.log('Log in');
+  }
+  function handleCreateAccountClick() {
+  //  this.setState({isLoggedIn: false});
+   console.log('Create account');
+  }
+
+  let button;
+  if (true) {
+    button = <Button onClick={handleCreateAccountClick} simple color="primary" size="lg"> Crear una cuenta </Button>
+  } else {
+    button = <Button onClick={this.handleLoginClick} simple color="primary" size="lg"> Crear una cuenta </Button>
+  }
+
   return (
     <div>
       <Header
         absolute
         color="transparent"
-        brand="Material Kit React"
+        brand="Home"
         rightLinks={<HeaderLinks />}
         {...rest}
       />
@@ -103,9 +119,7 @@ export default function LoginPage(props) {
               <Card className={classes[cardAnimaton]}>
                 <form className={classes.form}>
                   <CardBody>
-                    <Button href="" simple color="primary" size="lg">
-                      Crear una cuenta
-                    </Button>
+                    {button}
                   </CardBody>
                 </form>
               </Card>
