@@ -29,7 +29,7 @@ import { Print } from "@material-ui/icons";
 
 const useStyles = makeStyles(styles);
 
-export default function ChequeoTurnosPage(props) {
+export default function ObtenerTurnosPage(props) {
   const [cardAnimaton, setCardAnimation] = React.useState("cardHidden");
   const [age, setAge] = React.useState('');
   const handleChange = (event) => {
