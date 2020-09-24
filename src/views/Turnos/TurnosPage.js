@@ -32,7 +32,7 @@ import styles from "assets/jss/material-kit-react/views/loginPage.js";
 const useStyles = makeStyles(styles);
 const dashboardRoutes = [];
 
-export default function MisTurnosPage(props) {
+export default function TurnosPage(props) {
   const [cardAnimaton, setCardAnimation] = React.useState("cardHidden");
   const [age, setAge] = React.useState('');
   const patientName = "Tobias";

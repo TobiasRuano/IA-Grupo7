@@ -109,7 +109,7 @@ export default function LoginPage(props) {
                     />
                   </CardBody>
                   <CardFooter className={classes.cardFooter}>
-                    <Button href="/MisTurnos" simple color="primary" size="lg">
+                    <Button href="/turnos" simple color="primary" size="lg">
                       Continuar
                     </Button>
                   </CardFooter>

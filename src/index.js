@@ -9,9 +9,12 @@ import "assets/scss/material-kit-react.scss?v=1.9.0";
 import Components from "views/Components/Components.js";
 // import HistoriasClinicas from "views/LandingPage/HistoriasClinicas.js";
 import LandingPage from "views/LandingPage/LandingPage.js";
-import Turnos from "views/Turnos/MisTurnosPage.js";
-import LoginPage from "views/LoginPage/LoginPage.js";
+import Turnos from "views/Turnos/TurnosPage.js";
+import Login from "views/LoginPage/LoginPage.js";
 import ObtenerTurnos from "views/Turnos/ObtenerTurnosPage.js";
+
+import ActoMedico from "views/ActoMedico/ActoMedico.js"
+import profile from "views/UserProfile/UserProfile.js"
 
 var hist = createBrowserHistory();
 
@@ -21,8 +24,14 @@ ReactDOM.render(
       {/* <Route path="/historias-clinicas" component={HistoriasClinicas} /> */}
       <Route path="/h" component={LandingPage} />
       <Route path="/turnos" component={Turnos} />
-      <Route path="/login" component={LoginPage} />
+      <Route path="/login" component={Login} />
       <Route path="/obtenerTurno" component={ObtenerTurnos} />
+
+
+      <Route path="/actoMedico" component={ActoMedico} />
+      <Route path="/profile" component={profile} />
+
+
       <Route path="/" component={Components} />
     </Switch>
   </Router>,

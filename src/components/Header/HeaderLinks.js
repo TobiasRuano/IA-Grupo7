@@ -50,7 +50,6 @@ export default function HeaderLinks(props) {
         <Button
           href="/login"
           color="transparent"
-          target="_blank"
           className={classes.navLink}
         >
           <LockOpenIcon className={classes.icons} /> Iniciar Sesion
