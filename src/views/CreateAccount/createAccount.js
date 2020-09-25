@@ -5,6 +5,9 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import Icon from "@material-ui/core/Icon";
 // @material-ui/icons
 import Email from "@material-ui/icons/Email";
+import LocationOnIcon from '@material-ui/icons/LocationOn';
+import FingerprintIcon from '@material-ui/icons/Fingerprint';
+import PersonIcon from '@material-ui/icons/Person';
 // core components
 import Header from "components/Header/Header.js";
 import HeaderLinks from "components/Header/HeaderLinks.js";
@@ -34,12 +37,17 @@ const useStyles = makeStyles(styles);
 export default function CreateAccountPage(props) {
   const [cardAnimaton, setCardAnimation] = React.useState("cardHidden");
   const [value, setValue] = React.useState('female');
+  const [nacimiento, setNac] = React.useState(Date);
   const classes = useStyles();
   const { ...rest } = props;
 
   const handleChange = (event) => {
     setValue(event.target.value);
   };
+  const handleNacChange = (event) => {
+    setNac(event.target.nacimiento);
+    console.log("Holaaaa");
+  }
   setTimeout(function() {
     setCardAnimation("");
   }, 700);
@@ -78,10 +86,10 @@ export default function CreateAccountPage(props) {
                         fullWidth: true
                       }}
                       inputProps={{
-                        type: "email",
+                        type: "text",
                         endAdornment: (
                           <InputAdornment position="end">
-                            <Email className={classes.inputIconsColor} />
+                            <PersonIcon className={classes.inputIconsColor} />
                           </InputAdornment>
                         )
                       }}
@@ -94,17 +102,17 @@ export default function CreateAccountPage(props) {
                         fullWidth: true
                       }}
                       inputProps={{
-                        type: "email",
+                        type: "text",
                         endAdornment: (
                           <InputAdornment position="end">
-                            <Email className={classes.inputIconsColor} />
+                            <PersonIcon className={classes.inputIconsColor} />
                           </InputAdornment>
                         )
                       }}
                     />
 
                   <FormControl component="fieldset">
-                    <FormLabel component="legend">Gender</FormLabel>
+                    <FormLabel component="legend">Genero</FormLabel>
                     <RadioGroup aria-label="Sexo" name="gender1" value={value} onChange={handleChange}>
                       <FormControlLabel value="female" control={<Radio />} label="Femenino" />
                       <FormControlLabel value="male" control={<Radio />} label="Masculino" />
@@ -112,7 +120,7 @@ export default function CreateAccountPage(props) {
                     </RadioGroup>
                   </FormControl>
 
-                  <NacimientoPicker></NacimientoPicker>
+                  <NacimientoPicker value={nacimiento} onChange={handleNacChange} ></NacimientoPicker>
 
                   <CustomInput
                       labelText="Domicilio"
@@ -121,10 +129,10 @@ export default function CreateAccountPage(props) {
                         fullWidth: true
                       }}
                       inputProps={{
-                        type: "email",
+                        type: "text",
                         endAdornment: (
                           <InputAdornment position="end">
-                            <Email className={classes.inputIconsColor} />
+                            <LocationOnIcon className={classes.inputIconsColor} />
                           </InputAdornment>
                         )
                       }}
@@ -137,10 +145,10 @@ export default function CreateAccountPage(props) {
                         fullWidth: true
                       }}
                       inputProps={{
-                        type: "email",
+                        type: "number",
                         endAdornment: (
                           <InputAdornment position="end">
-                            <Email className={classes.inputIconsColor} />
+                            <FingerprintIcon className={classes.inputIconsColor} />
                           </InputAdornment>
                         )
                       }}
