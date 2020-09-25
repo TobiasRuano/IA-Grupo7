@@ -1,7 +1,5 @@
 /*eslint-disable*/
 import React from "react";
-import DeleteIcon from "@material-ui/icons/Delete";
-import IconButton from "@material-ui/core/IconButton";
 // react components for routing our app without refresh
 import { Link } from "react-router-dom";
 
@@ -15,6 +13,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import { Apps, CloudDownload } from "@material-ui/icons";
 import LockOpenIcon from '@material-ui/icons/LockOpen';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
+import PersonIcon from '@material-ui/icons/Person';
 
 // core components
 import CustomDropdown from "components/CustomDropdown/CustomDropdown.js";
@@ -66,6 +65,19 @@ export default function HeaderLinks(props) {
           <PersonAddIcon className={classes.icons} /> Crear una Cuenta
         </Button>
       </ListItem>
+
+      <ListItem className={classes.listItem}>
+        <Button
+          href="/profile"
+          color="transparent"
+          className={classes.navLink}
+        >
+          <PersonIcon className={classes.icons} /> Perfil
+        </Button>
+      </ListItem>
+
     </List>
+
+    
   );
 }
