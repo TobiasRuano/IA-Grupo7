@@ -14,6 +14,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 // @material-ui/icons
 import { Apps, CloudDownload } from "@material-ui/icons";
 import LockOpenIcon from '@material-ui/icons/LockOpen';
+import PersonAddIcon from '@material-ui/icons/PersonAdd';
 
 // core components
 import CustomDropdown from "components/CustomDropdown/CustomDropdown.js";
@@ -53,6 +54,16 @@ export default function HeaderLinks(props) {
           className={classes.navLink}
         >
           <LockOpenIcon className={classes.icons} /> Iniciar Sesion
+        </Button>
+      </ListItem>
+
+      <ListItem className={classes.listItem}>
+        <Button
+          href="/crearCuenta"
+          color="transparent"
+          className={classes.navLink}
+        >
+          <PersonAddIcon className={classes.icons} /> Crear una Cuenta
         </Button>
       </ListItem>
     </List>
