@@ -20,15 +20,15 @@ import Switch from '@material-ui/core/Switch';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
+function createData(razon, dia, horario, profesional, estado) {
+  return { razon, dia, horario, profesional, estado };
 }
 
 const rows = [
-  createData('Electrocardiograma', 'Martes 18 de Septiembre', new Date().toLocaleString(), 'Juan Quiroz', 'Confirmado'),
-  createData('Electrocardiograma', 'Martes 18 de Septiembre', new Date().toLocaleString(), 'Juan Quiroz', 'Confirmado'),
-  createData('Electrocardiograma', 'Martes 18 de Septiembre', new Date().toLocaleString(), 'Juan Quiroz', 'Confirmado'),
-  createData('Electrocardiograma', 'Martes 18 de Septiembre', new Date().toLocaleString(), 'Juan Quiroz', 'Confirmado'),
+  createData('Electrocardiograma', 'Sabado 18 de Marzo', new Date().toLocaleString(), 'Juan Quiroz', 'Confirmado'),
+  createData('Consulta General', 'Viernes 18 de Septiembre', new Date().toLocaleString(), 'Juan Quiroz', 'Confirmado'),
+  createData('Operacion', 'Jueves 1 de Octubre', new Date().toLocaleString(), 'Juan Quiroz', 'Confirmado'),
+  createData('Colonoscopia', 'Lunes 5 de Septiembre', new Date().toLocaleString(), 'Juan Quiroz', 'Confirmado'),
 ];
 
 function descendingComparator(a, b, orderBy) {
@@ -58,11 +58,11 @@ function stableSort(array, comparator) {
 }
 
 const headCells = [
-  { id: 'name', numeric: false, disablePadding: true, label: 'Razon' },
-  { id: 'calories', numeric: true, disablePadding: false, label: 'Dia' },
-  { id: 'fat', numeric: true, disablePadding: false, label: 'Horario' },
-  { id: 'carbs', numeric: true, disablePadding: false, label: 'Profesional' },
-  { id: 'protein', numeric: true, disablePadding: false, label: 'Estado' },
+  { id: 'razon', numeric: false, disablePadding: true, label: 'Razon' },
+  { id: 'dia', numeric: true, disablePadding: false, label: 'Dia' },
+  { id: 'horario', numeric: true, disablePadding: false, label: 'Horario' },
+  { id: 'profesional', numeric: true, disablePadding: false, label: 'Profesional' },
+  { id: 'estado', numeric: true, disablePadding: false, label: 'Estado' },
 ];
 
 function EnhancedTableHead(props) {
@@ -142,6 +142,10 @@ const EnhancedTableToolbar = (props) => {
   const classes = useToolbarStyles();
   const { numSelected } = props;
 
+  function cancelarTurno() {
+    console.log("Holaaa");
+  }
+
   return (
     <Toolbar
       className={clsx(classes.root, {
@@ -160,7 +164,7 @@ const EnhancedTableToolbar = (props) => {
 
       {numSelected > 0 ? (
         <Tooltip title="Cancelar Turno/s">
-          <IconButton aria-label="delete">
+          <IconButton onClick={cancelarTurno} aria-label="delete">
             <DeleteIcon />
           </IconButton>
         </Tooltip>
@@ -210,7 +214,7 @@ export default function EnhancedTable() {
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -288,17 +292,17 @@ export default function EnhancedTable() {
               {stableSort(rows, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                  const isItemSelected = isSelected(row.name);
+                  const isItemSelected = isSelected(row.razon);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
                     <TableRow
                       hover
-                      onClick={(event) => handleClick(event, row.name)}
+                      onClick={(event) => handleClick(event, row.razon)}
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
-                      key={row.name}
+                      key={row.razon}
                       selected={isItemSelected}
                     >
                       <TableCell padding="checkbox">
@@ -308,12 +312,12 @@ export default function EnhancedTable() {
                         />
                       </TableCell>
                       <TableCell component="th" id={labelId} scope="row" padding="none">
-                        {row.name}
+                        {row.razon}
                       </TableCell>
-                      <TableCell align="right">{row.calories}</TableCell>
-                      <TableCell align="right">{row.fat}</TableCell>
-                      <TableCell align="right">{row.carbs}</TableCell>
-                      <TableCell align="right">{row.protein}</TableCell>
+                      <TableCell align="right">{row.dia}</TableCell>
+                      <TableCell align="right">{row.horario}</TableCell>
+                      <TableCell align="right">{row.profesional}</TableCell>
+                      <TableCell align="right">{row.estado}</TableCell>
                     </TableRow>
                   );
                 })}
@@ -326,8 +330,9 @@ export default function EnhancedTable() {
           </Table>
         </TableContainer>
         <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
+          rowsPerPageOptions={[5, 10]}
           component="div"
+          labelRowsPerPage="Turnos por pagina"
           count={rows.length}
           rowsPerPage={rowsPerPage}
           page={page}
