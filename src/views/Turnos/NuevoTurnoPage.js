@@ -1,11 +1,14 @@
 import React from "react";
-// @material-ui/core components
 
+// @material-ui/core components
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import InputAdornment from "@material-ui/core/InputAdornment";
+
+import FingerprintIcon from '@material-ui/icons/Fingerprint';
 
 
 import { makeStyles } from "@material-ui/core/styles";
@@ -19,17 +22,17 @@ import Button from "components/CustomButtons/Button.js";
 import Card from "components/Card/Card.js";
 import CardBody from "components/Card/CardBody.js";
 import CardFooter from "components/Card/CardFooter.js";
+import CustomInput from "components/CustomInput/CustomInput.js";
 
 import DatePicker from "components/DatePicker/DatePicker.js"
 
 import styles from "assets/jss/material-kit-react/views/loginPage.js";
 
 import image from "assets/img/bg7.jpg";
-import { Print } from "@material-ui/icons";
 
 const useStyles = makeStyles(styles);
 
-export default function ObtenerTurnosPage(props) {
+export default function NuevoTurnoPage(props) {
   const [cardAnimaton, setCardAnimation] = React.useState("cardHidden");
   const [esp, setEsp] = React.useState('');
   const [profesional, setProfesional] = React.useState('');
@@ -83,8 +86,10 @@ export default function ObtenerTurnosPage(props) {
                         <MenuItem value={20}>Pediatria</MenuItem>
                         <MenuItem value={30}>Ortodoncia</MenuItem>
                         <MenuItem value={40}>Cardiologia</MenuItem>
+                        <MenuItem value={50}>Análisis de sangre</MenuItem>
+                        <MenuItem value={60}>Rayos</MenuItem>
                       </Select>
-                      <FormHelperText>Some important helper text</FormHelperText>
+                      <FormHelperText>Estamos trabajando para agregar mas especialidades</FormHelperText>
                     </FormControl>
                     <FormControl className={classes.formControl}>
                       <InputLabel id="demo-simple-select-helper-label">Elija el profesional</InputLabel>
@@ -103,11 +108,28 @@ export default function ObtenerTurnosPage(props) {
                         <MenuItem value={40}>Sigmund Freud</MenuItem>
                         <MenuItem value={50}>Rafael Arteaga Covarrubias</MenuItem>
                       </Select>
-                      <FormHelperText>Some important helper text</FormHelperText>
+                      <FormHelperText>Estamos trabajando para agregar mas profesionales</FormHelperText>
                     </FormControl>
                     <div>
                       <DatePicker></DatePicker>
                     </div>
+
+                    <CustomInput
+                      labelText="DNI"
+                      id="name"
+                      formControlProps={{
+                        fullWidth: true
+                      }}
+                      inputProps={{
+                        type: "number",
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <FingerprintIcon className={classes.inputIconsColor} />
+                          </InputAdornment>
+                        )
+                      }}
+                    />
+
                   </CardBody>
                   <CardFooter className={classes.cardFooter}>
                     <Button href="/turnos" simple color="primary" size="lg">
