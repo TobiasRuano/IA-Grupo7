@@ -31,10 +31,14 @@ const useStyles = makeStyles(styles);
 
 export default function ObtenerTurnosPage(props) {
   const [cardAnimaton, setCardAnimation] = React.useState("cardHidden");
-  const [age, setAge] = React.useState('');
-  const handleChange = (event) => {
-    setAge(event.target.value);
+  const [esp, setEsp] = React.useState('');
+  const [profesional, setProfesional] = React.useState('');
+  const handleEspChange = (event) => {
+    setEsp(event.target.value);
   };
+  const handleProfChange = (event) => {
+    setProfesional(event.target.value);
+  }
   setTimeout(function () {
     setCardAnimation("");
   }, 700);
@@ -69,8 +73,8 @@ export default function ObtenerTurnosPage(props) {
                       <Select
                         labelId="demo-simple-select-helper-label"
                         id="demo-simple-select-helper"
-                        value={age}
-                        onChange={handleChange}
+                        value={esp}
+                        onChange={handleEspChange}
                       >
                         <MenuItem value="">
                           <em>Debe seleccionar una opcion</em>
@@ -87,8 +91,8 @@ export default function ObtenerTurnosPage(props) {
                       <Select
                         labelId="demo-simple-select-helper-label"
                         id="demo-simple-select-helper"
-                        value={age}
-                        onChange={handleChange}
+                        value={profesional}
+                        onChange={handleProfChange}
                       >
                         <MenuItem value="">
                           <em>Debe seleccionar una opcion</em>
