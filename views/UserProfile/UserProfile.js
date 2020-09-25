@@ -66,14 +66,13 @@ export default function UserProfile(props) {
   const [dni, setDni] = React.useState('00000001');
   const [sexo, setSexo] = React.useState('Masculino');
   const [fechanac, setFechanac] = React.useState('06/06/97');
-  const [edad, setEdad] = React.useState('Composed TextField');
   const [email, setEmail] = React.useState('truano@uade.edu.ar');
   const [domicilio, setDom] = React.useState('Lima 775');
   const [telefono, setTel] = React.useState('1515251515');
   
   //datos medicos
   const [gruposang, setGrupoSang] = React.useState('A+');
-  const [cardiaco, setCardiaco] = React.useState('Composed TextField');
+  const [cardiaco, setCardiaco] = React.useState('NO');
   const [diabetes, setDiabetes] = React.useState('NO');
   const [hiperten, setHiperten] = React.useState('NO');
   const [alergias, setAlergias] = React.useState('NINGUNA');
@@ -107,9 +106,6 @@ export default function UserProfile(props) {
   }
   const handleChangeDni = (event) => {
     setDni(event.target.value);
-  }
-  const handleChangeEdad = (event) => {
-    setEdad(event.target.value);
   }
   const handleChangeEmail = (event) => {
     setEmail(event.target.value);
@@ -199,6 +195,15 @@ export default function UserProfile(props) {
                    <FormControl disabled>
                     <InputLabel htmlFor="component-fechanac">Fecha de Nacimiento</InputLabel>
                     <Input id="component-disabled" value={fechanac} onChange={handleChangeFechanac} />
+                  </FormControl>
+                </form>
+                </GridItem>
+
+                <GridItem xs={12} sm={12} md={4}>
+                <form className={classes1.root} nonValidate autoComplete="off">
+                   <FormControl disabled>
+                    <InputLabel htmlFor="component-surname">Telefono</InputLabel>
+                    <Input id="component-disabled" value={telefono} onChange={handleChangeTel} />
                   </FormControl>
                 </form>
                 </GridItem>
