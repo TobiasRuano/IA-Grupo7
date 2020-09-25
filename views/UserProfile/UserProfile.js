@@ -12,6 +12,8 @@ import GridContainer from "components/Grid/GridContainer.js";
 import Button from "components/CustomButtons/Button.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
+import Header from "components/Header/Header.js";
+import HeaderLinks from "components/Header/HeaderLinks.js";
 
 
 //import CardAvatar from "components/Card/CardAvatar.js";
@@ -54,26 +56,27 @@ const useStylesTheme = makeStyles((theme) => ({
   },
 }));
 
-export default function UserProfile() {
+export default function UserProfile(props) {
   const classes = useStyles();
   const classes1 = useStylesTheme();
+  const { ...rest } = props;
   //datos paciente
-  const [name, setName] = React.useState('composed TextField');
-  const [surname, setSurname] = React.useState('composed TexField');
-  const [dni, setDni] = React.useState('composed TextField');
-  const [sexo, setSexo] = React.useState('Composed TextField');
-  const [fechanac, setFechanac] = React.useState('Composed TextField');
+  const [name, setName] = React.useState('Tobias');
+  const [surname, setSurname] = React.useState('Ruano');
+  const [dni, setDni] = React.useState('00000001');
+  const [sexo, setSexo] = React.useState('Masculino');
+  const [fechanac, setFechanac] = React.useState('06/06/97');
   const [edad, setEdad] = React.useState('Composed TextField');
-  const [email, setEmail] = React.useState('Composed TextField');
-  const [domicilio, setDom] = React.useState('Composed TextField');
-  const [telefono, setTel] = React.useState('Composed TextField');
+  const [email, setEmail] = React.useState('truano@uade.edu.ar');
+  const [domicilio, setDom] = React.useState('Lima 775');
+  const [telefono, setTel] = React.useState('1515251515');
   
   //datos medicos
-  const [gruposang, setGrupoSang] = React.useState('Composed TextField');
+  const [gruposang, setGrupoSang] = React.useState('A+');
   const [cardiaco, setCardiaco] = React.useState('Composed TextField');
-  const [diabetes, setDiabetes] = React.useState('Composed TextField');
-  const [hiperten, setHiperten] = React.useState('Composed TextField');
-  const [alergias, setAlergias] = React.useState('Composed TextField');
+  const [diabetes, setDiabetes] = React.useState('NO');
+  const [hiperten, setHiperten] = React.useState('NO');
+  const [alergias, setAlergias] = React.useState('NINGUNA');
  
   
 
@@ -130,8 +133,19 @@ export default function UserProfile() {
  
 
   return (
+
+    
     
     <div>
+
+<Header
+        absolute
+        color="transparent"
+        brand="Home"
+        rightLinks={<HeaderLinks />}
+        {...rest}
+      />
+
       <GridContainer>
         <GridItem xs={12} sm={12} md={12}>
           <Card>
@@ -189,15 +203,6 @@ export default function UserProfile() {
                 </form>
                 </GridItem>
 
-                <GridItem xs={12} sm={12} md={4}>
-                  <form className={classes1.root} nonValidate autoComplete="off">
-                   <FormControl disabled>
-                    <InputLabel htmlFor="component-edad">Edad</InputLabel>
-                    <Input id="component-disabled" value={edad} onChange={handleChangeEdad} />
-                  </FormControl>
-                </form>
-                </GridItem>
-
               </GridContainer>
 
               <GridContainer>
@@ -210,14 +215,6 @@ export default function UserProfile() {
                   </FormControl>
                 </form>
                   
-                </GridItem>
-                <GridItem xs={12} sm={12} md={4}>
-                  <form className={classes1.root} nonValidate autoComplete="off">
-                   <FormControl disabled>
-                    <InputLabel htmlFor="component-edad">Edad</InputLabel>
-                    <Input id="component-disabled" value={telefono} onChange={handleChangeTel} />
-                  </FormControl>
-                  </form>
                 </GridItem>
 
                 <GridItem xs={12} sm={12} md={4}>
@@ -239,7 +236,7 @@ export default function UserProfile() {
        <GridItem xs={12} sm={12} md={12}>
             <Card>
               <CardHeader color="primary">
-                <h4 className={classes.cardTitleWhite}>Datos Médicos </h4>
+                <h4 className={classes.cardTitleWhite}>Historia Clinica </h4>
               </CardHeader>
               <CardBody>
                 <GridContainer>
@@ -293,6 +290,7 @@ export default function UserProfile() {
            </GridItem>
 
                 <Button color="primary">Actualizar Datos</Button>
+                <Button color="danger">Eliminar Cuenta</Button>
 
      </GridContainer>
 
