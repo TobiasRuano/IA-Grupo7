@@ -12,9 +12,13 @@ import LandingPage from "views/LandingPage/LandingPage.js";
 import Turnos from "views/Turnos/TurnosPage.js";
 import Login from "views/LoginPage/LoginPage.js";
 import ObtenerTurnos from "views/Turnos/ObtenerTurnosPage.js";
+import crearCuenta from "views/CreateAccount/createAccount.js";
 
-import ActoMedico from "views/ActoMedico/ActoMedico.js"
-import profile from "views/UserProfile/UserProfile.js"
+
+import profile from "views/UserProfile.js";
+
+/* import ActoMedico from "views/ActoMedico/ActoMedico.js"
+import profile from "views/UserProfile/UserProfile.js" */
 
 var hist = createBrowserHistory();
 
@@ -26,10 +30,12 @@ ReactDOM.render(
       <Route path="/turnos" component={Turnos} />
       <Route path="/login" component={Login} />
       <Route path="/obtenerTurno" component={ObtenerTurnos} />
+      <Route path="/crearCuenta" component={crearCuenta} />
 
 
-      <Route path="/actoMedico" component={ActoMedico} />
       <Route path="/profile" component={profile} />
+{/*       <Route path="/actoMedico" component={ActoMedico} />
+      <Route path="/profile" component={profile} /> */}
 
 
       <Route path="/" component={Components} />

@@ -37,8 +37,8 @@ export default function LoginPage(props) {
     console.log('Log in');
   }
   function handleCreateAccountClick() {
-  //  this.setState({isLoggedIn: false});
-   console.log('Create account');
+
+    window.location.assign("/crearCuenta");
   }
 
   let button;
@@ -109,7 +109,7 @@ export default function LoginPage(props) {
                     />
                   </CardBody>
                   <CardFooter className={classes.cardFooter}>
-                    <Button href="/turnos" simple color="primary" size="lg">
+                    <Button href="/profile" simple color="primary" size="lg">
                       Continuar
                     </Button>
                   </CardFooter>
