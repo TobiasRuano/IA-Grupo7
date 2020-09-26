@@ -52,6 +52,10 @@ export default function CreateAccountPage(props) {
     setCardAnimation("");
   }, 700);
 
+  function createAccount() {
+    console.log("Testing create account button");
+  };
+
 
   return (
     <div>
@@ -208,8 +212,8 @@ export default function CreateAccountPage(props) {
                     />
                   </CardBody>
                   <CardFooter className={classes.cardFooter}>
-                    <Button href="/profile" simple color="primary" size="lg">
-                      Continuar
+                    <Button onClick={createAccount} href="/profile" simple color="primary" size="lg">
+                      Crear Cuenta
                     </Button>
                   </CardFooter>
                 </form>

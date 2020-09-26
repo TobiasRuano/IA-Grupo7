@@ -125,6 +125,10 @@ export default function UserProfile(props) {
   const handleChangeDom = (event) => {
     setDom(event.target.value);
   }
+
+  function deleteAccount() {
+    console.log("Delete the account");
+  }
   
  
 
@@ -295,7 +299,7 @@ export default function UserProfile(props) {
            </GridItem>
 
                 <Button color="primary">Actualizar Datos</Button>
-                <Button color="danger">Eliminar Cuenta</Button>
+                <Button onClick={deleteAccount} color="danger">Eliminar Cuenta</Button>
 
      </GridContainer>
 

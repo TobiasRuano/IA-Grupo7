@@ -23,11 +23,9 @@ import Card from "components/Card/Card.js";
 import CardBody from "components/Card/CardBody.js";
 import CardFooter from "components/Card/CardFooter.js";
 import CustomInput from "components/CustomInput/CustomInput.js";
-
 import DatePicker from "components/DatePicker/DatePicker.js"
 
 import styles from "assets/jss/material-kit-react/views/loginPage.js";
-
 import image from "assets/img/bg7.jpg";
 
 const useStyles = makeStyles(styles);
@@ -36,17 +34,21 @@ export default function NuevoTurnoPage(props) {
   const [cardAnimaton, setCardAnimation] = React.useState("cardHidden");
   const [esp, setEsp] = React.useState('');
   const [profesional, setProfesional] = React.useState('');
+
   const handleEspChange = (event) => {
     setEsp(event.target.value);
   };
   const handleProfChange = (event) => {
     setProfesional(event.target.value);
   }
+
   setTimeout(function () {
     setCardAnimation("");
   }, 700);
   const classes = useStyles();
   const { ...rest } = props;
+
+
   return (
     <div>
       <Header
@@ -88,6 +90,8 @@ export default function NuevoTurnoPage(props) {
                         <MenuItem value={40}>Cardiologia</MenuItem>
                         <MenuItem value={50}>Análisis de sangre</MenuItem>
                         <MenuItem value={60}>Rayos</MenuItem>
+                        <MenuItem value={70}>Electrocardiograma</MenuItem>
+                        <MenuItem value={80}>Tomografia computada</MenuItem>
                       </Select>
                       <FormHelperText>Estamos trabajando para agregar mas especialidades</FormHelperText>
                     </FormControl>
@@ -107,6 +111,7 @@ export default function NuevoTurnoPage(props) {
                         <MenuItem value={30}>Sir Joseph Lister</MenuItem>
                         <MenuItem value={40}>Sigmund Freud</MenuItem>
                         <MenuItem value={50}>Rafael Arteaga Covarrubias</MenuItem>
+                        <MenuItem value={60}>Juan Quiroz</MenuItem>
                       </Select>
                       <FormHelperText>Estamos trabajando para agregar mas profesionales</FormHelperText>
                     </FormControl>

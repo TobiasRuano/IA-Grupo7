@@ -27,7 +27,7 @@ function createData(razon, dia, horario, profesional, estado) {
 const rows = [
   createData('Electrocardiograma', 'Sabado 18 de Marzo', new Date().toLocaleString(), 'Juan Quiroz', 'Confirmado'),
   createData('Consulta General', 'Viernes 18 de Septiembre', new Date().toLocaleString(), 'Juan Quiroz', 'Confirmado'),
-  createData('Operacion', 'Jueves 1 de Octubre', new Date().toLocaleString(), 'Juan Quiroz', 'Confirmado'),
+  createData('Tomografia computada', 'Jueves 1 de Octubre', new Date().toLocaleString(), 'Juan Quiroz', 'Confirmado'),
   createData('Colonoscopia', 'Lunes 5 de Septiembre', new Date().toLocaleString(), 'Juan Quiroz', 'Confirmado'),
 ];
 

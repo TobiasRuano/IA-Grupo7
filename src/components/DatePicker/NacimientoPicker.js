@@ -23,7 +23,7 @@ export default function NacimientoPicker() {
         id="date"
         label="Fecha de Nacimiento"
         type="date"
-        defaultValue="2017-05-24"
+        defaultValue="2020-09-28"
         className={classes.textField}
         InputLabelProps={{
           shrink: true,
