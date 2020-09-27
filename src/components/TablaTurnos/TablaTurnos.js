@@ -12,15 +12,15 @@ import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Paper from '@material-ui/core/Paper';
 import Button from "@material-ui/core/Button";
 
-function createData(razon, dia, horario, profesional, estado) {
-  return { razon, dia, horario, profesional, estado };
+function createData(razon, fecha, profesional, estado) {
+  return { razon, fecha, profesional, estado };
 }
 
 let rows = [
-  createData('Electrocardiograma', 'Sabado 18 de Marzo', new Date().toLocaleString(), 'Juan Quiroz', 'Confirmado'),
-  createData('Consulta General', 'Viernes 18 de Septiembre', new Date().toLocaleString(), 'Juan Quiroz', 'Confirmado'),
-  createData('Tomografia computada', 'Jueves 1 de Octubre', new Date().toLocaleString(), 'Juan Quiroz', 'Confirmado'),
-  createData('Colonoscopia', 'Lunes 5 de Septiembre', new Date().toLocaleString(), 'Juan Quiroz', 'Confirmado'),
+  createData('Electrocardiograma', new Date().toLocaleString(), 'Juan Quiroz', 'Confirmado'),
+  createData('Consulta General', new Date().toLocaleString(), 'Juan Quiroz', 'Confirmado'),
+  createData('Tomografia computada', new Date().toLocaleString(), 'Juan Quiroz', 'Confirmado'),
+  createData('Colonoscopia', new Date().toLocaleString(), 'Juan Quiroz', 'Confirmado'),
 ];
 
 function descendingComparator(a, b, orderBy) {
@@ -51,8 +51,7 @@ function stableSort(array, comparator) {
 
 const headCells = [
   { id: 'razon', numeric: false, disablePadding: true, label: 'Razon' },
-  { id: 'dia', numeric: true, disablePadding: false, label: 'Dia' },
-  { id: 'horario', numeric: true, disablePadding: false, label: 'Horario' },
+  { id: 'fecha', numeric: true, disablePadding: false, label: 'Dia y Horario' },
   { id: 'profesional', numeric: true, disablePadding: false, label: 'Profesional' },
   { id: 'estado', numeric: true, disablePadding: false, label: 'Estado' },
 ];
@@ -245,8 +244,7 @@ export default function EnhancedTable() {
                       <TableCell component="th" id={labelId} scope="row" padding="none">
                         {row.razon}
                       </TableCell>
-                      <TableCell align="right">{row.dia}</TableCell>
-                      <TableCell align="right">{row.horario}</TableCell>
+                      <TableCell align="right">{row.fecha}</TableCell>
                       <TableCell align="right">{row.profesional}</TableCell>
                       <TableCell align="right">{row.estado}</TableCell>
                       <TableCell>
