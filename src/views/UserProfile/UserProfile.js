@@ -15,22 +15,15 @@ import CardHeader from "components/Card/CardHeader.js";
 import Header from "components/Header/Header.js";
 import HeaderLinks from "components/Header/HeaderLinks.js";
 
-/* import AlertDialog from "components/ModalDialog/AlertDialog.js"; */
 
-
-//import CardAvatar from "components/Card/CardAvatar.js";
 import CardBody from "components/Card/CardBody.js";
-import CardFooter from "components/Card/CardFooter.js";
-//import { EditAttributes } from "@material-ui/icons";
-
-//import avatar from "assets/img/faces/marc.jpg";
 
 const styles = {
   cardCategoryWhite: {
     color: "rgba(255,255,255,.62)",
     margin: "0",
     fontSize: "14px",
-    marginTop: "0",
+    marginTop: "10px",
     marginBottom: "0"
   },
   cardTitleWhite: {
@@ -139,13 +132,13 @@ export default function UserProfile(props) {
 
 <Header
         absolute
-        color="transparent"
+        color="white"
         brand="Home"
         rightLinks={<HeaderLinks />}
         {...rest}
       />
 
-      <GridContainer>
+      <GridContainer style={{marginTop:'100px'}}>
         <GridItem xs={12} sm={12} md={12}>
           <Card>
             <CardHeader color="primary">

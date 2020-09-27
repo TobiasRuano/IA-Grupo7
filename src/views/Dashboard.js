@@ -46,7 +46,7 @@ export default function Dashboard(props) {
         rightLinks={<HeaderLinks />}
         {...rest}
       />    
-      <GridContainer>
+      <GridContainer style={{marginTop:'100px'}}>
         <GridItem xs={12} sm={12} md={12}>
           <Card>
             <CardHeader color="warning">
