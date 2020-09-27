@@ -13,6 +13,8 @@ import Card from "components/Card/Card.js";
 import CardBody from "components/Card/CardBody.js";
 import CardHeader from "components/Card/CardHeader.js";
 import Button from "components/CustomButtons/Button.js";
+import Header from "components/Header/Header.js";
+import HeaderLinks from "components/Header/HeaderLinks.js";
 
 
 import styles from "assets/jss/material-dashboard-react/views/dashboardStyle.js";
@@ -30,17 +32,25 @@ const useStylesTheme = makeStyles((theme) => ({
   },
 }));
 
-export default function Dashboard() {
+export default function Dashboard(props) {
   const classes = useStyles();
   const classes1 = useStylesTheme();
+  const { ...rest } = props;
 
   return (
-    <div>     
+    <div> 
+      <Header
+        absolute
+        color="white"
+        brand="Home"
+        rightLinks={<HeaderLinks />}
+        {...rest}
+      />    
       <GridContainer>
         <GridItem xs={12} sm={12} md={12}>
           <Card>
             <CardHeader color="warning">
-              <h4 className={classes.cardTitleWhite}>Buscar paciente</h4>
+              <h4 className={classes.cardTitleWhite}>Buscar Usuario</h4>
               <p className={classes.cardCategoryWhite}>
                 
               </p>
@@ -49,6 +59,28 @@ export default function Dashboard() {
               <div>
               <form className={classes1.root} noValidate autoComplete="off">
                 <TextField id="outlined-basic" label="DNI" variant="outlined" name="dnipaciente" />
+              </form>
+              <Button color="warning"> Buscar</Button>
+              </div>
+            </CardBody>
+          </Card>
+        </GridItem>
+
+        <GridItem xs={12} sm={12} md={12}>
+          <Card>
+            <CardHeader color="warning">
+              <h4 className={classes.cardTitleWhite}>Buscar Historia clinica</h4>
+              <p className={classes.cardCategoryWhite}>
+                
+              </p>
+            </CardHeader>
+            <CardBody>
+              <div>
+              <form className={classes1.root} noValidate autoComplete="off">
+                <TextField id="outlined-basic" label="DNI" variant="outlined" name="dnipaciente" />
+              </form>
+              <form className={classes1.root} noValidate autoComplete="off">
+                <TextField id="outlined-basic" label="Secretaria" variant="outlined" name="secretaria" />
               </form>
               <Button color="warning"> Buscar</Button>
               </div>

@@ -15,6 +15,8 @@ import CardHeader from "components/Card/CardHeader.js";
 import Header from "components/Header/Header.js";
 import HeaderLinks from "components/Header/HeaderLinks.js";
 
+/* import AlertDialog from "components/ModalDialog/AlertDialog.js"; */
+
 
 //import CardAvatar from "components/Card/CardAvatar.js";
 import CardBody from "components/Card/CardBody.js";
@@ -127,14 +129,11 @@ export default function UserProfile(props) {
   }
 
   function deleteAccount() {
-    console.log("Delete the account");
   }
   
  
 
   return (
-
-    
     
     <div>
 
@@ -240,66 +239,8 @@ export default function UserProfile(props) {
             </CardBody>
           </Card>
         </GridItem> 
-
-       {/*datos medicos*/}        
-       <GridItem xs={12} sm={12} md={12}>
-            <Card>
-              <CardHeader color="primary">
-                <h4 className={classes.cardTitleWhite}>Historia Clinica </h4>
-              </CardHeader>
-              <CardBody>
-                <GridContainer>
-                  <GridItem xs={12} sm={12} md={4}>
-                  <form className={classes1.root} nonValidate autoComplete="off">
-                   <FormControl >
-                    <InputLabel htmlFor="component-gruposang">Grupo Sanguineo</InputLabel>
-                    <Input id="component-disabled" value={gruposang} onChange={handleChangeGrupoSang} />
-                  </FormControl>
-                </form>
-                  </GridItem>
-                  <GridItem xs={12} sm={12} md={4}>
-                  <form className={classes1.root} nonValidate autoComplete="off">
-                   <FormControl>
-                    <InputLabel htmlFor="component-cardiaco">Cardíaco</InputLabel>
-                    <Input id="component-disabled" value={cardiaco} onChange={handleChangeCardiaco} />
-                  </FormControl>
-                </form>
-                  </GridItem>
-                  <GridItem xs={12} sm={12} md={4}>
-                  <form className={classes1.root} nonValidate autoComplete="off">
-                   <FormControl >
-                    <InputLabel htmlFor="component-diabetes">Diabetes</InputLabel>
-                    <Input id="component-disabled" value={diabetes} onChange={handleChangeDiabetes} />
-                  </FormControl>
-                </form>
-                  </GridItem>
-               </GridContainer>
-               <GridContainer>
-                 <GridItem xs={12} sm={12} md={4}>
-                 <form className={classes1.root} nonValidate autoComplete="off">
-                   <FormControl>
-                    <InputLabel htmlFor="component-hiperten">Hipertensión</InputLabel>
-                    <Input id="component-disabled" value={hiperten} onChange={handleChangeHiperten} />
-                  </FormControl>
-                </form>
-                 </GridItem>
-                 <GridItem xs={12} sm={12} md={4}>
-                 <form className={classes1.root} nonValidate autoComplete="off">
-                   <FormControl >
-                    <InputLabel htmlFor="component-alergias">Alergías</InputLabel>
-                    <Input id="component-disabled" value={alergias} onChange={handleChangeAlergias} />
-                  </FormControl>
-                </form>
-                 </GridItem>
-               </GridContainer>
-              </CardBody>
-              <CardFooter>
-              </CardFooter>
-            </Card>
-           </GridItem>
-
-                <Button color="primary">Actualizar Datos</Button>
-                <Button onClick={deleteAccount} color="danger">Eliminar Cuenta</Button>
+        <Button color="primary">Actualizar Datos</Button>
+        <Button onClick={deleteAccount} color="danger">Eliminar Cuenta</Button>
 
      </GridContainer>
 

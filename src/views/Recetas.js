@@ -88,7 +88,7 @@ Transition.displayName = "Transition";
 
 
 
- export default function TableList() {
+ export default function Recetas() {
  
   const classes = useStyles();
   const [classicModal, setClassicModal] = React.useState(false);
@@ -195,7 +195,7 @@ Transition.displayName = "Transition";
                     >
                       <Close className={classes.modalClose} />
                     </IconButton>
-                    <h4 className={classes.modalTitle}>Medicación</h4>
+                    <h4 className={classes.modalTitle}>Recetas</h4>
                  </DialogTitle>   
                 <DialogContent
                     id="classic-modal-slide-description"
