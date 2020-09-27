@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import clsx from 'clsx';
 import { lighten, makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -11,20 +10,14 @@ import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
-import Checkbox from '@material-ui/core/Checkbox';
-import IconButton from '@material-ui/core/IconButton';
-import Tooltip from '@material-ui/core/Tooltip';
-import Switch from '@material-ui/core/Switch';
-import DeleteIcon from '@material-ui/icons/Delete';
-import FilterListIcon from '@material-ui/icons/FilterList';
+import Button from "@material-ui/core/Button";
 
 function createData(razon, dia, horario, profesional, estado) {
   return { razon, dia, horario, profesional, estado };
 }
 
-const rows = [
+let rows = [
   createData('Electrocardiograma', 'Sabado 18 de Marzo', new Date().toLocaleString(), 'Juan Quiroz', 'Confirmado'),
   createData('Consulta General', 'Viernes 18 de Septiembre', new Date().toLocaleString(), 'Juan Quiroz', 'Confirmado'),
   createData('Tomografia computada', 'Jueves 1 de Octubre', new Date().toLocaleString(), 'Juan Quiroz', 'Confirmado'),
@@ -75,12 +68,12 @@ function EnhancedTableHead(props) {
     <TableHead>
       <TableRow>
         <TableCell padding="checkbox">
-          <Checkbox
+          {/* <Checkbox
             indeterminate={numSelected > 0 && numSelected < rowCount}
             checked={rowCount > 0 && numSelected === rowCount}
             onChange={onSelectAllClick}
             inputProps={{ 'aria-label': 'select all desserts' }}
-          />
+          /> */}
         </TableCell>
         {headCells.map((headCell) => (
           <TableCell
@@ -116,71 +109,6 @@ EnhancedTableHead.propTypes = {
   order: PropTypes.oneOf(['asc', 'desc']).isRequired,
   orderBy: PropTypes.string.isRequired,
   rowCount: PropTypes.number.isRequired,
-};
-
-const useToolbarStyles = makeStyles((theme) => ({
-  root: {
-    paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(1),
-  },
-  highlight:
-    theme.palette.type === 'light'
-      ? {
-          color: theme.palette.secondary.main,
-          backgroundColor: lighten(theme.palette.secondary.light, 0.85),
-        }
-      : {
-          color: theme.palette.text.primary,
-          backgroundColor: theme.palette.secondary.dark,
-        },
-  title: {
-    flex: '1 1 100%',
-  },
-}));
-
-const EnhancedTableToolbar = (props) => {
-  const classes = useToolbarStyles();
-  const { numSelected } = props;
-
-  function cancelarTurno() {
-    console.log("Holaaa");
-  }
-
-  return (
-    <Toolbar
-      className={clsx(classes.root, {
-        [classes.highlight]: numSelected > 0,
-      })}
-    >
-      {numSelected > 0 ? (
-        <Typography className={classes.title} color="inherit" variant="subtitle1" component="div">
-          {numSelected} Seleccionado/s
-        </Typography>
-      ) : (
-        <Typography className={classes.title} variant="h6" id="tableTitle" component="div">
-          Mis Turnos
-        </Typography>
-      )}
-
-      {numSelected > 0 ? (
-        <Tooltip title="Cancelar Turno/s">
-          <IconButton onClick={cancelarTurno} aria-label="delete">
-            <DeleteIcon />
-          </IconButton>
-        </Tooltip>
-      ) : (
-        <Tooltip title="Filtrar">
-          <IconButton aria-label="filter list">
-            <FilterListIcon />
-          </IconButton>
-        </Tooltip>
-      )}
-    </Toolbar>
-  );
-};
-
-EnhancedTableToolbar.propTypes = {
-  numSelected: PropTypes.number.isRequired,
 };
 
 const useStyles = makeStyles((theme) => ({
@@ -264,6 +192,20 @@ export default function EnhancedTable() {
     setDense(event.target.checked);
   };
 
+  const deleteItem = (event, name) => {
+    const selectedIndex = rows.indexOf(name);
+    console.log(selectedIndex);
+    var array = [...rows];
+    var index = array.indexOf(name)
+    console.log(index);
+    if (index !== -1) {
+      array.splice(index, 1);
+      rows=array;
+      console.log(array);
+    }
+    console.log(rows);
+  };
+
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
@@ -271,7 +213,7 @@ export default function EnhancedTable() {
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
-        <EnhancedTableToolbar numSelected={selected.length} />
+        {/* <EnhancedTableToolbar numSelected={selected.length} /> */}
         <TableContainer>
           <Table
             className={classes.table}
@@ -279,7 +221,7 @@ export default function EnhancedTable() {
             size={dense ? 'small' : 'medium'}
             aria-label="enhanced table"
           >
-            <EnhancedTableHead
+            {<EnhancedTableHead
               classes={classes}
               numSelected={selected.length}
               order={order}
@@ -287,7 +229,7 @@ export default function EnhancedTable() {
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
               rowCount={rows.length}
-            />
+            />}
             <TableBody>
               {stableSort(rows, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
@@ -306,10 +248,7 @@ export default function EnhancedTable() {
                       selected={isItemSelected}
                     >
                       <TableCell padding="checkbox">
-                        <Checkbox
-                          checked={isItemSelected}
-                          inputProps={{ 'aria-labelledby': labelId }}
-                        />
+
                       </TableCell>
                       <TableCell component="th" id={labelId} scope="row" padding="none">
                         {row.razon}
@@ -318,6 +257,11 @@ export default function EnhancedTable() {
                       <TableCell align="right">{row.horario}</TableCell>
                       <TableCell align="right">{row.profesional}</TableCell>
                       <TableCell align="right">{row.estado}</TableCell>
+                      <TableCell>
+                        <Button onClick={(event) => deleteItem(event, row)} color="secondary">
+                          Cancelar Turno
+                        </Button>
+                      </TableCell>
                     </TableRow>
                   );
                 })}
