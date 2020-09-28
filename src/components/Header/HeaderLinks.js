@@ -65,6 +65,17 @@ export default function HeaderLinks(props) {
             <Person className={classes.icons} /> Perfil
           </Button>
         </ListItem>
+
+        <ListItem className={classes.listItem}>
+          <Button
+            href=""
+            color="transparent"
+            className={classes.navLink}
+            color="danger"
+          >
+            <Person className={classes.icons} /> Cerrar Sesion
+          </Button>
+        </ListItem>
       </List>
     );
   } else {
