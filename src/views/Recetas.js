@@ -33,8 +33,8 @@ import CardBody from "components/Card/CardBody.js";
 
 
 const data = [
-  { nom: "Ibuxxx500mg" , fecha: "06/04/2015", descripcion: "breve descr", medico:"Dr.F" },
-  { nom: "Parayyy500mg" , fecha: "20/03/2013", descripcion: "breve descr", medico:"Dr.O" },
+  { nom: "Ibuxxx500mg" , fecha: "06/04/2015", medico:"Dr.F" },
+  { nom: "Parayyy500mg" , fecha: "20/03/2013", medico:"Dr.O" },
   
   
 ];
@@ -143,7 +143,6 @@ Transition.displayName = "Transition";
               <TableRow>
                 <TableCell aling="left">Nombre de Medicación</TableCell>
                 <TableCell aling="left">Fecha</TableCell>
-                <TableCell aling="left">Descripción</TableCell>
                 <TableCell aling="left">Médico</TableCell>
                 <TableCell align="center">Acción</TableCell>
               </TableRow>
@@ -154,10 +153,9 @@ Transition.displayName = "Transition";
                  
                  <TableCell component="th" scope="row">{dato.nom}</TableCell>
                  <TableCell aling="left">{dato.fecha}</TableCell>
-                 <TableCell align="left">{dato.descripcion}</TableCell>
                  <TableCell align="left">{dato.medico}</TableCell>
                  <TableCell align="center">
-                   <Button color="primary" onClick={handleClickOpen}>Ver</Button>{"  "}
+                   <Button color="primary" onClick={handleClickOpen}>Descargar</Button>{"  "}
                    <Button color="primary" >Eliminar</Button>
                    </TableCell>
                  </TableRow>

@@ -21,7 +21,7 @@ const useStyles = makeStyles(styles);
 
 export default function HeaderLinks(props) {
 
-  const [isLoggedIn, setLoggedStatus] = useState(false);
+  const [isLoggedIn, setLoggedStatus] = useState(true);
 
   const handleChangeLoggedStatus = (event) => {
     setLoggedStatus(true);
@@ -46,6 +46,12 @@ export default function HeaderLinks(props) {
               </Link>,
               <Link to="/nuevoTurno" className={classes.dropdownLink}>
                 Obtener Turno
+              </Link>,
+              <Link to="/dashboard" className={classes.dropdownLink}>
+              Panel de Administración
+              </Link>,
+              <Link to="/historiasclinicas" className={classes.dropdownLink}>
+              Historias Clìnicas
               </Link>
             ]}
           />

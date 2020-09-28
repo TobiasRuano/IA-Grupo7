@@ -16,7 +16,7 @@ import crearCuenta from "views/CreateAccount/createAccount.js";
 import profile from "views/UserProfile/UserProfile.js";
 import recetas from "views/Recetas.js";
 import dashboard from "views/Dashboard.js";
-/* import historiaclinica from "views/HistoriaClinica.js"; */
+import HistoriasClinicas from "views/HistoriasClinicas.js";
 
 var hist = createBrowserHistory();
 
@@ -24,12 +24,11 @@ ReactDOM.render(
   <Router history={hist}>
     <Switch>
 
-      {/* <Route path="/historiaClinica" component={historiaClinica} /> */}
-
       <Route path="/turnos" component={Turnos} />
       <Route path="/login" component={Login} />
       <Route path="/nuevoTurno" component={ObtenerTurnos} />
       <Route path="/crearCuenta" component={crearCuenta} />
+      <Route path="/historiasclinicas" component={HistoriasClinicas} />
 
 
       <Route path="/profile" component={profile} />
