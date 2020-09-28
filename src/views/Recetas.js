@@ -115,7 +115,7 @@ Transition.displayName = "Transition";
   };
 
   const handleClickOpen = (dato) => {
-    setClassicModal(true);
+    // setClassicModal(true);
 
   };
   
@@ -127,11 +127,11 @@ Transition.displayName = "Transition";
  
   return (
    
-    <GridContainer>
+    <GridContainer style={{marginTop:'100px'}}>
       <GridItem xs={12} sm={12} md={12}>
         <Card>
           <CardHeader color="primary">
-            <h4 className={classes.cardTitleWhite}>Medicación</h4>
+            <h4 className={classes.cardTitleWhite}>Recetas</h4>
             <p className={classes.cardCategoryWhite}>
               Autorización de Medicación
             </p>
@@ -141,7 +141,7 @@ Transition.displayName = "Transition";
             <Table>
              <TableHead color="primary">
               <TableRow>
-                <TableCell aling="left">Nombre de Medicación</TableCell>
+                <TableCell aling="left">Informacion</TableCell>
                 <TableCell aling="left">Fecha</TableCell>
                 <TableCell aling="left">Médico</TableCell>
                 <TableCell align="center">Acción</TableCell>
@@ -156,7 +156,7 @@ Transition.displayName = "Transition";
                  <TableCell align="left">{dato.medico}</TableCell>
                  <TableCell align="center">
                    <Button color="primary" onClick={handleClickOpen}>Descargar</Button>{"  "}
-                   <Button color="primary" >Eliminar</Button>
+                   <Button color="danger" >Eliminar</Button>
                    </TableCell>
                  </TableRow>
                ))}
