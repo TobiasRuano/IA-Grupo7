@@ -14,8 +14,10 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogActions from "@material-ui/core/DialogActions";
 import IconButton from "@material-ui/core/IconButton";
 import Slide from "@material-ui/core/Slide";
+import TextField from '@material-ui/core/TextField';
+import FormControl from '@material-ui/core/FormControl';
+import AddCircleOutlineSharpIcon from '@material-ui/icons/AddCircleOutlineSharp';
 
-//import { TableFooter } from "@material-ui/core";
 
 
 import Close from "@material-ui/icons/Close";
@@ -27,17 +29,12 @@ import GridContainer from "components/Grid/GridContainer.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
-
-//import TablePaginationDemo from 'components/Table/TablePagination';
-
+import IconButtons from "components/Icon/IconButtons.js"
 
 
-const data = [
-  { nom: "Ibuxxx500mg" , fecha: "06/04/2015", medico:"Dr.F" },
-  { nom: "Parayyy500mg" , fecha: "20/03/2013", medico:"Dr.O" },
-  
-  
-];
+
+
+
 
 
 const styles = {
@@ -78,6 +75,16 @@ const styles = {
 
 const useStyles = makeStyles(styles);
 
+const useStyles1 = makeStyles((theme) => ({
+  root: {
+    '& > *': {
+      margin: theme.spacing(1),
+      width: '25ch',
+    },
+  },
+}));
+
+
 
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -89,51 +96,79 @@ Transition.displayName = "Transition";
 
 
  export default function Recetas() {
+
+  const data = [
+    { id: 1 ,fecha: "06/04/2015", medico:"Dr.A", info:"info extra/comentario"},
+    { id: 2, fecha: "20/03/2013", medico:"Dr.B", info: "info extra2/comentario2" },
+    
+    
+  ];
  
   const classes = useStyles();
+  const classes1 = useStyles1();
+  
+  const [cardAgregar,setCardAgregar]=React.useState(false);
   const [classicModal, setClassicModal] = React.useState(false);
-  // const [EditModal, setEditModal]=React.usteState(false);
 
-  // const [datoSeleccionado, setDatoSeleccionado]=React.usteState({
-  //   ant='',
-  //   fecha='',
-  //   descripcion='',
-  //   medico='',
-  // });
+  const [recSeleccion, setrecSeleccion] =React.useState({
+    fecha: " ",
+    medico:"",
+    info:" "
+  });
+
+  
+  const handleClickOpenAdd =()=>{
+    setCardAgregar(true);
+  }
+
+  const handleOnchange =(event) =>{
+    console.log(event.target.value)
+    setrecSeleccion({
+      ...recSeleccion,
+      [event.target.id]:event.target.value
+    })
+}
+
+
+
+  
 
    
   React.state = {
     data: data,
-   modalActualizar: false,
-   // modalInsertar: false,
+  
     form: {
-      act: "",
+      id: "",
       fecha: "",
-      descripcion: "",
       medico: "",
+      info: "",
     },
   };
 
-  const handleClickOpen = (dato) => {
-    // setClassicModal(true);
 
-  };
   
-  // const seleccionarDato=(dato,caso)=>{
-  //   setDatoSeleccionado(dato);
-  //   (caso === 'Editar')&&setEditModal(true)
-  // }
-
  
   return (
    
-    <GridContainer style={{marginTop:'100px'}}>
-      <GridItem xs={12} sm={12} md={12}>
+    <GridContainer 
+        style={{marginTop:'100px'}}
+        justify="center">
+      <GridItem xs={8} sm={8} md={8}>
         <Card>
           <CardHeader color="primary">
+       
             <h4 className={classes.cardTitleWhite}>Recetas</h4>
+            {/*<IconButtons onClick={()=>setCardAgregar(true)} />*/}
+            <Button 
+               style={{position: "fixed", top: "20%", right:250}}
+               color="success" 
+               onClick={()=>setCardAgregar(true)}>
+              Agregar
+              </Button>
             <p className={classes.cardCategoryWhite}>
-              Autorización de Medicación
+            
+              Autorización de Recetas
+           
             </p>
           </CardHeader>
           <CardBody>
@@ -141,21 +176,21 @@ Transition.displayName = "Transition";
             <Table>
              <TableHead color="primary">
               <TableRow>
-                <TableCell aling="left">Informacion</TableCell>
                 <TableCell aling="left">Fecha</TableCell>
                 <TableCell aling="left">Médico</TableCell>
+                <TableCell aling="left">Información</TableCell>
                 <TableCell align="center">Acción</TableCell>
               </TableRow>
              </TableHead>
              <TableBody>
                {data.map((dato) => (
-                 <TableRow key={dato.nom}>
+                 <TableRow key={dato.id}>
                  
-                 <TableCell component="th" scope="row">{dato.nom}</TableCell>
-                 <TableCell aling="left">{dato.fecha}</TableCell>
-                 <TableCell align="left">{dato.medico}</TableCell>
+                 <TableCell component="th" scope="row">{dato.fecha}</TableCell>
+                 <TableCell aling="left">{dato.medico}</TableCell>
+                 <TableCell align="left">{dato.info}</TableCell>
                  <TableCell align="center">
-                   <Button color="primary" onClick={handleClickOpen}>Descargar</Button>{"  "}
+                   <Button color="primary">Descargar</Button>{"  "}
                    <Button color="danger" >Eliminar</Button>
                    </TableCell>
                  </TableRow>
@@ -172,10 +207,10 @@ Transition.displayName = "Transition";
                     root: classes.center,
                     paper: classes.modal
                   }}
-                  open={classicModal}
+                  open={cardAgregar}
                   TransitionComponent={Transition}
                   keepMounted
-                  onClose={() => setClassicModal(false)}
+                  onClose={() => setCardAgregar(false)}
                   aria-labelledby="classic-modal-slide-title"
                   aria-describedby="classic-modal-slide-description"
                 >
@@ -183,35 +218,63 @@ Transition.displayName = "Transition";
                     id="classic-modal-slide-title"
                     disableTypography
                     className={classes.modalHeader}
+
                   >
-            <IconButton
-                      className={classes.modalCloseButton}
-                      key="close"
-                      aria-label="Close"
-                      color="inherit"
-                      onClick={() => setClassicModal(false)}
-                    >
-                      <Close className={classes.modalClose} />
-                    </IconButton>
-                    <h4 className={classes.modalTitle}>Recetas</h4>
-                 </DialogTitle>   
-                <DialogContent
-                    id="classic-modal-slide-description"
-                    className={classes.modalBody}
-                >
-                  <p>
-                  Aca va la observacion de la medicación
-                  </p>
-                  </DialogContent>
-                  <DialogActions className={classes.modalFooter}>
-                  <Button
-                      //onClick={() =>}
+                  <h4 className={classes.modalTitle}>Recetas</h4>
+        </DialogTitle>   
+        <DialogContent>
+                  <form className={classes1.root} noValidate autoComplete="off">
+                      <FormControl>
+                        <TextField
+                            nombre="fecha" 
+                            label="Fecha" 
+                            variant="outlined" 
+                            onChange={handleOnchange}/>
+                      </FormControl>
+                    </form>  
+                    <form className={classes1.root} noValidate autoComplete="off">
+                      <FormControl>
+                        <TextField
+                            nombre="medico" 
+                            label="Médico" 
+                            variant="outlined" 
+                            onChange={handleOnchange}/>
+                        </FormControl>
+                    </form> 
+                    <form className={classes1.root} noValidate autoComplete="off">
+                      <FormControl>
+                        <TextField
+                            nombre="info" 
+                            label="Comentario" 
+                            variant="outlined" 
+                            onChange={handleOnchange}/>
+                        </FormControl>
+                    </form> 
+
+                    
+                     
+                    <div>
+                    <Button
+                      //onClick={() =>} // aca funcion de subir imagen de receta
                       color="primary"
                       simple
                     >
-                      Editar
+                      Subir Receta
                     </Button>
-                  </DialogActions>
+                    </div>
+                    <div>
+                    <Button color="success" type= "submit" >Agregar</Button>
+                      {" "}
+                     <Button  
+                          key="closeBtnagregar"
+                          aria-label="Close"
+                          color="danger"
+                          onClick={() => setCardAgregar(false)}>
+                          Cancelar
+                          </Button>
+                      </div>
+                  </DialogContent>
+                  
                   </Dialog> 
       </GridItem>
     </GridContainer>
