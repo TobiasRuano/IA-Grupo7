@@ -16,6 +16,9 @@ import Parallax from "components/Parallax/Parallax.js";
 // sections for this page
 import HeaderLinks from "components/Header/HeaderLinks.js";
 import SectionPills from "./Sections/SectionPills.js";
+import SectionCarousel from "./Sections/SectionCarousel.js";
+import SectionCompletedExamples from "./Sections/SectionCompletedExamples.js";
+
 
 import styles from "assets/jss/material-kit-react/views/components.js";
 
@@ -53,7 +56,8 @@ export default function Components(props) {
       </Parallax>
 
       <div className={classNames(classes.main, classes.mainRaised)}>
-        <SectionPills />
+        <SectionCompletedExamples />
+        <SectionCarousel />
       </div>
       <Footer />
     </div>
