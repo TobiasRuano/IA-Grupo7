@@ -7,7 +7,6 @@ import "assets/scss/material-kit-react.scss?v=1.9.0";
 
 // pages for this product
 import Components from "views/Components/Components.js";
-import Turnos from "views/Turnos/TurnosPage.js";
 import Login from "views/LoginPage/LoginPage.js";
 import ObtenerTurnos from "views/Turnos/NuevoTurnoPage.js";
 import crearCuenta from "views/CreateAccount/createAccount.js";
@@ -23,8 +22,6 @@ var hist = createBrowserHistory();
 ReactDOM.render(
   <Router history={hist}>
     <Switch>
-
-      <Route path="/turnos" component={Turnos} />
       <Route path="/login" component={Login} />
       <Route path="/nuevoTurno" component={ObtenerTurnos} />
       <Route path="/crearCuenta" component={crearCuenta} />

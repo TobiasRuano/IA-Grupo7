@@ -41,9 +41,6 @@ export default function HeaderLinks(props) {
             }}
             buttonIcon={Apps}
             dropdownList={[
-              <Link to="/turnos" className={classes.dropdownLink}>
-                Mis Turnos
-              </Link>,
               <Link to="/nuevoTurno" className={classes.dropdownLink}>
                 Obtener Turno
               </Link>,
