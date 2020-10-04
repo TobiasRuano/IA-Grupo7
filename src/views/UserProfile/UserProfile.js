@@ -22,6 +22,8 @@ import profile from "assets/img/faces/christian.jpg";
 
 import CardBody from "components/Card/CardBody.js";
 
+import SectionDownload from "views/UserProfile/SectionDownload.js";
+
 import styles from "assets/jss/material-kit-react/views/profilePage.js";
 
 /* const styles = {
@@ -147,7 +149,7 @@ export default function UserProfile(props) {
         }}
         {...rest}
       />
-      <Parallax small filter image={require("assets/img/profile-bg.jpg")} />
+      <Parallax small filter image={require("assets/img/bg4.jpg")} />
       <div className={classNames(classes.main, classes.mainRaised)}>
         <div>
           <div className={classes.container}>
@@ -237,10 +239,8 @@ export default function UserProfile(props) {
           </CardBody>
         </Card>
               </GridItem>
-              <GridItem>
-                <Button onClick={deleteAccount} color="danger">Eliminar Cuenta</Button>
-              </GridItem>
             </GridContainer>
+            <SectionDownload />
           </div>
         </div>
       </div>
