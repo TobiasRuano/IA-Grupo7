@@ -14,11 +14,17 @@ import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import Header from "components/Header/Header.js";
 import HeaderLinks from "components/Header/HeaderLinks.js";
+import Footer from "components/Footer/Footer.js";
 
+import Parallax from "components/Parallax/Parallax.js";
+import classNames from "classnames";
+import profile from "assets/img/faces/christian.jpg";
 
 import CardBody from "components/Card/CardBody.js";
 
-const styles = {
+import styles from "assets/jss/material-kit-react/views/profilePage.js";
+
+/* const styles = {
   cardCategoryWhite: {
     color: "rgba(255,255,255,.62)",
     margin: "0",
@@ -35,9 +41,7 @@ const styles = {
     marginBottom: "3px",
     textDecoration: "none"
   }
-
-
-};
+}; */
 
 const useStyles = makeStyles(styles);
 
@@ -124,121 +128,123 @@ export default function UserProfile(props) {
   function deleteAccount() {
   }
   
- 
+  const imageClasses = classNames(
+    classes.imgRaised,
+    classes.imgRoundedCircle,
+    classes.imgFluid
+  );
 
   return (
-    
     <div>
-
-<Header
-        absolute
-        color="white"
+      <Header
+        color="transparent"
         brand="Home"
         rightLinks={<HeaderLinks />}
+        fixed
+        changeColorOnScroll={{
+          height: 200,
+          color: "white"
+        }}
         {...rest}
       />
+      <Parallax small filter image={require("assets/img/profile-bg.jpg")} />
+      <div className={classNames(classes.main, classes.mainRaised)}>
+        <div>
+          <div className={classes.container}>
+            <GridContainer justify="center">
+              <GridItem xs={12} sm={12} md={6}>
+                <div className={classes.profile}>
+                  <div>
+                    <img src={profile} alt="..." className={imageClasses} />
+                  </div>
+                  <div className={classes.name}>
+                    <h3 className={classes.title}>Tobias Ruano</h3>
+                  </div>
+                </div>
+              </GridItem>
+            </GridContainer>
+            <GridContainer justify="center">
+              <GridItem xs={12} sm={12} md={8} className={classes.navWrapper}>
+              <Card>
+          <CardHeader color="primary">
+            <h4 className={classes.cardTitleWhite}>Datos Generales </h4>
+          </CardHeader>
+          <CardBody>
+            <GridContainer>
+              <GridItem xs={12} sm={12} md={4}>
+              <form className={classes1.root} nonValidate autoComplete="off">
+                 <FormControl disabled>
+                  <InputLabel htmlFor="component-surname">Dni</InputLabel>
+                  <Input id="component-disabled" value={dni} onChange={handleChangeDni} />
+                </FormControl>
+              </form>
+              </GridItem>
+            </GridContainer>
+            
+            <GridContainer>
+              <GridItem xs={12} sm={12} md={4}>
+              <form className={classes1.root} nonValidate autoComplete="off">
+                 <FormControl disabled>
+                  <InputLabel htmlFor="component-sexo">Sexo</InputLabel>
+                  <Input id="component-disabled" value={sexo} onChange={handleChangeSexo} />
+                </FormControl>
+              </form>
+              </GridItem>
 
-      <GridContainer style={{marginTop:'100px'}}>
-        <GridItem xs={12} sm={12} md={12}>
-          <Card>
-            <CardHeader color="primary">
-              <h4 className={classes.cardTitleWhite}>Datos Generales </h4>
-            </CardHeader>
-            <CardBody>
-              <GridContainer>
+              <GridItem xs={12} sm={12} md={4}>
+              <form className={classes1.root} nonValidate autoComplete="off">
+                 <FormControl disabled>
+                  <InputLabel htmlFor="component-fechanac">Fecha de Nacimiento</InputLabel>
+                  <Input id="component-disabled" value={fechanac} onChange={handleChangeFechanac} />
+                </FormControl>
+              </form>
+              </GridItem>
 
-                <GridItem xs={12} sm={12} md={4}>
-                <form className={classes1.root} nonValidate autoComplete="off">
-                  <FormControl disabled>
-                    <InputLabel htmlFor="component-disabled">Nombre</InputLabel>
-                    <Input id="component-disableN" value={name} onChange={handleChangeName} />
-                  </FormControl>
-                </form>
-               </GridItem>
+              <GridItem xs={12} sm={12} md={4}>
+              <form className={classes1.root} nonValidate autoComplete="off">
+                 <FormControl disabled>
+                  <InputLabel htmlFor="component-surname">Telefono</InputLabel>
+                  <Input id="component-disabled" value={telefono} onChange={handleChangeTel} />
+                </FormControl>
+              </form>
+              </GridItem>
 
-                <GridItem xs={12} sm={12} md={4}>
-                <form className={classes1.root} nonValidate autoComplete="off">
-                   <FormControl disabled>
-                    <InputLabel htmlFor="component-surname">Apellido</InputLabel>
-                    <Input id="component-disabled" value={surname} onChange={handleChangeSurname} />
-                  </FormControl>
-                </form>
-                </GridItem>
-               
+            </GridContainer>
 
-                <GridItem xs={12} sm={12} md={4}>
-                <form className={classes1.root} nonValidate autoComplete="off">
-                   <FormControl disabled>
-                    <InputLabel htmlFor="component-surname">Dni</InputLabel>
-                    <Input id="component-disabled" value={dni} onChange={handleChangeDni} />
-                  </FormControl>
-                </form>
-                </GridItem>
-              </GridContainer>
-              
-              <GridContainer>
-                <GridItem xs={12} sm={12} md={4}>
-                <form className={classes1.root} nonValidate autoComplete="off">
-                   <FormControl disabled>
-                    <InputLabel htmlFor="component-sexo">Sexo</InputLabel>
-                    <Input id="component-disabled" value={sexo} onChange={handleChangeSexo} />
-                  </FormControl>
-                </form>
-                </GridItem>
-
-                <GridItem xs={12} sm={12} md={4}>
-                <form className={classes1.root} nonValidate autoComplete="off">
-                   <FormControl disabled>
-                    <InputLabel htmlFor="component-fechanac">Fecha de Nacimiento</InputLabel>
-                    <Input id="component-disabled" value={fechanac} onChange={handleChangeFechanac} />
-                  </FormControl>
-                </form>
-                </GridItem>
-
-                <GridItem xs={12} sm={12} md={4}>
-                <form className={classes1.root} nonValidate autoComplete="off">
-                   <FormControl disabled>
-                    <InputLabel htmlFor="component-surname">Telefono</InputLabel>
-                    <Input id="component-disabled" value={telefono} onChange={handleChangeTel} />
-                  </FormControl>
-                </form>
-                </GridItem>
-
-              </GridContainer>
-
-              <GridContainer>
-                <GridItem xs={12} sm={12} md={4}>
-                    
-                <form className={classes1.root} nonValidate autoComplete="off">
-                   <FormControl disabled>
-                    <InputLabel htmlFor="component-domicilio">Domicilio</InputLabel>
-                    <Input id="component-disabled" value={domicilio} onChange={handleChangeDom} />
-                  </FormControl>
-                </form>
+            <GridContainer>
+              <GridItem xs={12} sm={12} md={4}>
                   
-                </GridItem>
+              <form className={classes1.root} nonValidate autoComplete="off">
+                 <FormControl disabled>
+                  <InputLabel htmlFor="component-domicilio">Domicilio</InputLabel>
+                  <Input id="component-disabled" value={domicilio} onChange={handleChangeDom} />
+                </FormControl>
+              </form>
+                
+              </GridItem>
 
-                <GridItem xs={12} sm={12} md={4}>
-                <form className={classes1.root} nonValidate autoComplete="off">
-                   <FormControl disabled>
-                    <InputLabel htmlFor="component-email">E-mail</InputLabel>
-                    <Input id="component-disabled" value={email} onChange={handleChangeEmail} />
-                  </FormControl>
-                </form>
-                </GridItem>
+              <GridItem xs={12} sm={12} md={4}>
+              <form className={classes1.root} nonValidate autoComplete="off">
+                 <FormControl disabled>
+                  <InputLabel htmlFor="component-email">E-mail</InputLabel>
+                  <Input id="component-disabled" value={email} onChange={handleChangeEmail} />
+                </FormControl>
+              </form>
+              </GridItem>
 
-              </GridContainer>
-              
-            </CardBody>
-          </Card>
-        </GridItem> 
-        <Button color="primary">Actualizar Datos</Button>
-        <Button onClick={deleteAccount} color="danger">Eliminar Cuenta</Button>
-
-     </GridContainer>
-
-
-
+            </GridContainer>
+            
+          </CardBody>
+        </Card>
+              </GridItem>
+              <GridItem>
+                <Button onClick={deleteAccount} color="danger">Eliminar Cuenta</Button>
+              </GridItem>
+            </GridContainer>
+          </div>
+        </div>
+      </div>
+      <Footer />
     </div>
   );
 }
