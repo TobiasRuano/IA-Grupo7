@@ -12,11 +12,10 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogActions from "@material-ui/core/DialogActions";
-import IconButton from "@material-ui/core/IconButton";
+
 import Slide from "@material-ui/core/Slide";
 import TextField from '@material-ui/core/TextField';
 import FormControl from '@material-ui/core/FormControl';
-import AddCircleOutlineSharpIcon from '@material-ui/icons/AddCircleOutlineSharp';
 
 
 
@@ -29,8 +28,11 @@ import GridContainer from "components/Grid/GridContainer.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
-import IconButtons from "components/Icon/IconButtons.js"
+import Header from "components/Header/Header.js";
+import HeaderLinks from "components/Header/HeaderLinks.js";
+import ButtonUploads from "components/Boton/ButtonUpload.js"
 
+import image from "assets/img/bg7.jpg";
 
 
 
@@ -93,83 +95,115 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 Transition.displayName = "Transition";
 
+const data = [
+  { id: 1 ,fecha: "06/04/2015", medico:"Dr.A", info:"info extra/comentario"},
+  { id: 2, fecha: "20/03/2013", medico:"Dr.B", info: "info extra2/comentario2" }
+      
+];
 
 
- export default function Recetas() {
 
-  const data = [
-    { id: 1 ,fecha: "06/04/2015", medico:"Dr.A", info:"info extra/comentario"},
-    { id: 2, fecha: "20/03/2013", medico:"Dr.B", info: "info extra2/comentario2" },
-    
-    
-  ];
+ export default function Recetas(props) {
+  
+  
+  const { ...rest } = props;
+
  
+  const [state,setState] = React.useState({
+     data:data,
+
+     
+      
+  });
+
+
   const classes = useStyles();
   const classes1 = useStyles1();
   
   const [cardAgregar,setCardAgregar]=React.useState(false);
-  const [classicModal, setClassicModal] = React.useState(false);
-
-  const [recSeleccion, setrecSeleccion] =React.useState({
-    fecha: " ",
-    medico:"",
-    info:" "
-  });
-
   
-  const handleClickOpenAdd =()=>{
-    setCardAgregar(true);
-  }
+  const[recSeleccion,setrecSeleccion]=React.useState({
+    form: {
+      id:'',
+      fecha: '',
+      medico: '',
+      info:'',
+    },
+  })
 
-  const handleOnchange =(event) =>{
-    console.log(event.target.value)
-    setrecSeleccion({
-      ...recSeleccion,
-      [event.target.id]:event.target.value
-    })
+
+
+const agregarfila= ()=>{
+  var valorNuevo= {...recSeleccion.form};
+  console.log(valorNuevo);
+  valorNuevo.id=state.data.length+1;
+  var lista= state.data;
+  lista.push(valorNuevo);
+  setState({data: lista });
+  setCardAgregar(false)
 }
 
 
 
-  
 
-   
-  React.state = {
-    data: data,
-  
-    form: {
-      id: "",
-      fecha: "",
-      medico: "",
-      info: "",
-    },
-  };
+const onRowDelete= (oldData) =>{
+  new Promise((resolve) => {
+    setTimeout(() => {
+      resolve();
+      setState((prevState) => {
+        const data = [...prevState.data];
+        data.splice(data.indexOf(oldData), 1);
+        return { ...prevState, data };
+      });
+    }, 600);
+  })
+}
+      
+const handleOnchange=(event)=>{
 
+  setrecSeleccion({
+      
+    form:{
+      ...recSeleccion.form,
+      [event.target.name]:event.target.value,
+     
+    }
+  });
+  console.log(event.target.value);
+};
 
-  
  
   return (
    
+
+    <div>
+      <Header
+        absolute
+        color="black"
+        brand="Home"
+        rightLinks={<HeaderLinks />}
+        {...rest}
+      />
+      
+    
     <GridContainer 
-        style={{marginTop:'100px'}}
+        style={{marginTop:'250px'}}
         justify="center">
       <GridItem xs={8} sm={8} md={8}>
         <Card>
           <CardHeader color="primary">
-       
+            <div>
             <h4 className={classes.cardTitleWhite}>Recetas</h4>
-            {/*<IconButtons onClick={()=>setCardAgregar(true)} />*/}
+            <p className={classes.cardCategoryWhite}>
+                Autorización de Recetas
+            </p>
             <Button 
-               style={{position: "fixed", top: "20%", right:250}}
+               style={{top: "50%", right:-700}}
                color="success" 
                onClick={()=>setCardAgregar(true)}>
               Agregar
               </Button>
-            <p className={classes.cardCategoryWhite}>
-            
-              Autorización de Recetas
-           
-            </p>
+            </div>
           </CardHeader>
           <CardBody>
             <div>
@@ -183,7 +217,7 @@ Transition.displayName = "Transition";
               </TableRow>
              </TableHead>
              <TableBody>
-               {data.map((dato) => (
+               {state.data.map((dato) => (
                  <TableRow key={dato.id}>
                  
                  <TableCell component="th" scope="row">{dato.fecha}</TableCell>
@@ -191,7 +225,7 @@ Transition.displayName = "Transition";
                  <TableCell align="left">{dato.info}</TableCell>
                  <TableCell align="center">
                    <Button color="primary">Descargar</Button>{"  "}
-                   <Button color="danger" >Eliminar</Button>
+                   <Button color="danger" onClick={onRowDelete}>Eliminar</Button>
                    </TableCell>
                  </TableRow>
                ))}
@@ -226,7 +260,7 @@ Transition.displayName = "Transition";
                   <form className={classes1.root} noValidate autoComplete="off">
                       <FormControl>
                         <TextField
-                            nombre="fecha" 
+                            name="fecha" 
                             label="Fecha" 
                             variant="outlined" 
                             onChange={handleOnchange}/>
@@ -235,7 +269,7 @@ Transition.displayName = "Transition";
                     <form className={classes1.root} noValidate autoComplete="off">
                       <FormControl>
                         <TextField
-                            nombre="medico" 
+                            name="medico" 
                             label="Médico" 
                             variant="outlined" 
                             onChange={handleOnchange}/>
@@ -244,7 +278,7 @@ Transition.displayName = "Transition";
                     <form className={classes1.root} noValidate autoComplete="off">
                       <FormControl>
                         <TextField
-                            nombre="info" 
+                            name="info" 
                             label="Comentario" 
                             variant="outlined" 
                             onChange={handleOnchange}/>
@@ -254,16 +288,18 @@ Transition.displayName = "Transition";
                     
                      
                     <div>
-                    <Button
-                      //onClick={() =>} // aca funcion de subir imagen de receta
-                      color="primary"
-                      simple
-                    >
-                      Subir Receta
-                    </Button>
+                    
+                      <ButtonUploads/>
+                  
                     </div>
                     <div>
-                    <Button color="success" type= "submit" >Agregar</Button>
+                    <Button 
+                     color="success" 
+                     type= "submit" 
+                     onClick={()=>agregarfila()}
+                     >
+                    Agregar
+                    </Button>
                       {" "}
                      <Button  
                           key="closeBtnagregar"
@@ -278,7 +314,7 @@ Transition.displayName = "Transition";
                   </Dialog> 
       </GridItem>
     </GridContainer>
-   
-
+    </div>
+    
   );
 }
