@@ -1,4 +1,5 @@
 import React from "react";
+import {Redirect} from "react-router-dom";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 import InputAdornment from "@material-ui/core/InputAdornment";
@@ -32,30 +33,103 @@ import styles from "assets/jss/material-kit-react/views/loginPage.js";
 
 import image from "assets/img/bg4.jpg";
 
+//importo llamada a endpoint
+import {register} from "../../controller/userController";
+
 const useStyles = makeStyles(styles);
 
 export default function CreateAccountPage(props) {
   const [cardAnimaton, setCardAnimation] = React.useState("cardHidden");
-  const [value, setValue] = React.useState('female');
+
+  const [genre, setGenre] = React.useState('female');
   const [nacimiento, setNac] = React.useState(Date);
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const [verificPassword, setVerificPassword] = React.useState('');
+  const [name, setName] = React.useState('');
+  const [surname, setSurname] = React.useState('');
+  const [dni, setDNI] = React.useState('');
+  const [address, setAddress] = React.useState('');
+  const [exitoCuentaNueva, setExitoCuentaNueva] = React.useState(false);
+
   const classes = useStyles();
   const { ...rest } = props;
 
-  const handleChange = (event) => {
-    setValue(event.target.value);
-  };
+  const handleGenre = (event) => {
+    setGenre(event.target.value);
+  }
+
   const handleNacChange = (event) => {
     setNac(event.target.nacimiento);
-    console.log("Holaaaa");
   }
+
+  const handleEmail = (event) => {
+    setEmail(event.target.value);
+  }
+
+  const handlePassword = (event) => {
+    setPassword(event.target.value);
+  }
+
+  const handleVerificPassword = (event) => {
+    setVerificPassword(event.target.value);
+  }
+
+  const handleName = (event) => {
+    setName(event.target.value);
+  }
+
+  const handleSurname = (event) => {
+    setSurname(event.target.value);
+  }
+
+  const handleDNI = (event) => {
+    setDNI(event.target.value);
+  }
+
+  const handleAddress = (event) => {
+    setAddress(event.target.value);
+  }
+
   setTimeout(function() {
     setCardAnimation("");
   }, 700);
 
-  function createAccount() {
-    console.log("Testing create account button");
-  };
+  const createAccount=()=> {
+    if (email!=="" && password!=="" && dni!=="" && address!=="" && name!=="" && surname!=="" && verificPassword!=="" && nacimiento!=="") {
+      validarCreateAccount();
+    }
+    else {
+      alert("Debe completar todos los campos");
+    }
+  }
 
+  //Ejecuto el endopoint para validar login
+  const validarCreateAccount= async function() {
+      let datos = {
+        email: email,
+        password: password,
+        name: name,
+        surname: surname,
+        dni: dni,
+        sexo: genre,
+        fechaNac: nacimiento,
+        domicilio: address
+      }
+      let getRegister = await register(datos);
+      if (getRegister.rdo===0 ) {
+        setExitoCuentaNueva(true);
+      }
+      if (getRegister.rdo===1) {
+        alert(getRegister.mensaje)
+      }
+  }
+
+  const redirect= ()=>{
+    if (exitoCuentaNueva) {
+      return <Redirect to='/' />
+    }
+  }
 
   return (
     <div>
@@ -66,6 +140,9 @@ export default function CreateAccountPage(props) {
         rightLinks={<HeaderLinks />}
         {...rest}
       />
+
+    {redirect()}
+
       <div
         className={classes.pageHeader}
         style={{
@@ -91,6 +168,7 @@ export default function CreateAccountPage(props) {
                       }}
                       inputProps={{
                         type: "text",
+                        onChange: (event) => handleName(event),
                         endAdornment: (
                           <InputAdornment position="end">
                             <PersonIcon className={classes.inputIconsColor} />
@@ -107,6 +185,7 @@ export default function CreateAccountPage(props) {
                       }}
                       inputProps={{
                         type: "text",
+                        onChange: (event) => handleSurname(event),
                         endAdornment: (
                           <InputAdornment position="end">
                             <PersonIcon className={classes.inputIconsColor} />
@@ -117,7 +196,7 @@ export default function CreateAccountPage(props) {
 
                   <FormControl component="fieldset">
                     <FormLabel component="legend">Genero</FormLabel>
-                    <RadioGroup aria-label="Sexo" name="gender1" value={value} onChange={handleChange}>
+                    <RadioGroup aria-label="Sexo" name="gender1" value={genre} onChange={handleGenre}>
                       <FormControlLabel value="female" control={<Radio />} label="Femenino" />
                       <FormControlLabel value="male" control={<Radio />} label="Masculino" />
                       <FormControlLabel value="other" control={<Radio />} label="Otro" />
@@ -134,6 +213,7 @@ export default function CreateAccountPage(props) {
                       }}
                       inputProps={{
                         type: "text",
+                        onChange: (event) => handleAddress(event),
                         endAdornment: (
                           <InputAdornment position="end">
                             <LocationOnIcon className={classes.inputIconsColor} />
@@ -150,6 +230,7 @@ export default function CreateAccountPage(props) {
                       }}
                       inputProps={{
                         type: "number",
+                        onChange: (event) => handleDNI(event),
                         endAdornment: (
                           <InputAdornment position="end">
                             <FingerprintIcon className={classes.inputIconsColor} />
@@ -166,6 +247,7 @@ export default function CreateAccountPage(props) {
                       }}
                       inputProps={{
                         type: "email",
+                        onChange: (event) => handleEmail(event),
                         endAdornment: (
                           <InputAdornment position="end">
                             <Email className={classes.inputIconsColor} />
@@ -181,6 +263,7 @@ export default function CreateAccountPage(props) {
                       }}
                       inputProps={{
                         type: "password",
+                        onChange: (event) => handlePassword(event),
                         endAdornment: (
                           <InputAdornment position="end">
                             <Icon className={classes.inputIconsColor}>
@@ -200,6 +283,7 @@ export default function CreateAccountPage(props) {
                       }}
                       inputProps={{
                         type: "password",
+                        onChange: (event) => handleVerificPassword(event),
                         endAdornment: (
                           <InputAdornment position="end">
                             <Icon className={classes.inputIconsColor}>
@@ -212,7 +296,7 @@ export default function CreateAccountPage(props) {
                     />
                   </CardBody>
                   <CardFooter className={classes.cardFooter}>
-                    <Button onClick={createAccount} href="/profile" simple color="primary" size="lg">
+                    <Button onClick={createAccount} simple color="primary" size="lg">
                       Crear Cuenta
                     </Button>
                   </CardFooter>
