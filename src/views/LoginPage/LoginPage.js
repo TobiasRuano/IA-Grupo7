@@ -1,4 +1,5 @@
 import React from "react";
+import {Redirect} from "react-router-dom";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 import InputAdornment from "@material-ui/core/InputAdornment";
@@ -22,30 +23,72 @@ import styles from "assets/jss/material-kit-react/views/loginPage.js";
 
 import image from "assets/img/bg4.jpg";
 
+//importo llamada a endpoint
+import {login} from "../../controller/userController";
+
 const useStyles = makeStyles(styles);
 
 export default function LoginPage(props) {
   const [cardAnimaton, setCardAnimation] = React.useState("cardHidden");
+  const [isLoggedIn, setLoggInStatus] = React.useState(false);
+  const [email,setEmail] = React.useState('');
+  const [password,setPassword] = React.useState('');
+  const [usuarioValido,setUsuarioValido] = React.useState(false);
+
   setTimeout(function() {
     setCardAnimation("");
   }, 700);
+
   const classes = useStyles();
   const { ...rest } = props;
-
-  function handleLoginClick() {
-    // this.setState({isLoggedIn: true});
-    console.log('Log in');
+  
+  //Valido campos y llamo endpoint
+  const loginUser=()=> {
+    if (email !== "" && password !== "") {
+      validarLogin();
+    }
+    else {
+      alert("Debe completar usuario y password");
+    }
   }
-  function handleCreateAccountClick() {
 
+  //Ejecuto el endpoint para validar login
+  const validarLogin= async function() {
+    let datos = {
+      email: email,
+      password:password
+    }
+    let getLogin = await login(datos);
+    if (getLogin.rdo===0) {
+      setLoggInStatus(true);
+    }
+    if (getLogin.rdo===1) {
+      alert(getLogin.mensaje)
+    }
+  }
+
+  const redirect= ()=>{
+    if (isLoggedIn) {
+
+      return <Redirect to='/Main' />
+    }
+  }
+
+  const handleEmail=(event)=>{
+    setEmail(event.target.value);
+  }
+
+  const handlePassword=(event)=>{   
+    setPassword(event.target.value);
+  }
+
+  function handleCreateAccountClick() {
     window.location.assign("/crearCuenta");
   }
 
   let button;
   if (true) {
     button = <Button onClick={handleCreateAccountClick} simple color="primary" size="lg"> Crear una cuenta </Button>
-  } else {
-    button = <Button onClick={this.handleLoginClick} simple color="primary" size="lg"> Crear una cuenta </Button>
   }
 
   return (
@@ -57,6 +100,7 @@ export default function LoginPage(props) {
         rightLinks={<HeaderLinks />}
         {...rest}
       />
+      {redirect()}
       <div
         className={classes.pageHeader}
         style={{
@@ -82,6 +126,7 @@ export default function LoginPage(props) {
                       }}
                       inputProps={{
                         type: "email",
+                        onChange: (event) => handleEmail(event),
                         endAdornment: (
                           <InputAdornment position="end">
                             <Email className={classes.inputIconsColor} />
@@ -97,6 +142,7 @@ export default function LoginPage(props) {
                       }}
                       inputProps={{
                         type: "password",
+                        onChange: (event) => handlePassword(event),
                         endAdornment: (
                           <InputAdornment position="end">
                             <Icon className={classes.inputIconsColor}>
@@ -109,7 +155,7 @@ export default function LoginPage(props) {
                     />
                   </CardBody>
                   <CardFooter className={classes.cardFooter}>
-                    <Button href="/profile" simple color="primary" size="lg">
+                    <Button onClick={loginUser} simple color="primary" size="lg">
                       Continuar
                     </Button>
                   </CardFooter>
