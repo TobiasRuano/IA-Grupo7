@@ -34,16 +34,13 @@ export default function HeaderLinks(props) {
         <ListItem className={classes.listItem}>
           <CustomDropdown
             noLiPadding
-            buttonText="Mas"
+            buttonText="Opciones"
             buttonProps={{
               className: classes.navLink,
               color: "transparent"
             }}
             buttonIcon={Apps}
             dropdownList={[
-              <Link to="/turnos" className={classes.dropdownLink}>
-                Mis Turnos
-              </Link>,
               <Link to="/nuevoTurno" className={classes.dropdownLink}>
                 Obtener Turno
               </Link>,
@@ -63,6 +60,17 @@ export default function HeaderLinks(props) {
             className={classes.navLink}
           >
             <Person className={classes.icons} /> Perfil
+          </Button>
+        </ListItem>
+
+        <ListItem className={classes.listItem}>
+          <Button
+            href=""
+            color="transparent"
+            className={classes.navLink}
+            color="danger"
+          >
+            <Person className={classes.icons} /> Cerrar Sesion
           </Button>
         </ListItem>
       </List>

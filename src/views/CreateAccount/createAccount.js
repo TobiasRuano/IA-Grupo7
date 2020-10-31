@@ -30,7 +30,7 @@ import NacimientoPicker from "components/DatePicker/NacimientoPicker.js";
 
 import styles from "assets/jss/material-kit-react/views/loginPage.js";
 
-import image from "assets/img/bg7.jpg";
+import image from "assets/img/bg4.jpg";
 
 const useStyles = makeStyles(styles);
 
