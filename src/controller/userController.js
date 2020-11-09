@@ -120,14 +120,16 @@ export const updateUser= async function(updateUser) {
     formData.append('genero', updateUser.genre);
     formData.append('fechaNac', updateUser.birthday);
     formData.append('domicilio', updateUser.address);
+    formData.append('telefono', updateUser.telefono);
 
     try {
+        const token = localStorage.getItem("x");
         let response = await fetch(url,{
             method: 'PUT',
             mode: "cors",
             headers: {
                 'Accept':'application/x-www-form-urlencoded',
-                //'x-access-token': WebToken.webToken,
+                'x-access-token': token,
                 'Origin':'http://localhost:3000',
                 'Content-Type': 'application/x-www-form-urlencoded'},
             body: formData,
@@ -139,8 +141,6 @@ export const updateUser= async function(updateUser) {
         console.log("jsonresponse",data);
             switch(rdo) {
                 case 201: {
-                    //guardo token
-                    localStorage.setItem("x",data.loginUser.token);
                     return ({rdo:0,mensaje:"Ok"});
                 }
                 case 202: {
