@@ -1,40 +1,43 @@
 import React from 'react';
-// react component plugin for creating a beautiful datetime dropdown picker
-import Datetime from "react-datetime";
-// material-ui components
-import { makeStyles } from "@material-ui/core/styles";
-import InputLabel from "@material-ui/core/InputLabel";
-import FormControl from "@material-ui/core/FormControl";
-// @material-ui/icons
-// core components
+import { makeStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
 
-const styles = {
-  label: {
-    cursor: "pointer",
-    paddingLeft: "0",
-    color: "rgba(0, 0, 0, 0.26)",
-    fontSize: "14px",
-    lineHeight: "1.428571429",
-    fontWeight: "400",
-    display: "inline-flex"
+const useStyles = makeStyles((theme) => ({
+  container: {
+    display: 'flex',
+    flexWrap: 'wrap',
   },
-};
+  textField: {
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
+    width: 200,
+  },
+}));
 
-const useStyles = makeStyles(styles);
-
-export default function DateTimePicker(){
+export default function NacimientoPicker(props) {
   const classes = useStyles();
+  const title = React.useState(props.title);
+  
+  const functionHandler = (event) => {
+    var val = event.target.value;
+    props.passChildData(val); 
+  }
+
   return (
-    <div>
-      <InputLabel className={classes.label}>
-        Horario
-      </InputLabel>
-      <br />
-      <FormControl fullWidth>
-        <Datetime
-          inputProps={{ placeholder: "Elegi un dia y horario" }}
-        />
-      </FormControl>
-    </div>
+    <form className={classes.container} noValidate>
+      <TextField
+        id="date"
+        label={title}
+        type="date"
+        defaultValue="2020-09-28"
+        className={classes.textField}
+        inputProps={{
+          onChange: (event) => functionHandler(event),
+        }}
+        InputLabelProps={{
+          shrink: true
+        }}
+      />
+    </form>
   );
 }

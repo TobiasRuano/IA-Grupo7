@@ -9,6 +9,7 @@ const urlWebServices = {
     updateUser: urlApi + "api/users/updateuser",
 
     nuevoTurno: urlApi + "api/turnos/nuevoturno",
+    generarTurno: urlApi + "api/turnos/crearturnos",
     misTurnos: urlApi + "api/turnos/misturnos",
     deleteTurno: urlApi + "api/turnos/:id",
 }

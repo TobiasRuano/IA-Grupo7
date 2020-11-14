@@ -28,7 +28,6 @@ ReactDOM.render(
       <Route path="/crearCuenta" component={crearCuenta} />
       <Route path="/historiaclinica" component={HistoriasClinicas} />
 
-
       <Route path="/profile" component={profile} />
       <Route path="/actualizardatos" component={UpdateData} />
       <Route path="/recetas" component={recetas} />

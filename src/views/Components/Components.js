@@ -45,7 +45,7 @@ export default function Components(props) {
           <GridContainer>
             <GridItem>
               <div className={classes.brand}>
-                <h1 className={classes.title}>Consultorio Médico.</h1>
+                <h1 className={classes.title}>Consultorio Médico</h1>
                 <h3 className={classes.subtitle}>
                   Sistema de gestion para consultorios.
                 </h3>
