@@ -27,7 +27,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 
-import NacimientoPicker from "components/DatePicker/NacimientoPicker.js";
+import NacimientoPicker from "components/DatePicker/DatePicker.js";
 
 import styles from "assets/jss/material-kit-react/views/loginPage.js";
 
@@ -56,11 +56,18 @@ export default function CreateAccountPage(props) {
   const { ...rest } = props;
 
   const handleGenre = (event) => {
+    console.log(event.target.value);
     setGenre(event.target.value);
   }
 
   const handleNacChange = (event) => {
+    console.log("esta es la fecha que pasa nac change: ", event.target.nacimiento);
     setNac(event.target.nacimiento);
+  }
+
+  const handleDataPass=(val) => {
+    console.log("esta es la fecha que pasa data pass: ", val);
+    setNac(val);
   }
 
   const handleEmail = (event) => {
@@ -119,8 +126,7 @@ export default function CreateAccountPage(props) {
       let getRegister = await register(datos);
       if (getRegister.rdo===0 ) {
         setExitoCuentaNueva(true);
-      }
-      if (getRegister.rdo===1) {
+      } else {
         alert(getRegister.mensaje)
       }
   }
@@ -203,7 +209,7 @@ export default function CreateAccountPage(props) {
                     </RadioGroup>
                   </FormControl>
 
-                  <NacimientoPicker value={nacimiento} onChange={handleNacChange} ></NacimientoPicker>
+                  <NacimientoPicker passChildData={handleDataPass} value={nacimiento} onChange={handleNacChange} ></NacimientoPicker>
 
                   <CustomInput
                       labelText="Domicilio"

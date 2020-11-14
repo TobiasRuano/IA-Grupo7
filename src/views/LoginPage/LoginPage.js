@@ -31,9 +31,8 @@ const useStyles = makeStyles(styles);
 export default function LoginPage(props) {
   const [cardAnimaton, setCardAnimation] = React.useState("cardHidden");
   const [isLoggedIn, setLoggInStatus] = React.useState(false);
-  const [email,setEmail] = React.useState('');
-  const [password,setPassword] = React.useState('');
-  const [usuarioValido,setUsuarioValido] = React.useState(false);
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
 
   setTimeout(function() {
     setCardAnimation("");
@@ -42,7 +41,7 @@ export default function LoginPage(props) {
   const classes = useStyles();
   const { ...rest } = props;
   
-  //Valido campos y llamo endpoint
+  //Valido campos y llamo al endpoint
   const loginUser=()=> {
     if (email !== "" && password !== "") {
       validarLogin();
@@ -69,8 +68,7 @@ export default function LoginPage(props) {
 
   const redirect= ()=>{
     if (isLoggedIn) {
-
-      return <Redirect to='/Main' />
+      return <Redirect to='/' />
     }
   }
 

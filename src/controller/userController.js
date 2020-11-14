@@ -3,6 +3,8 @@ import urlWebServices from '../controller/webServices.js';
 export const register= async function(register) {
     //url webservices
     let url = urlWebServices.register;
+    var result = register.fechaNac.split('-');
+    let parseFecha = new Date(result[0], result[1]-1, result[2]);
     //armo json con datos
     const formData = new URLSearchParams();
     formData.append('email', register.email);
@@ -10,11 +12,13 @@ export const register= async function(register) {
     formData.append('dni', register.dni);
     formData.append('name', register.name);
     formData.append('surname', register.surname);
-    formData.append('sexo', register.genre);
-    formData.append('fechaNac', register.birthday);
-    formData.append('domicilio', register.address);
-    formData.append('permiso', 1);
+    formData.append('sexo', register.sexo);
+    formData.append('fechaNac', parseFecha);
+    formData.append('domicilio', register.domicilio);
+    formData.append('permiso', '1');
     formData.append('telefono', 111111111);
+
+    console.log(register.birthday);
 
     try {
         let response = await fetch(url,{
@@ -34,8 +38,8 @@ export const register= async function(register) {
         console.log("jsonresponse",data);
             switch(rdo) {
                 case 201: {
-                    //guardo token
-                    localStorage.setItem("x",data.loginUser.token);
+                   /*  //guardo token
+                    localStorage.setItem("x",data.loginUser.token); */
                     return ({rdo:0,mensaje:"Ok"});
                 }
                 case 202: {
@@ -50,7 +54,7 @@ export const register= async function(register) {
             }
     }
     catch(error) {
-        console.log("error",error);
+        console.log("ERROR:",error);
     };
 }
 
@@ -69,7 +73,6 @@ export const login = async function(login) {
             mode: "cors",
             headers:{
                 'Accept':'application/x-www-form-urlencoded',
-               // 'x-access-token': WebToken.webToken,
                 'Origin':'http://localhost:3000',
                 'Content-Type': 'application/x-www-form-urlencoded'},
             body: formData,
