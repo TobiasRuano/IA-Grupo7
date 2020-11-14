@@ -5,7 +5,7 @@ console.log("url",urlApi);
 const urlWebServices = {
     register: urlApi + "api/users/registration",
     login: urlApi + "api/users/login",
-    deleteUser: urlApi + "api/users/:id",
+    deleteUser: urlApi + "api/users/remove",
     updateUser: urlApi + "api/users/updateuser",
     getMedicos: urlApi + "api/users/medicos",
 

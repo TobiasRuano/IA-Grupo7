@@ -164,12 +164,41 @@ export const updateUser= async function(updateUser) {
 
 export const remove= async function(remove) {
     //url webservices
-    let url = urlWebServices.remove;
+    let url = urlWebServices.deleteUser;
     //armo json con datos
     const formData = new URLSearchParams();
     formData.append('dni', remove.dni);
 
     try {
+        const token = localStorage.getItem("x");
+        let response = await fetch(url,{
+            method: 'POST',
+            mode: "cors",
+            headers:{
+                'Accept':'application/x-www-form-urlencoded',
+                'x-access-token': token,
+                'Origin':'http://localhost:3000',
+                'Content-Type': 'application/x-www-form-urlencoded'},
+            body: formData,
+        });
+        
+        let data = await response.json().status;
+        let rdo = response.status;
+        console.log("Respuesta: ",response);
+        console.log("jsonresponse",data);
+            switch(rdo) {
+                case 201, 200: {
+                    return ({rdo:0,mensaje:"Ok"});
+                }
+                default: {
+                    return ({rdo:1,mensaje:"Ha ocurrido un error al intentar eliminar el usuario"});                
+                }
+            }
+    }
+    catch(error) {
+        console.log("error",error);
+    };
+}
         let response = await fetch(url,{
             method: 'DELETE',
             mode: "cors",

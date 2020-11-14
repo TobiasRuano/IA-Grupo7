@@ -27,24 +27,7 @@ import SectionDownload from "views/UserProfile/SectionDownload.js";
 
 import styles from "assets/jss/material-kit-react/views/profilePage.js";
 
-/* const styles = {
-  cardCategoryWhite: {
-    color: "rgba(255,255,255,.62)",
-    margin: "0",
-    fontSize: "14px",
-    marginTop: "10px",
-    marginBottom: "0"
-  },
-  cardTitleWhite: {
-    color: "#FFFFFF",
-    marginTop: "0px",
-    minHeight: "auto",
-    fontWeight: "300",
-    fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
-    marginBottom: "3px",
-    textDecoration: "none"
-  }
-}; */
+import styles from "assets/jss/material-kit-react/views/profilePage.js";
 
 const useStyles = makeStyles(styles);
 
@@ -64,37 +47,12 @@ export default function UserProfile(props) {
   //datos paciente
   const [name, setName] = React.useState("Tobias");
   const [surname, setSurname] = React.useState("Ruano");
-  const [dni, setDni] = React.useState("00000001");
+  const [dni, setDni] = React.useState(1);
   const [sexo, setSexo] = React.useState("Masculino");
   const [fechanac, setFechanac] = React.useState("06/06/97");
   const [email, setEmail] = React.useState("truano@uade.edu.ar");
   const [domicilio, setDom] = React.useState("Lima 775");
   const [telefono, setTel] = React.useState("1515251515");
-
-  //datos medicos
-  const [gruposang, setGrupoSang] = React.useState("A+");
-  const [cardiaco, setCardiaco] = React.useState("NO");
-  const [diabetes, setDiabetes] = React.useState("NO");
-  const [hiperten, setHiperten] = React.useState("NO");
-  const [alergias, setAlergias] = React.useState("NINGUNA");
-
-  // const [Actualizar, setActualizar] = React.useState(false);
-
-  const handleChangeGrupoSang = (event) => {
-    setGrupoSang(event.target.value);
-  };
-  const handleChangeCardiaco = (event) => {
-    setCardiaco(event.target.value);
-  };
-  const handleChangeDiabetes = (event) => {
-    setDiabetes(event.target.value);
-  };
-  const handleChangeHiperten = (event) => {
-    setHiperten(event.target.value);
-  };
-  const handleChangeAlergias = (event) => {
-    setAlergias(!event.target.value);
-  };
 
   const handleChangeName = (event) => {
     setName(event.target.value);
@@ -149,11 +107,11 @@ export default function UserProfile(props) {
             <GridContainer justify="center">
               <GridItem xs={12} sm={12} md={6}>
                 <div className={classes.profile}>
-                  <div>
+                  {<div>
                     <img src={profile} alt="..." className={imageClasses} />
-                  </div>
+                  </div>}
                   <div className={classes.name}>
-                    <h3 className={classes.title}>Tobias Ruano</h3>
+                    <h3 className={classes.title}>{name} {surname}</h3>
                   </div>
                 </div>
               </GridItem>
@@ -305,11 +263,11 @@ export default function UserProfile(props) {
                 <p>Aqui puede manejar sus turnos actuales</p>
               </CardHeader>
               <CardBody >
-                <TablaTurnos></TablaTurnos>
+                <TablaTurnos dniPaciente={dni}></TablaTurnos>
               </CardBody>
             </Card>
             </GridContainer>
-            <SectionDownload />
+            <SectionDownload dniPaciente={dni}></SectionDownload>
           </div>
         </div>
       </div>
