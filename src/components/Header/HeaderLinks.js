@@ -47,7 +47,7 @@ export default function HeaderLinks(props) {
               <Link to="/dashboard" className={classes.dropdownLink}>
               Panel de Administración
               </Link>,
-              <Link to="/historiasclinicas" className={classes.dropdownLink}>
+              <Link to="/historiaclinica" className={classes.dropdownLink}>
               Historias Clìnicas
               </Link>
             ]}
