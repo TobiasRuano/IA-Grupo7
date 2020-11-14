@@ -7,8 +7,8 @@ const urlWebServices = {
     login: urlApi + "api/users/login",
     deleteUser: urlApi + "api/users/:id",
     updateUser: urlApi + "api/users/updateuser",
+    getMedicos: urlApi + "api/users/medicos",
 
-    nuevoTurno: urlApi + "api/turnos/nuevoturno",
     generarTurno: urlApi + "api/turnos/crearturnos",
     misTurnos: urlApi + "api/turnos/misturnos",
     deleteTurno: urlApi + "api/turnos/:id",

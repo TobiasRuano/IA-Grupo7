@@ -197,4 +197,35 @@ export const remove= async function(remove) {
     catch(error) {
         console.log("error",error);
     };
+export const getMedicos = async function(getMedicos) {
+    //url webservices
+    let url = urlWebServices.getMedicos;
+    try {
+        const token = localStorage.getItem("x");
+        let response = await fetch(url,{
+            method: 'GET',
+            mode: "cors",
+            headers:{
+                'Accept':'application/x-www-form-urlencoded',
+                'x-access-token': token,
+                'Origin':'http://localhost:3000',
+                'Content-Type': 'application/x-www-form-urlencoded'},
+        });
+        
+        let rdo = response.status;
+        console.log("response",response);
+        let data = await response.json();
+        console.log("La jsonresponse es: ",data);
+            switch(rdo) {
+                case 201, 200: {
+                    return ({data: data.data.docs,rdo:0,mensaje:"Ok"});
+                }
+                default: {
+                    return ({rdo:1,mensaje:"Ha ocurrido un error"});                
+                }
+            }
+    }
+    catch(error) {
+        console.log("error",error);
+    };
 }
