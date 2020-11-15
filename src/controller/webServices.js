@@ -12,6 +12,7 @@ const urlWebServices = {
     generarTurno: urlApi + "api/turnos/crearturnos",
     misTurnos: urlApi + "api/turnos/misturnos",
     deleteTurno: urlApi + "api/turnos/:id",
+    turnosDisponibles: urlApi + "api/turnos/disponibles"
 }
 
 export default urlWebServices;
