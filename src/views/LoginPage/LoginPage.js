@@ -30,7 +30,8 @@ const useStyles = makeStyles(styles);
 
 export default function LoginPage(props) {
   const [cardAnimaton, setCardAnimation] = React.useState("cardHidden");
-  const [isLoggedIn, setLoggInStatus] = React.useState(false);
+  const [succesfullyLoggedIn, setSuccesfullyLoggedIn] = React.useState(false);
+  const isLoggedIn = React.useState(localStorage.getItem("user") ? true : false);
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
 
@@ -59,7 +60,7 @@ export default function LoginPage(props) {
     }
     let getLogin = await login(datos);
     if (getLogin.rdo===0) {
-      setLoggInStatus(true);
+      setSuccesfullyLoggedIn(true);
     }
     if (getLogin.rdo===1) {
       alert(getLogin.mensaje)
@@ -67,7 +68,8 @@ export default function LoginPage(props) {
   }
 
   const redirect= ()=>{
-    if (isLoggedIn) {
+    console.log("Valored de succ y is:", succesfullyLoggedIn, isLoggedIn);
+    if (succesfullyLoggedIn || isLoggedIn[0]) {
       return <Redirect to='/' />
     }
   }
@@ -89,89 +91,95 @@ export default function LoginPage(props) {
     button = <Button onClick={handleCreateAccountClick} simple color="primary" size="lg"> Crear una cuenta </Button>
   }
 
-  return (
-    <div>
-      <Header
-        absolute
-        color="transparent"
-        brand="Home"
-        rightLinks={<HeaderLinks />}
-        {...rest}
-      />
-      {redirect()}
-      <div
-        className={classes.pageHeader}
-        style={{
-          backgroundImage: "url(" + image + ")",
-          backgroundSize: "cover",
-          backgroundPosition: "top center"
-        }}
-      >
-        <div className={classes.container}>
-          <GridContainer justify="center">
-            <GridItem xs={12} sm={12} md={4}>
-              <Card className={classes[cardAnimaton]}>
-                <form className={classes.form}>
-                  <CardHeader color="primary" className={classes.cardHeader}>
-                    <h2><b>Iniciar Sesion</b></h2>
-                  </CardHeader>
-                  <CardBody>
-                    <CustomInput
-                      labelText="Mail"
-                      id="email"
-                      formControlProps={{
-                        fullWidth: true
-                      }}
-                      inputProps={{
-                        type: "email",
-                        onChange: (event) => handleEmail(event),
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <Email className={classes.inputIconsColor} />
-                          </InputAdornment>
-                        )
-                      }}
-                    />
-                    <CustomInput
-                      labelText="Contraseña"
-                      id="pass"
-                      formControlProps={{
-                        fullWidth: true
-                      }}
-                      inputProps={{
-                        type: "password",
-                        onChange: (event) => handlePassword(event),
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <Icon className={classes.inputIconsColor}>
-                              lock_outline
-                            </Icon>
-                          </InputAdornment>
-                        ),
-                        autoComplete: "off"
-                      }}
-                    />
-                  </CardBody>
-                  <CardFooter className={classes.cardFooter}>
-                    <Button onClick={loginUser} simple color="primary" size="lg">
-                      Continuar
-                    </Button>
-                  </CardFooter>
-                </form>
-              </Card>
-
-              <Card className={classes[cardAnimaton]}>
-                <form className={classes.form}>
-                  <CardBody>
-                    {button}
-                  </CardBody>
-                </form>
-              </Card>
-            </GridItem>
-          </GridContainer>
-          </div>
-        <Footer whiteFont />
+  if (isLoggedIn[0] == true) {
+    return(
+      <div>{redirect()}</div>
+    );
+  } else {
+    return (
+      <div>
+        <Header
+          absolute
+          color="transparent"
+          brand="Home"
+          rightLinks={<HeaderLinks />}
+          {...rest}
+        />
+        {redirect()}
+        <div
+          className={classes.pageHeader}
+          style={{
+            backgroundImage: "url(" + image + ")",
+            backgroundSize: "cover",
+            backgroundPosition: "top center"
+          }}
+        >
+          <div className={classes.container}>
+            <GridContainer justify="center">
+              <GridItem xs={12} sm={12} md={4}>
+                <Card className={classes[cardAnimaton]}>
+                  <form className={classes.form}>
+                    <CardHeader color="primary" className={classes.cardHeader}>
+                      <h2><b>Iniciar Sesion</b></h2>
+                    </CardHeader>
+                    <CardBody>
+                      <CustomInput
+                        labelText="Mail"
+                        id="email"
+                        formControlProps={{
+                          fullWidth: true
+                        }}
+                        inputProps={{
+                          type: "email",
+                          onChange: (event) => handleEmail(event),
+                          endAdornment: (
+                            <InputAdornment position="end">
+                              <Email className={classes.inputIconsColor} />
+                            </InputAdornment>
+                          )
+                        }}
+                      />
+                      <CustomInput
+                        labelText="Contraseña"
+                        id="pass"
+                        formControlProps={{
+                          fullWidth: true
+                        }}
+                        inputProps={{
+                          type: "password",
+                          onChange: (event) => handlePassword(event),
+                          endAdornment: (
+                            <InputAdornment position="end">
+                              <Icon className={classes.inputIconsColor}>
+                                lock_outline
+                              </Icon>
+                            </InputAdornment>
+                          ),
+                          autoComplete: "off"
+                        }}
+                      />
+                    </CardBody>
+                    <CardFooter className={classes.cardFooter}>
+                      <Button onClick={loginUser} simple color="primary" size="lg">
+                        Continuar
+                      </Button>
+                    </CardFooter>
+                  </form>
+                </Card>
+  
+                <Card className={classes[cardAnimaton]}>
+                  <form className={classes.form}>
+                    <CardBody>
+                      {button}
+                    </CardBody>
+                  </form>
+                </Card>
+              </GridItem>
+            </GridContainer>
+            </div>
+          <Footer whiteFont />
+        </div>
       </div>
-    </div>
-  );
+    ); 
+  }
 }

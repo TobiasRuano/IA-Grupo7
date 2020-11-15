@@ -51,6 +51,7 @@ export default function CreateAccountPage(props) {
   const [dni, setDNI] = React.useState('');
   const [address, setAddress] = React.useState('');
   const [exitoCuentaNueva, setExitoCuentaNueva] = React.useState(false);
+  const isLoggedIn = React.useState(localStorage.getItem("user") ? true : false);
 
   const classes = useStyles();
   const { ...rest } = props;
@@ -132,187 +133,193 @@ export default function CreateAccountPage(props) {
   }
 
   const redirect= ()=>{
-    if (exitoCuentaNueva) {
+    if (exitoCuentaNueva || isLoggedIn[0]) {
       return <Redirect to='/' />
     }
   }
 
-  return (
-    <div>
-      <Header
-        absolute
-        color="transparent"
-        brand="Home"
-        rightLinks={<HeaderLinks />}
-        {...rest}
-      />
-
-    {redirect()}
-
-      <div
-        className={classes.pageHeader}
-        style={{
-          backgroundImage: "url(" + image + ")",
-          backgroundSize: "cover",
-          backgroundPosition: "top center"
-        }}
-      >
-        <div className={classes.container}>
-          <GridContainer justify="center">
-            <GridItem xs={12} sm={12} md={4}>
-              <Card className={classes[cardAnimaton]}>
-                <form className={classes.form}>
-                  <CardHeader color="primary" className={classes.cardHeader}>
-                    <h2><b>Crear una cuenta</b></h2>
-                  </CardHeader>
-                  <CardBody>
-                  <CustomInput
-                      labelText="Nombre"
-                      id="name"
-                      formControlProps={{
-                        fullWidth: true
-                      }}
-                      inputProps={{
-                        type: "text",
-                        onChange: (event) => handleName(event),
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <PersonIcon className={classes.inputIconsColor} />
-                          </InputAdornment>
-                        )
-                      }}
-                    />
-
-                  <CustomInput
-                      labelText="Apellido"
-                      id="name"
-                      formControlProps={{
-                        fullWidth: true
-                      }}
-                      inputProps={{
-                        type: "text",
-                        onChange: (event) => handleSurname(event),
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <PersonIcon className={classes.inputIconsColor} />
-                          </InputAdornment>
-                        )
-                      }}
-                    />
-
-                  <FormControl component="fieldset">
-                    <FormLabel component="legend">Genero</FormLabel>
-                    <RadioGroup aria-label="Sexo" name="gender1" value={genre} onChange={handleGenre}>
-                      <FormControlLabel value="female" control={<Radio />} label="Femenino" />
-                      <FormControlLabel value="male" control={<Radio />} label="Masculino" />
-                      <FormControlLabel value="other" control={<Radio />} label="Otro" />
-                    </RadioGroup>
-                  </FormControl>
-
-                  <NacimientoPicker passChildData={handleDataPass} value={nacimiento} onChange={handleNacChange} ></NacimientoPicker>
-
-                  <CustomInput
-                      labelText="Domicilio"
-                      id="name"
-                      formControlProps={{
-                        fullWidth: true
-                      }}
-                      inputProps={{
-                        type: "text",
-                        onChange: (event) => handleAddress(event),
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <LocationOnIcon className={classes.inputIconsColor} />
-                          </InputAdornment>
-                        )
-                      }}
-                    />
-
-                  <CustomInput
-                      labelText="DNI"
-                      id="name"
-                      formControlProps={{
-                        fullWidth: true
-                      }}
-                      inputProps={{
-                        type: "number",
-                        onChange: (event) => handleDNI(event),
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <FingerprintIcon className={classes.inputIconsColor} />
-                          </InputAdornment>
-                        )
-                      }}
-                    />
-
+  if (isLoggedIn[0] == true) {
+    return(
+      <div>{redirect()}</div>
+    );
+  } else {
+    return (
+      <div>
+        <Header
+          absolute
+          color="transparent"
+          brand="Home"
+          rightLinks={<HeaderLinks />}
+          {...rest}
+        />
+  
+      {redirect()}
+  
+        <div
+          className={classes.pageHeader}
+          style={{
+            backgroundImage: "url(" + image + ")",
+            backgroundSize: "cover",
+            backgroundPosition: "top center"
+          }}
+        >
+          <div className={classes.container}>
+            <GridContainer justify="center">
+              <GridItem xs={12} sm={12} md={4}>
+                <Card className={classes[cardAnimaton]}>
+                  <form className={classes.form}>
+                    <CardHeader color="primary" className={classes.cardHeader}>
+                      <h2><b>Crear una cuenta</b></h2>
+                    </CardHeader>
+                    <CardBody>
                     <CustomInput
-                      labelText="Mail"
-                      id="email"
-                      formControlProps={{
-                        fullWidth: true
-                      }}
-                      inputProps={{
-                        type: "email",
-                        onChange: (event) => handleEmail(event),
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <Email className={classes.inputIconsColor} />
-                          </InputAdornment>
-                        )
-                      }}
-                    />
+                        labelText="Nombre"
+                        id="name"
+                        formControlProps={{
+                          fullWidth: true
+                        }}
+                        inputProps={{
+                          type: "text",
+                          onChange: (event) => handleName(event),
+                          endAdornment: (
+                            <InputAdornment position="end">
+                              <PersonIcon className={classes.inputIconsColor} />
+                            </InputAdornment>
+                          )
+                        }}
+                      />
+  
                     <CustomInput
-                      labelText="Contraseña"
-                      id="pass"
-                      formControlProps={{
-                        fullWidth: true
-                      }}
-                      inputProps={{
-                        type: "password",
-                        onChange: (event) => handlePassword(event),
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <Icon className={classes.inputIconsColor}>
-                              lock_outline
-                            </Icon>
-                          </InputAdornment>
-                        ),
-                        autoComplete: "off"
-                      }}
-                    />
-                    
+                        labelText="Apellido"
+                        id="name"
+                        formControlProps={{
+                          fullWidth: true
+                        }}
+                        inputProps={{
+                          type: "text",
+                          onChange: (event) => handleSurname(event),
+                          endAdornment: (
+                            <InputAdornment position="end">
+                              <PersonIcon className={classes.inputIconsColor} />
+                            </InputAdornment>
+                          )
+                        }}
+                      />
+  
+                    <FormControl component="fieldset">
+                      <FormLabel component="legend">Genero</FormLabel>
+                      <RadioGroup aria-label="Sexo" name="gender1" value={genre} onChange={handleGenre}>
+                        <FormControlLabel value="female" control={<Radio />} label="Femenino" />
+                        <FormControlLabel value="male" control={<Radio />} label="Masculino" />
+                        <FormControlLabel value="other" control={<Radio />} label="Otro" />
+                      </RadioGroup>
+                    </FormControl>
+  
+                    <NacimientoPicker passChildData={handleDataPass} value={nacimiento} onChange={handleNacChange} ></NacimientoPicker>
+  
                     <CustomInput
-                      labelText="Repita la Contraseña"
-                      id="pass"
-                      formControlProps={{
-                        fullWidth: true
-                      }}
-                      inputProps={{
-                        type: "password",
-                        onChange: (event) => handleVerificPassword(event),
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <Icon className={classes.inputIconsColor}>
-                              lock_outline
-                            </Icon>
-                          </InputAdornment>
-                        ),
-                        autoComplete: "off"
-                      }}
-                    />
-                  </CardBody>
-                  <CardFooter className={classes.cardFooter}>
-                    <Button onClick={createAccount} simple color="primary" size="lg">
-                      Crear Cuenta
-                    </Button>
-                  </CardFooter>
-                </form>
-              </Card>
-            </GridItem>
-          </GridContainer>
-          </div>
-        <Footer whiteFont />
+                        labelText="Domicilio"
+                        id="name"
+                        formControlProps={{
+                          fullWidth: true
+                        }}
+                        inputProps={{
+                          type: "text",
+                          onChange: (event) => handleAddress(event),
+                          endAdornment: (
+                            <InputAdornment position="end">
+                              <LocationOnIcon className={classes.inputIconsColor} />
+                            </InputAdornment>
+                          )
+                        }}
+                      />
+  
+                    <CustomInput
+                        labelText="DNI"
+                        id="name"
+                        formControlProps={{
+                          fullWidth: true
+                        }}
+                        inputProps={{
+                          type: "number",
+                          onChange: (event) => handleDNI(event),
+                          endAdornment: (
+                            <InputAdornment position="end">
+                              <FingerprintIcon className={classes.inputIconsColor} />
+                            </InputAdornment>
+                          )
+                        }}
+                      />
+  
+                      <CustomInput
+                        labelText="Mail"
+                        id="email"
+                        formControlProps={{
+                          fullWidth: true
+                        }}
+                        inputProps={{
+                          type: "email",
+                          onChange: (event) => handleEmail(event),
+                          endAdornment: (
+                            <InputAdornment position="end">
+                              <Email className={classes.inputIconsColor} />
+                            </InputAdornment>
+                          )
+                        }}
+                      />
+                      <CustomInput
+                        labelText="Contraseña"
+                        id="pass"
+                        formControlProps={{
+                          fullWidth: true
+                        }}
+                        inputProps={{
+                          type: "password",
+                          onChange: (event) => handlePassword(event),
+                          endAdornment: (
+                            <InputAdornment position="end">
+                              <Icon className={classes.inputIconsColor}>
+                                lock_outline
+                              </Icon>
+                            </InputAdornment>
+                          ),
+                          autoComplete: "off"
+                        }}
+                      />
+                      
+                      <CustomInput
+                        labelText="Repita la Contraseña"
+                        id="pass"
+                        formControlProps={{
+                          fullWidth: true
+                        }}
+                        inputProps={{
+                          type: "password",
+                          onChange: (event) => handleVerificPassword(event),
+                          endAdornment: (
+                            <InputAdornment position="end">
+                              <Icon className={classes.inputIconsColor}>
+                                lock_outline
+                              </Icon>
+                            </InputAdornment>
+                          ),
+                          autoComplete: "off"
+                        }}
+                      />
+                    </CardBody>
+                    <CardFooter className={classes.cardFooter}>
+                      <Button onClick={createAccount} simple color="primary" size="lg">
+                        Crear Cuenta
+                      </Button>
+                    </CardFooter>
+                  </form>
+                </Card>
+              </GridItem>
+            </GridContainer>
+            </div>
+          <Footer whiteFont />
+        </div>
       </div>
-    </div>
-  );
+    ); 
+  }
 }
