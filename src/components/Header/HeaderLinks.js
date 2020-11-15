@@ -41,53 +41,101 @@ export default function HeaderLinks(props) {
 
   const classes = useStyles();
   if (isLoggedIn === true) {
-    return (
-      <List className={classes.list}>
-        <ListItem className={classes.listItem}>
-          <CustomDropdown
-            noLiPadding
-            buttonText="Opciones"
-            buttonProps={{
-              className: classes.navLink,
-              color: "transparent"
-            }}
-            buttonIcon={Apps}
-            dropdownList={[
-              <Link to="/nuevoTurno" className={classes.dropdownLink}>
-                Obtener Turno
-              </Link>,
-              <Link to="/dashboard" className={classes.dropdownLink}>
-              Panel de Administración
-              </Link>,
-              <Link to="/historiaclinica" className={classes.dropdownLink}>
-              Historias Clìnicas
-              </Link>
-            ]}
-          />
-        </ListItem>
-        <ListItem className={classes.listItem}>
-          <Button
-            href="/profile"
-            color="transparent"
-            className={classes.navLink}
-          >
-            <Person className={classes.icons} /> Perfil
-          </Button>
-        </ListItem>
-
-        <ListItem className={classes.listItem}>
-          <Button
-            href=""
-            color="transparent"
-            className={classes.navLink}
-            color="danger"
-            onClick={handleLogOut}
-          >
-            <Person className={classes.icons} /> Cerrar Sesion
-          </Button>
-        </ListItem>
-      </List>
-    );
+    let permiso = JSON.parse(localStorage.getItem('user')).permiso
+    if (permiso == 0) {
+      return (
+        <List className={classes.list}>
+          <ListItem className={classes.listItem}>
+            <CustomDropdown
+              noLiPadding
+              buttonText="Opciones"
+              buttonProps={{
+                className: classes.navLink,
+                color: "transparent"
+              }}
+              buttonIcon={Apps}
+              dropdownList={[
+                <Link to="/nuevoTurno" className={classes.dropdownLink}>
+                  Obtener Turno
+                </Link>,
+                <Link to="/historiaclinica" className={classes.dropdownLink}>
+                Historias Clìnicas
+                </Link>
+              ]}
+            />
+          </ListItem>
+          <ListItem className={classes.listItem}>
+            <Button
+              href="/profile"
+              color="transparent"
+              className={classes.navLink}
+            >
+              <Person className={classes.icons} /> Perfil
+            </Button>
+          </ListItem>
+  
+          <ListItem className={classes.listItem}>
+            <Button
+              href=""
+              color="transparent"
+              className={classes.navLink}
+              color="danger"
+              onClick={handleLogOut}
+            >
+              <Person className={classes.icons} /> Cerrar Sesion
+            </Button>
+          </ListItem>
+        </List>
+      );
+    } else if (permiso != 0) {
+      return (
+        <List className={classes.list}>
+          <ListItem className={classes.listItem}>
+            <CustomDropdown
+              noLiPadding
+              buttonText="Opciones"
+              buttonProps={{
+                className: classes.navLink,
+                color: "transparent"
+              }}
+              buttonIcon={Apps}
+              dropdownList={[
+                <Link to="/nuevoTurno" className={classes.dropdownLink}>
+                  Obtener Turno
+                </Link>,
+                <Link to="/dashboard" className={classes.dropdownLink}>
+                Panel de Administración
+                </Link>,
+                <Link to="/historiaclinica" className={classes.dropdownLink}>
+                Historias Clìnicas
+                </Link>
+              ]}
+            />
+          </ListItem>
+          <ListItem className={classes.listItem}>
+            <Button
+              href="/profile"
+              color="transparent"
+              className={classes.navLink}
+            >
+              <Person className={classes.icons} /> Perfil
+            </Button>
+          </ListItem>
+  
+          <ListItem className={classes.listItem}>
+            <Button
+              href=""
+              color="transparent"
+              className={classes.navLink}
+              color="danger"
+              onClick={handleLogOut}
+            >
+              <Person className={classes.icons} /> Cerrar Sesion
+            </Button>
+          </ListItem>
+        </List>
+      );
+    }
   } else {
     return (
       <List className={classes.list}>
