@@ -1,7 +1,7 @@
 /*eslint-disable*/
 import React, { useState, Component } from 'react';
 // react components for routing our app without refresh
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
@@ -22,6 +22,7 @@ const useStyles = makeStyles(styles);
 export default function HeaderLinks(props) {
 
   const [isLoggedIn, setLoggedStatus] = useState(localStorage.getItem("user") ? true : false);
+  const [redirectFlag, setRedirectFlag] = React.useState(false);
 
   const handleChangeLoggedStatus = (value) => {
     setLoggedStatus(value);
@@ -29,6 +30,13 @@ export default function HeaderLinks(props) {
   const handleLogOut = () => {
     localStorage.removeItem("user");
     handleChangeLoggedStatus(false);
+    setRedirectFlag(true);
+  }
+
+  const redirect= ()=>{
+    if (redirectFlag) {
+      return <Redirect to='/' />
+    }
   }
 
   const classes = useStyles();
@@ -83,6 +91,7 @@ export default function HeaderLinks(props) {
   } else {
     return (
       <List className={classes.list}>
+        {redirect()}
         <ListItem className={classes.listItem}>
           <Button
             href="/login"
