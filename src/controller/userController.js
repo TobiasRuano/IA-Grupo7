@@ -55,6 +55,7 @@ export const register= async function(register) {
     }
     catch(error) {
         console.log("ERROR:",error);
+        return ({rdo:1,mensaje:"Ha ocurrido un grave error"});    
     };
 }
 
@@ -107,6 +108,7 @@ export const login = async function(login) {
     }
     catch(error) {
         console.log("error",error);
+        return ({rdo:1,mensaje:"Ha ocurrido un grave error"});
     };
 }
 
@@ -159,6 +161,7 @@ export const updateUser= async function(updateUser) {
     }
     catch(error) {
         console.log("error",error);
+        return ({rdo:1,mensaje:"Ha ocurrido un grave error"});    
     };
 }
 
@@ -197,6 +200,7 @@ export const remove= async function(remove) {
     }
     catch(error) {
         console.log("error",error);
+        return ({rdo:1,mensaje:"Ha ocurrido un grave error"});    
     };
 }
         let response = await fetch(url,{
@@ -226,7 +230,9 @@ export const remove= async function(remove) {
     catch(error) {
         console.log("error",error);
     };
-export const getMedicos = async function(getMedicos) {
+}
+
+export const getMedicos = async function() {
     //url webservices
     let url = urlWebServices.getMedicos;
     try {
@@ -256,5 +262,6 @@ export const getMedicos = async function(getMedicos) {
     }
     catch(error) {
         console.log("error",error);
+        return ({rdo:1,mensaje:"Ha ocurrido un grave error"});    
     };
 }

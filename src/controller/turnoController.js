@@ -44,6 +44,7 @@ export const generarTurnos= async function(newTurno) {
     }
     catch(error) {
         console.log("error",error);
+        return ({rdo:1,mensaje:"Ha ocurrido un grave error"});    
     };
 }
 
@@ -94,6 +95,7 @@ export const asignarTurno= async function(turnoDisponible) {
     }
     catch(error) {
         console.log("error",error);
+        return ({rdo:1,mensaje:"Ha ocurrido un grave error"});    
     };
 }
 
@@ -132,6 +134,7 @@ export const removeTurno= async function(removeTurno) {
     }
     catch(error) {
         console.log("error",error);
+        return ({rdo:1,mensaje:"Ha ocurrido un grave error"});    
     };
 }
 
@@ -172,6 +175,7 @@ export const getTurnosByDNI = async function(dni) {
     }
     catch(error) {
         console.log("error",error);
+        return ({rdo:1,mensaje:"Ha ocurrido un grave error"});    
     };
 }
 
@@ -222,5 +226,6 @@ export const getTurnosDisponibles = async function(getTurnosDisponibles) {
     }
     catch(error) {
         console.log("error",error);
+        return ({rdo:1,mensaje:"Ha ocurrido un grave error"});    
     };
 }
