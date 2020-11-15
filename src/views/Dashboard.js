@@ -15,7 +15,11 @@ import CardHeader from "components/Card/CardHeader.js";
 import Button from "components/CustomButtons/Button.js";
 import Header from "components/Header/Header.js";
 import HeaderLinks from "components/Header/HeaderLinks.js";
-import CustomInput from "components/CustomInput/CustomInput.js";
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
 
 //importo llamada a endpoint
 import {generarTurnos} from "../controller/turnoController.js";
@@ -23,7 +27,6 @@ import {getMedicos} from "../controller/userController.js";
 
 import styles from "assets/jss/material-dashboard-react/views/dashboardStyle.js";
 import DatePicker from "components/DatePicker/DatePicker.js";
-
 
 const useStyles = makeStyles(styles);
 
@@ -42,7 +45,7 @@ export default function Dashboard(props) {
   const classes = useStyles();
   const classes1 = useStylesTheme();
   const { ...rest } = props;
-  const [arrayMedicos] = React.useState([]);
+  const [arrayMedicos, setArrayMedicos] = React.useState([]);
   let [dateSelected] = React.useState('');
   const [dniMedico, setDNIMedico] = React.useState('');
   const [estado, setEstado] = React.useState(false);
@@ -50,10 +53,13 @@ export default function Dashboard(props) {
   useEffect(()=>{
     async function componentDidMount() {
       let data = await getMedicos();
+      console.log(data);
       for(let i=0; i<data.data.length; i++) {
         arrayMedicos.push(data.data[i]);
-        console.log(data.data[i]);
       }
+      console.log(arrayMedicos)
+      setArrayMedicos(arrayMedicos);
+      console.log("Array seteada")
     }
     componentDidMount();
   },[]);
@@ -170,19 +176,23 @@ export default function Dashboard(props) {
             </CardHeader>
             <CardBody>
               <div>
-              <form className={classes1.root} noValidate autoComplete="off">
-                <CustomInput
-                      labelText="DNI del Medico"
-                      id="dni"
-                      formControlProps={{
-                        fullWidth: true
-                      }}
-                      inputProps={{
-                        type: "number",
-                        onChange: (event) => handleDNIChange(event)
-                      }}
-                    />
-              </form>
+              <FormControl className={classes.formControl}>
+                        <InputLabel id="demo-simple-select-helper-label">Elija el profesional</InputLabel>
+                        <Select
+                          labelId="demo-simple-select-helper-label"
+                          id="demo-simple-select-helper"
+                          value={dniMedico}
+                          onChange={handleDNIChange}
+                        >
+                          <MenuItem value={-1}>
+                            <em>Debe seleccionar una opcion</em>
+                          </MenuItem>
+                          {arrayMedicos.map(medico=> (
+                            <MenuItem key={medico.dni} value={medico.dni}>{medico.name +" " + medico.surname}</MenuItem>
+                          ))}
+                        </Select>
+                        <FormHelperText>Estamos trabajando para agregar mas profesionales</FormHelperText>
+                      </FormControl>
               <DatePicker passChildData={handleDataPass} title={"Generar la disponibilidad de turnos el:"}></DatePicker>
               <Button onClick={generarNuevosTurnos} color="warning"> Generar</Button>
               </div>
