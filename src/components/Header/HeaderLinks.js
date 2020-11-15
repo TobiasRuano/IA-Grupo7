@@ -21,10 +21,14 @@ const useStyles = makeStyles(styles);
 
 export default function HeaderLinks(props) {
 
-  const [isLoggedIn, setLoggedStatus] = useState(true);
+  const [isLoggedIn, setLoggedStatus] = useState(localStorage.getItem("user") ? true : false);
 
-  const handleChangeLoggedStatus = (event) => {
-    setLoggedStatus(true);
+  const handleChangeLoggedStatus = (value) => {
+    setLoggedStatus(value);
+  }
+  const handleLogOut = () => {
+    localStorage.removeItem("user");
+    handleChangeLoggedStatus(false);
   }
 
   const classes = useStyles();
@@ -69,6 +73,7 @@ export default function HeaderLinks(props) {
             color="transparent"
             className={classes.navLink}
             color="danger"
+            onClick={handleLogOut}
           >
             <Person className={classes.icons} /> Cerrar Sesion
           </Button>

@@ -90,8 +90,22 @@ export const login = async function(login) {
                     localStorage.setItem("x",data.loginUser.token);
                     //guardo usuario logueado
                     let user = data.loginUser.user;
-                    localStorage.setItem("nombre",user.name);
+                    /* localStorage.setItem("name",user.name);
+                    localStorage.setItem("surname", user.surname);
                     localStorage.setItem("email",user.email);
+                    localStorage.setItem("dni",user.dni); */
+                    let data = {
+                        name: user.name,
+                        surname: user.surname,
+                        email: user.email,
+                        dni: user.dni,
+                        fechanac: user.fechaNac,
+                        domicilio: user.domicilio,
+                        permiso: user.permiso,
+                        telefono: user.telefono,
+                        sexo: user.sexo
+                    }
+                    localStorage.setItem("user", data);
                     
                     return ({rdo:0,mensaje:"Ok"});
                 }
