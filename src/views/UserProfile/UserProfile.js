@@ -12,20 +12,19 @@ import GridContainer from "components/Grid/GridContainer.js";
 import Button from "components/CustomButtons/Button.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
+import CardBody from "components/Card/CardBody.js";
 import Header from "components/Header/Header.js";
 import HeaderLinks from "components/Header/HeaderLinks.js";
 import Footer from "components/Footer/Footer.js";
-
 import Parallax from "components/Parallax/Parallax.js";
 import classNames from "classnames";
+
 import profile from "assets/img/faces/christian.jpg";
+
 import TablaTurnos from "components/TablaTurnos/TablaTurnos.js";
-
-import CardBody from "components/Card/CardBody.js";
-
 import SectionDownload from "views/UserProfile/SectionDownload.js";
 
-import styles from "assets/jss/material-kit-react/views/profilePage.js";
+import {updateUser} from "../../controller/userController";
 
 import styles from "assets/jss/material-kit-react/views/profilePage.js";
 
@@ -45,14 +44,17 @@ export default function UserProfile(props) {
   const classes1 = useStylesTheme();
   const { ...rest } = props;
   //datos paciente
-  const [name, setName] = React.useState("Tobias");
-  const [surname, setSurname] = React.useState("Ruano");
-  const [dni, setDni] = React.useState(1);
-  const [sexo, setSexo] = React.useState("Masculino");
-  const [fechanac, setFechanac] = React.useState("06/06/97");
-  const [email, setEmail] = React.useState("truano@uade.edu.ar");
-  const [domicilio, setDom] = React.useState("Lima 775");
-  const [telefono, setTel] = React.useState("1515251515");
+  const isLoggedIn = React.useState(localStorage.getItem("user") ? true : false);
+  console.log("el valor de isLoggedIn es: ", isLoggedIn);
+  const [name, setName] = React.useState(isLoggedIn[0] ? localStorage.getItem("user").name : "null");
+  const [surname, setSurname] = React.useState(isLoggedIn[0] ? localStorage.getItem("user").surname : "null");
+  const [dni, setDni] = React.useState(isLoggedIn[0] ? localStorage.getItem("user").dni : "null");
+  const [sexo, setSexo] = React.useState(isLoggedIn[0] ? localStorage.getItem("user").sexo : "null");
+  const [fechanac, setFechanac] = React.useState(isLoggedIn[0] ? localStorage.getItem("user").fechanac : "null");
+  const [email, setEmail] = React.useState(isLoggedIn[0] ? localStorage.getItem("user").email : "null");
+  const [domicilio, setDom] = React.useState(isLoggedIn[0] ? localStorage.getItem("user").domicilio : "null");
+  const [telefono, setTel] = React.useState(isLoggedIn[0] ? localStorage.getItem("user").telefono : "null");
+  const [isDisabled, setIsDisabled] = React.useState(true);
 
   const handleChangeName = (event) => {
     setName(event.target.value);
@@ -79,199 +81,256 @@ export default function UserProfile(props) {
     setDom(event.target.value);
   };
 
-  function deleteAccount() {}
+  const handleActualizarDatos = () => {
+    if (isDisabled == true) {
+      setIsDisabled(false);
+    } else {
+      handleDataUpdate();
+      setIsDisabled(true);
+    }
+  }
 
+  const handleDataUpdate = async function() {
+    let datos = {
+        name: name,
+        surname: surname,
+        dni: dni,
+        genre: sexo,
+        birthday: fechanac,
+        email: email,
+        address: domicilio,
+        telefono: telefono
+    }
+    let getResponse = await updateUser(datos);
+    if (getResponse.rdo===0) {
+    }
+    if (getResponse.rdo===1) {
+      alert(getResponse.mensaje)
+    }
+  }
   const imageClasses = classNames(
     classes.imgRaised,
     classes.imgRoundedCircle,
     classes.imgFluid
   );
 
-  return (
-    <div>
-      <Header
-        color="transparent"
-        brand="Home"
-        rightLinks={<HeaderLinks />}
-        fixed
-        changeColorOnScroll={{
-          height: 200,
-          color: "white",
-        }}
-        {...rest}
-      />
-      <Parallax small filter image={require("assets/img/bg4.jpg")} />
-      <div className={classNames(classes.main, classes.mainRaised)}>
-        <div>
-          <div className={classes.container}>
-            <GridContainer justify="center">
-              <GridItem xs={12} sm={12} md={6}>
-                <div className={classes.profile}>
-                  {<div>
-                    <img src={profile} alt="..." className={imageClasses} />
-                  </div>}
-                  <div className={classes.name}>
-                    <h3 className={classes.title}>{name} {surname}</h3>
+  if (isLoggedIn[0] == true) {
+    return (
+      <div>
+        <Header
+          color="transparent"
+          brand="Home"
+          rightLinks={<HeaderLinks />}
+          fixed
+          changeColorOnScroll={{
+            height: 200,
+            color: "white",
+          }}
+          {...rest}
+        />
+        <Parallax small filter image={require("assets/img/bg4.jpg")} />
+        <div className={classNames(classes.main, classes.mainRaised)}>
+          <div>
+            <div className={classes.container}>
+              <GridContainer justify="center">
+                <GridItem xs={12} sm={12} md={6}>
+                  <div className={classes.profile}>
+                    {<div>
+                      <img src={profile} alt="..." className={imageClasses} />
+                    </div>}
+                    <div className={classes.name}>
+                      <h3 className={classes.title}>{name} {surname}</h3>
+                    </div>
                   </div>
-                </div>
-              </GridItem>
-            </GridContainer>
-            <GridContainer justify="center">
-              <GridItem xs={12} sm={12} md={8} className={classes.navWrapper}>
-                <Card>
-                  <CardHeader color="primary">
-                    <h4 className={classes.cardTitleWhite}>Datos Generales </h4>
-                  </CardHeader>
-                  <CardBody>
-                    <GridContainer>
-                      <GridItem xs={12} sm={12} md={4}>
-                        <form
-                          className={classes1.root}
-                          nonValidate
-                          autoComplete="off"
-                        >
-                          <FormControl disabled>
-                            <InputLabel htmlFor="component-surname">
-                              Dni
-                            </InputLabel>
-                            <Input
-                              id="component-disabled"
-                              value={dni}
-                              onChange={handleChangeDni}
-                            />
-                          </FormControl>
-                        </form>
-                      </GridItem>
-                    </GridContainer>
-
-                    <GridContainer>
-                      <GridItem xs={12} sm={12} md={4}>
-                        <form
-                          className={classes1.root}
-                          nonValidate
-                          autoComplete="off"
-                        >
-                          <FormControl disabled>
-                            <InputLabel htmlFor="component-sexo">
-                              Sexo
-                            </InputLabel>
-                            <Input
-                              id="component-disabled"
-                              value={sexo}
-                              onChange={handleChangeSexo}
-                            />
-                          </FormControl>
-                        </form>
-                      </GridItem>
-
-                      <GridItem xs={12} sm={12} md={4}>
-                        <form
-                          className={classes1.root}
-                          nonValidate
-                          autoComplete="off"
-                        >
-                          <FormControl disabled>
-                            <InputLabel htmlFor="component-fechanac">
-                              Fecha de Nacimiento
-                            </InputLabel>
-                            <Input
-                              id="component-disabled"
-                              value={fechanac}
-                              onChange={handleChangeFechanac}
-                            />
-                          </FormControl>
-                        </form>
-                      </GridItem>
-
-                      <GridItem xs={12} sm={12} md={4}>
-                        <form
-                          className={classes1.root}
-                          nonValidate
-                          autoComplete="off"
-                        >
-                          <FormControl disabled>
-                            <InputLabel htmlFor="component-surname">
-                              Telefono
-                            </InputLabel>
-                            <Input
-                              id="component-disabled"
-                              value={telefono}
-                              onChange={handleChangeTel}
-                            />
-                          </FormControl>
-                        </form>
-                      </GridItem>
-                    </GridContainer>
-
-                    <GridContainer>
-                      <GridItem xs={12} sm={12} md={4}>
-                        <form
-                          className={classes1.root}
-                          nonValidate
-                          autoComplete="off"
-                        >
-                          <FormControl disabled>
-                            <InputLabel htmlFor="component-domicilio">
-                              Domicilio
-                            </InputLabel>
-                            <Input
-                              id="component-disabled"
-                              value={domicilio}
-                              onChange={handleChangeDom}
-                            />
-                          </FormControl>
-                        </form>
-                      </GridItem>
-
-                      <GridItem xs={12} sm={12} md={4}>
-                        <form
-                          className={classes1.root}
-                          nonValidate
-                          autoComplete="off"
-                        >
-                          <FormControl disabled>
-                            <InputLabel htmlFor="component-email">
-                              E-mail
-                            </InputLabel>
-                            <Input
-                              id="component-disabled"
-                              value={email}
-                              onChange={handleChangeEmail}
-                            />
-                          </FormControl>
-                        </form>
-                      </GridItem>
-                      <GridItem xs={12} sm={12} md={4}>
-                        <Button
-                          color="primary"
-                          size="lg"
-                          href="/actualizardatos"
-                        >
-                        Actualizar Datos
-                        </Button>
-                      </GridItem>
-                    </GridContainer>
-                  </CardBody>
-                </Card>
-              </GridItem>
-            </GridContainer>
-
-            <GridContainer justify="center">
-            <Card>
-              <CardHeader color="primary">
-                <h4 className={classes.cardTitleWhite}>Mis Turnos </h4>
-                <p>Aqui puede manejar sus turnos actuales</p>
-              </CardHeader>
-              <CardBody >
-                <TablaTurnos dniPaciente={dni}></TablaTurnos>
-              </CardBody>
-            </Card>
-            </GridContainer>
-            <SectionDownload dniPaciente={dni}></SectionDownload>
+                </GridItem>
+              </GridContainer>
+              <GridContainer justify="center">
+                <GridItem xs={12} sm={12} md={8} className={classes.navWrapper}>
+                  <Card>
+                    <CardHeader color="primary">
+                      <h4 className={classes.cardTitleWhite}>Datos Generales </h4>
+                    </CardHeader>
+                    <CardBody>
+                      <GridContainer>
+                        <GridItem xs={12} sm={12} md={4}>
+                          <form
+                            className={classes1.root}
+                            nonValidate
+                            autoComplete="off"
+                          >
+                            <FormControl disabled>
+                              <InputLabel htmlFor="component-surname">
+                                Dni
+                              </InputLabel>
+                              <Input
+                                id="component-disabled"
+                                value={dni}
+                              />
+                            </FormControl>
+                          </form>
+                        </GridItem>
+                      </GridContainer>
+  
+                      <GridContainer>
+                        <GridItem xs={12} sm={12} md={4}>
+                          <form
+                            className={classes1.root}
+                            nonValidate
+                            autoComplete="off"
+                          >
+                            <FormControl disabled={isDisabled}>
+                              <InputLabel htmlFor="component-sexo">
+                                Sexo
+                              </InputLabel>
+                              <Input
+                                id="component-disabled"
+                                value={sexo}
+                                onChange={handleChangeSexo}
+                              />
+                            </FormControl>
+                          </form>
+                        </GridItem>
+  
+                        <GridItem xs={12} sm={12} md={4}>
+                          <form
+                            className={classes1.root}
+                            nonValidate
+                            autoComplete="off"
+                          >
+                            <FormControl disabled={isDisabled}>
+                              <InputLabel htmlFor="component-fechanac">
+                                Fecha de Nacimiento
+                              </InputLabel>
+                              <Input
+                                id="component-disabled"
+                                value={fechanac}
+                                onChange={handleChangeFechanac}
+                              />
+                            </FormControl>
+                          </form>
+                        </GridItem>
+  
+                        <GridItem xs={12} sm={12} md={4}>
+                          <form
+                            className={classes1.root}
+                            nonValidate
+                            autoComplete="off"
+                          >
+                            <FormControl disabled={isDisabled}>
+                              <InputLabel htmlFor="component-surname">
+                                Telefono
+                              </InputLabel>
+                              <Input
+                                id="component-disabled"
+                                value={telefono}
+                                onChange={handleChangeTel}
+                              />
+                            </FormControl>
+                          </form>
+                        </GridItem>
+                      </GridContainer>
+  
+                      <GridContainer>
+                        <GridItem xs={12} sm={12} md={4}>
+                          <form
+                            className={classes1.root}
+                            nonValidate
+                            autoComplete="off"
+                          >
+                            <FormControl disabled={isDisabled}>
+                              <InputLabel htmlFor="component-domicilio">
+                                Domicilio
+                              </InputLabel>
+                              <Input
+                                id="component-disabled"
+                                value={domicilio}
+                                onChange={handleChangeDom}
+                              />
+                            </FormControl>
+                          </form>
+                        </GridItem>
+  
+                        <GridItem xs={12} sm={12} md={4}>
+                          <form
+                            className={classes1.root}
+                            nonValidate
+                            autoComplete="off"
+                          >
+                            <FormControl disabled={isDisabled}>
+                              <InputLabel htmlFor="component-email">
+                                E-mail
+                              </InputLabel>
+                              <Input
+                                id="component-disabled"
+                                value={email}
+                                onChange={handleChangeEmail}
+                              />
+                            </FormControl>
+                          </form>
+                        </GridItem>
+                        <GridItem xs={12} sm={12} md={4}>
+                          <Button
+                            color="primary"
+                            size="lg"
+                            onClick={handleActualizarDatos}
+                          >
+                          Actualizar Datos
+                          </Button>
+                        </GridItem>
+                      </GridContainer>
+                    </CardBody>
+                  </Card>
+                </GridItem>
+              </GridContainer>
+  
+              <GridContainer justify="center">
+              <Card>
+                <CardHeader color="primary">
+                  <h4 className={classes.cardTitleWhite}>Mis Turnos </h4>
+                  <p>Aqui puede manejar sus turnos actuales</p>
+                </CardHeader>
+                <CardBody >
+                  <TablaTurnos dniPaciente={dni}></TablaTurnos>
+                </CardBody>
+              </Card>
+              </GridContainer>
+              <SectionDownload dniPaciente={dni}></SectionDownload>
+            </div>
           </div>
         </div>
+        <Footer />
       </div>
-      <Footer />
-    </div>
-  );
+    );
+  } else {
+    return (
+      <div>
+        <Header
+          color="transparent"
+          brand="Home"
+          rightLinks={<HeaderLinks />}
+          fixed
+          changeColorOnScroll={{
+            height: 200,
+            color: "white",
+          }}
+          {...rest}
+        />
+        <Parallax small filter image={require("assets/img/bg4.jpg")} />
+        <div className={classNames(classes.main, classes.mainRaised)}>
+          <div>
+            <div className={classes.container}>
+              <GridContainer justify="center">
+                <GridItem xs={12} sm={12} md={8} className={classes.navWrapper}>
+                    <CardHeader color="primary">
+                      <h4 className={classes.cardTitleWhite}>No tienes permiso para ver esta pagina </h4>
+                    </CardHeader>
+                </GridItem>
+              </GridContainer>
+            </div>
+          </div>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
 }
