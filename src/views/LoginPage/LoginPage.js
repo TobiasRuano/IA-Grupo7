@@ -60,6 +60,20 @@ export default function LoginPage(props) {
     }
     let getLogin = await login(datos);
     if (getLogin.rdo===0) {
+      let user = getLogin.userData;
+      console.log(user.name);
+      let data = {
+        name: user.name,
+        surname: user.surname,
+        email: user.email,
+        dni: user.dni,
+        fechanac: user.fechaNac,
+        domicilio: user.domicilio,
+        permiso: user.permiso,
+        telefono: user.telefono,
+        sexo: user.sexo
+      }
+      localStorage.setItem("user", JSON.stringify(data));
       setSuccesfullyLoggedIn(true);
     }
     if (getLogin.rdo===1) {

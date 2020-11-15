@@ -46,14 +46,14 @@ export default function UserProfile(props) {
   //datos paciente
   const isLoggedIn = React.useState(localStorage.getItem("user") ? true : false);
   console.log("el valor de isLoggedIn es: ", isLoggedIn);
-  const [name, setName] = React.useState(isLoggedIn[0] ? localStorage.getItem("user").name : "null");
-  const [surname, setSurname] = React.useState(isLoggedIn[0] ? localStorage.getItem("user").surname : "null");
-  const [dni, setDni] = React.useState(isLoggedIn[0] ? localStorage.getItem("user").dni : "null");
-  const [sexo, setSexo] = React.useState(isLoggedIn[0] ? localStorage.getItem("user").sexo : "null");
-  const [fechanac, setFechanac] = React.useState(isLoggedIn[0] ? localStorage.getItem("user").fechanac : "null");
-  const [email, setEmail] = React.useState(isLoggedIn[0] ? localStorage.getItem("user").email : "null");
-  const [domicilio, setDom] = React.useState(isLoggedIn[0] ? localStorage.getItem("user").domicilio : "null");
-  const [telefono, setTel] = React.useState(isLoggedIn[0] ? localStorage.getItem("user").telefono : "null");
+  const [name, setName] = React.useState(isLoggedIn[0] ? JSON.parse(localStorage.getItem('user')).name : "null");
+  const [surname, setSurname] = React.useState(isLoggedIn[0] ? JSON.parse(localStorage.getItem('user')).surname : "null");
+  const [dni, setDni] = React.useState(isLoggedIn[0] ? JSON.parse(localStorage.getItem('user')).dni : "null");
+  const [sexo, setSexo] = React.useState(isLoggedIn[0] ? JSON.parse(localStorage.getItem('user')).sexo : "null");
+  const [fechanac, setFechanac] = React.useState(isLoggedIn[0] ? JSON.parse(localStorage.getItem('user')).fechanac : "null");
+  const [email, setEmail] = React.useState(isLoggedIn[0] ? JSON.parse(localStorage.getItem('user')).email : "null");
+  const [domicilio, setDom] = React.useState(isLoggedIn[0] ? JSON.parse(localStorage.getItem('user')).domicilio : "null");
+  const [telefono, setTel] = React.useState(isLoggedIn[0] ? JSON.parse(localStorage.getItem('user')).telefono : "null");
   const [isDisabled, setIsDisabled] = React.useState(true);
 
   const handleChangeName = (event) => {
