@@ -13,7 +13,6 @@ import crearCuenta from "views/CreateAccount/createAccount.js";
 
 
 import profile from "views/UserProfile/UserProfile.js";
-import UpdateData from "views/UserProfile/ActualizarDatos.js";
 import recetas from "views/Recetas.js";
 import dashboard from "views/Dashboard.js";
 import HistoriasClinicas from "views/HistoriasClinicas.js";
@@ -29,7 +28,6 @@ ReactDOM.render(
       <Route path="/historiaclinica" component={HistoriasClinicas} />
 
       <Route path="/profile" component={profile} />
-      <Route path="/actualizardatos" component={UpdateData} />
       <Route path="/recetas" component={recetas} />
       <Route path="/dashboard" component={dashboard} />
 
