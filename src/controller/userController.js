@@ -217,34 +217,34 @@ export const remove= async function(remove) {
         return ({rdo:1,mensaje:"Ha ocurrido un grave error"});    
     };
 }
-        let response = await fetch(url,{
-            method: 'DELETE',
-            mode: "cors",
-            headers:{
-                'Accept':'application/x-www-form-urlencoded',
-                //'x-access-token': WebToken.webToken,
-                'Origin':'http://localhost:3000',
-                'Content-Type': 'application/x-www-form-urlencoded'},
-            body: formData,
-        });
+//         let response = await fetch(url,{
+//             method: 'DELETE',
+//             mode: "cors",
+//             headers:{
+//                 'Accept':'application/x-www-form-urlencoded',
+//                 //'x-access-token': WebToken.webToken,
+//                 'Origin':'http://localhost:3000',
+//                 'Content-Type': 'application/x-www-form-urlencoded'},
+//             body: formData,
+//         });
         
-        let rdo = response.status;
-        console.log("response",response);
-        let data = await response.json();
-        console.log("jsonresponse",data);
-            switch(rdo) {
-                case 201: {
-                    return ({rdo:0,mensaje:"Ok"});
-                }
-                default: {
-                    return ({rdo:1,mensaje:"Ha ocurrido un error al intentar eliminar el usuario"});                
-                }
-            }
-    }
-    catch(error) {
-        console.log("error",error);
-    };
-}
+//         let rdo = response.status;
+//         console.log("response",response);
+//         let data = await response.json();
+//         console.log("jsonresponse",data);
+//             switch(rdo) {
+//                 case 201: {
+//                     return ({rdo:0,mensaje:"Ok"});
+//                 }
+//                 default: {
+//                     return ({rdo:1,mensaje:"Ha ocurrido un error al intentar eliminar el usuario"});                
+//                 }
+//             }
+//     }
+//     catch(error) {
+//         console.log("error",error);
+//     };
+// }
 
 export const getMedicos = async function() {
     //url webservices
