@@ -1,5 +1,6 @@
 /*eslint-disable*/
 import React from "react";
+import {Redirect} from "react-router-dom";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 // @material-ui/icons
@@ -17,6 +18,7 @@ const useStyles = makeStyles(styles);
 export default function SectionDownload(props) {
   const classes = useStyles();
   const [dni, setDNI] = React.useState(props.dniPaciente);
+  const [estado, setEstado] = React.useState(false);
   console.log(props.dniPaciente);
 
 
@@ -32,17 +34,25 @@ export default function SectionDownload(props) {
     let removeStatus = await remove(datos);
 
     if (removeStatus.rdo===0) {
-      alert("Exito!")
       localStorage.setItem("x","");
+      localStorage.removeItem("user");
+      alert("Exito!")
+      setEstado(true);
     }
     if (removeStatus.rdo===1) {
       alert(removeStatus.mensaje)
     }
   }
 
+  const redirect= ()=>{
+		if (estado) {
+			return <Redirect to='/' />
+		}
+	}
 
   return (
     <div className={classes.section}>
+      {redirect()}
       <div className={classes.container}>
         <GridContainer className={classes.textCenter} justify="center">
           <GridItem xs={12} sm={12} md={8}>
