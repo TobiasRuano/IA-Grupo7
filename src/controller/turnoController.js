@@ -181,10 +181,10 @@ export const getTurnosByDNI = async function(dni) {
 
 export const getTurnosDisponibles = async function(getTurnosDisponibles) {
     //url webservices
-    let url = urlWebServices.misTurnos;
+    let url = urlWebServices.turnosDisponibles;
     //armo json con datos
     const formData = new URLSearchParams();
-    formData.append('dni', getTurnosDisponibles.dni);
+    formData.append('dniMedico', getTurnosDisponibles);
 
     try {
         const token = localStorage.getItem("x");
@@ -205,20 +205,9 @@ export const getTurnosDisponibles = async function(getTurnosDisponibles) {
         let data = await response.json();
         console.log("jsonresponse",data);
             switch(rdo) {
-                case 201: {
-                    //TODO: Fijarme que hacer con esto
-                    let user = data.loginUser.user;
-                    localStorage.setItem("nombre",user.name);
-                    localStorage.setItem("email",user.email);
-                    
-                    return ({rdo:0,mensaje:"Ok"});
+                case 201, 200: {
+                    return ({data: data.data.docs, rdo:0,mensaje:"Ok"});
                 }
-                /*case 202: {
-                    return ({rdo:1,mensaje:"El mail ingresado no existe en nuestra base."});
-                }
-                case 203: {
-                    return ({rdo:1,mensaje:"La contraseña no es correcta."});
-                }*/
                 default: {
                     return ({rdo:1,mensaje:"Ha ocurrido un error"});                
                 }

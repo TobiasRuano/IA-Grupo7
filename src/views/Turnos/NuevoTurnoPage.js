@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useEffect} from "react";
 import {Redirect} from "react-router-dom";
 
 // @material-ui/core components
@@ -28,6 +28,10 @@ import ListaTurnos from "components/ListaTurnos.js";
 import styles from "assets/jss/material-kit-react/views/loginPage.js";
 import image from "assets/img/bg7.jpg";
 
+//importo llamada a endpoint
+import {asignarTurno} from "../../controller/turnoController.js";
+import {getMedicos} from "../../controller/userController.js";
+
 const useStyles = makeStyles(styles);
 
 export default function NuevoTurnoPage(props) {
@@ -37,16 +41,19 @@ export default function NuevoTurnoPage(props) {
   const [cardAnimaton, setCardAnimation] = React.useState("cardHidden");
   const [esp, setEsp] = React.useState('');
   const [profesional, setProfesional] = React.useState('');
+  const [dniMedico, setDniMedico] = React.useState(-1);
   const [turnoElegido, setTurnoElegido] = React.useState('');
   const [dni, setDNI] = React.useState('');
   const [estado, setEstado] = React.useState(false);
+  const [arrayMedicos, setArrayMedicos] = React.useState([]);
 
   const handleEspChange = (event) => {
     setEsp(event.target.value);
   };
   const handleProfChange = (event) => {
-    console.log(event.target.value);
     setProfesional(event.target.value);
+    setDniMedico(event.target.value);
+    console.log("se actualizo el profesional", event.target.value);
   }
   const handleSelectTurno = (event) => {
     setTurnoElegido(event.target.value);
@@ -58,6 +65,27 @@ export default function NuevoTurnoPage(props) {
   }
 
   const solicitarTurno=()=> {
+    if (turnoElegido!=="" && dni!=="" && profesional!=="" && esp!=="") {
+      validarSelectTurno();
+    }
+    else {
+      alert("Debe completar todos los campos");
+    }
+  }
+
+  useEffect(()=>{
+    async function componentDidMount() {
+      let data = await getMedicos();
+      console.log(data);
+      for(let i=0; i<data.data.length; i++) {
+        arrayMedicos.push(data.data[i]);
+      }
+      console.log(arrayMedicos)
+      setArrayMedicos(arrayMedicos);
+      console.log("Array seteada")
+    }
+    componentDidMount();
+  },[]);
 
   //Ejecuto el endopoint para validar login
   const validarSelectTurno= async function() {
@@ -180,21 +208,18 @@ export default function NuevoTurnoPage(props) {
                           value={profesional}
                           onChange={handleProfChange}
                         >
-                          <MenuItem value="">
+                          <MenuItem value={-1}>
                             <em>Debe seleccionar una opcion</em>
                           </MenuItem>
-                          <MenuItem value={10}>Sir William Osler</MenuItem>
-                          <MenuItem value={20}>Ignaz Semmelweis</MenuItem>
-                          <MenuItem value={30}>Sir Joseph Lister</MenuItem>
-                          <MenuItem value={40}>Sigmund Freud</MenuItem>
-                          <MenuItem value={50}>Rafael Arteaga Covarrubias</MenuItem>
-                          <MenuItem value={60}>Juan Quiroz</MenuItem>
+                          {arrayMedicos.map(medico=> (
+                            <MenuItem key={medico.dni} value={medico.dni}>{medico.name +" " + medico.surname}</MenuItem>
+                          ))}
                         </Select>
                         <FormHelperText>Estamos trabajando para agregar mas profesionales</FormHelperText>
                       </FormControl>
   
                       <FormControl>
-                        <ListaTurnos></ListaTurnos>
+                        <ListaTurnos dni={dniMedico}></ListaTurnos>
                       </FormControl>
   
                       <CustomInput
