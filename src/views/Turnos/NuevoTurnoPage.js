@@ -23,7 +23,7 @@ import Card from "components/Card/Card.js";
 import CardBody from "components/Card/CardBody.js";
 import CardFooter from "components/Card/CardFooter.js";
 import CustomInput from "components/CustomInput/CustomInput.js";
-import ListaTurnos from "components/ListaTurnos.js";
+//import ListaTurnos from "components/ListaTurnos.js";
 
 import styles from "assets/jss/material-kit-react/views/loginPage.js";
 import image from "assets/img/bg7.jpg";
@@ -33,6 +33,8 @@ import {asignarTurno} from "../../controller/turnoController.js";
 import {getMedicos} from "../../controller/userController.js";
 
 const useStyles = makeStyles(styles);
+
+
 
 export default function NuevoTurnoPage(props) {
   const classes = useStyles();
@@ -254,5 +256,6 @@ export default function NuevoTurnoPage(props) {
         </div>
       </div>
     ); 
+   } 
   }
 }

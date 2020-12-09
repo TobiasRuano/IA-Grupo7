@@ -1,5 +1,5 @@
-//const urlApi = "http://localhost:4000/";
-const urlApi = "https://ia-grupo7-api.herokuapp.com/";
+const urlApi = "http://localhost:4000/";
+//const urlApi = "https://ia-grupo7-api.herokuapp.com/";
 console.log("url",urlApi);
 
 const urlWebServices = {
@@ -15,7 +15,15 @@ const urlWebServices = {
     asignarTurno: urlApi + "api/turnos/asignarturno",
     misTurnos: urlApi + "api/turnos/misturnos",
     deleteTurno: urlApi + "api/turnos/:id",
-    turnosDisponibles: urlApi + "api/turnos/disponibles"
+    turnosDisponibles: urlApi + "api/turnos/disponibles",
+
+    createReceta: urlApi + "api/recetas/recetanueva",
+    getImagenesByID: urlApi + "api/recetas/getimgbyid",
+    uploadFile: urlApi + "api/recetas/uploadfiles",
+    guardarImagenUser:urlApi + "api/users/guardarImgUser"
+    
 }
+
+
 
 export default urlWebServices;

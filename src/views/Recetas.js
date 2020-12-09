@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useEffect} from "react";
 
 
 // @material-ui/core components
@@ -17,6 +17,7 @@ import Slide from "@material-ui/core/Slide";
 import TextField from '@material-ui/core/TextField';
 import FormControl from '@material-ui/core/FormControl';
 
+import {pacientes} from "views/Userdata/DatoPaciente.js"
 
 
 import Close from "@material-ui/icons/Close";
@@ -32,11 +33,11 @@ import Header from "components/Header/Header.js";
 import HeaderLinks from "components/Header/HeaderLinks.js";
 import ButtonUploads from "components/Boton/ButtonUpload.js"
 
-import image from "assets/img/bg7.jpg";
-
-
-
-
+//importo llamada a endpoint
+import {createReceta} from "controller/recetaController.js";
+import {getImagenesByID} from "controller/recetaController.js";
+import{uploadFile}from "controller/recetaController.js";
+import{guardarImagenUser} from "controller/recetaController.js";
 
 
 const styles = {
@@ -88,7 +89,6 @@ const useStyles1 = makeStyles((theme) => ({
 
 
 
-
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
 });
@@ -101,21 +101,114 @@ const data = [
       
 ];
 
-
+console.log(pacientes[0].nombre)
 
  export default function Recetas(props) {
   
-  
   const { ...rest } = props;
+  
+  const [listaImagenes,setListaImagenes]=React.useState([]);
+  const [imgAux,setImgAux]= React.useState('');
+
+  
+  console.log("cargacomponente");
+  useEffect(()=>{
+    async function componentDidMount() 
+    {
+      //traer imagenes de User
+      let rdo = await getImagenesByID();
+      setListaImagenes(rdo); 
+    }
+    componentDidMount();
+  },[]);
+
+  const getImagenes = async function (){
+    console.log("Voy a buscar imagenes")
+    console.log("listaImagenesGetImg",listaImagenes)
+    let rdo = await getImagenesByID();
+    setListaImagenes(rdo);
+    
+    console.log("listaImagenesGetImg",listaImagenes)
+    console.log("rdoGetImagenesGetImg",rdo)
+    
+  }
+ 
+  
+  const guardarImagen=()=>{
+    subirImagen();
+  }
+  
+  const subirImagen= async function ()
+  {
+    let files=[];
+    let nombres=[];
+    let archivoImagen = '';
+    
+    if (imgAux!=='')
+    {
+      console.log("imgAux",imgAux);
+      files.push(imgAux);
+      //buscar extension archivo
+      let archivoOrig = imgAux.name;
+      let posExt = archivoOrig.indexOf('.');
+      let extension = archivoOrig.substring(posExt,archivoOrig.length);
+      let aleatorio = Math.random().toString().substring(2,15);
+      nombres.push("img"+localStorage.getItem('nombre')+"_"+aleatorio+extension);
+      //subir archivo a servidor
+      archivoImagen = await uploadFile(files,nombres);
+      //Si la imagen se subio bien la guardo en la BD
+      if (archivoImagen.ok)
+      {
+        let imgUser={
+          dni:localStorage.getItem('dni'),
+          imagen: nombres[0]
+        }
+        let rdo = await guardarImagenUser(imgUser);
+        if (rdo)
+        {
+          alert("Tu imagen se ha almacenado correctamente.")
+          getImagenes();
+        }
+      }
+      else
+      {
+        alert ("Ocurrio un error al subir tu imagen al servidor. Intenta mas tarde.")
+      } 
+    }
+  }
+   
+  
+ 
+  
+  //pasar los datos de receta
+  const ingresarReceta= async function() {
+    let datos = {
+      id: recSeleccion.form.id,
+      fecha:recSeleccion.form.fecha,
+      nombreMedico: recSeleccion.form.medico,
+      comentario:recSeleccion.form.info,
+      //userID:
+      imagenReceta:imgAux
+    }
+    let getReceta = await createReceta(datos);
+    console.log(getReceta.rdo)
+    if (getReceta.rdo===0 ) {
+      
+    }
+    if (getReceta.rdo===1) {
+      alert(getReceta.mensaje)
+    }
+}
+ 
 
  
   const [state,setState] = React.useState({
      data:data,
-
-     
-      
+    
   });
-
+   
+  const [pacientedni,setPacienteDni]=React.useState();
+  const [paciente,setPaciente]=React.useState();
 
   const classes = useStyles();
   const classes1 = useStyles1();
@@ -128,12 +221,14 @@ const data = [
       fecha: '',
       medico: '',
       info:'',
+      imagen:''
     },
   })
 
 
 
 const agregarfila= ()=>{
+ 
   var valorNuevo= {...recSeleccion.form};
   console.log(valorNuevo);
   valorNuevo.id=state.data.length+1;
@@ -142,9 +237,6 @@ const agregarfila= ()=>{
   setState({data: lista });
   setCardAgregar(false)
 }
-
-
-
 
 const onRowDelete= (oldData) =>{
   new Promise((resolve) => {
@@ -158,7 +250,21 @@ const onRowDelete= (oldData) =>{
     }, 600);
   })
 }
-      
+  
+
+const buscarPaciente=()=>{
+  
+ pacientes.filter(paciente=>paciente.dni === pacientedni)
+                  .map(filterPaciente=>(setPaciente(filterPaciente.nombre+ ", "+ filterPaciente.apellido)))
+
+}
+console.log(paciente)
+const handleOnchangeDni=(event)=>{
+  setPacienteDni(event.target.value)
+};
+
+
+
 const handleOnchange=(event)=>{
 
   setrecSeleccion({
@@ -172,7 +278,8 @@ const handleOnchange=(event)=>{
   console.log(event.target.value);
 };
 
- 
+
+
   return (
    
 
@@ -189,6 +296,30 @@ const handleOnchange=(event)=>{
     <GridContainer 
         style={{marginTop:'250px'}}
         justify="center">
+      <GridItem xs={8} sm={8} md={8}>
+          <Card>
+            <CardHeader color="primary">
+              <h4 className={classes.cardTitleWhite}>Buscar Paciente</h4>
+              <p className={classes.cardCategoryWhite}></p>
+            </CardHeader>
+            <CardBody>
+              <div>
+              <form className={classes1.root} noValidate autoComplete="off">
+                <TextField 
+                    id="outlined-basic" 
+                    label="DNI" 
+                    variant="outlined" 
+                    name="dnipaciente" 
+                    onChange={handleOnchangeDni}/>
+                <Button 
+                    color="primary"
+                    onClick={getImagenes}> Buscar</Button>
+                <p>{paciente}</p>
+              </form>
+              </div>
+            </CardBody>
+          </Card>
+        </GridItem>
       <GridItem xs={8} sm={8} md={8}>
         <Card>
           <CardHeader color="primary">
@@ -217,15 +348,14 @@ const handleOnchange=(event)=>{
               </TableRow>
              </TableHead>
              <TableBody>
-               {state.data.map((dato) => (
+               {recSeleccion.form.map((dato) => (
                  <TableRow key={dato.id}>
                  
                  <TableCell component="th" scope="row">{dato.fecha}</TableCell>
                  <TableCell aling="left">{dato.medico}</TableCell>
-                 <TableCell align="left">{dato.info}</TableCell>
+                 <TableCell align="left">{dato.imagenReceta}</TableCell>
                  <TableCell align="center">
                    <Button color="primary">Descargar</Button>{"  "}
-                   <Button color="danger" onClick={onRowDelete}>Eliminar</Button>
                    </TableCell>
                  </TableRow>
                ))}
@@ -289,14 +419,14 @@ const handleOnchange=(event)=>{
                      
                     <div>
                     
-                      <ButtonUploads/>
+                      <ButtonUploads  getImagen={(i)=>setImgAux(i)} onClick= {()=>{guardarImagen()}}/>
                   
                     </div>
                     <div>
                     <Button 
                      color="success" 
                      type= "submit" 
-                     onClick={()=>agregarfila()}
+                     onClick={()=>ingresarReceta()}
                      >
                     Agregar
                     </Button>
