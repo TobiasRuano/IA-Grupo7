@@ -1,4 +1,4 @@
-import React from 'react';
+import React ,{useEffect} from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -12,16 +12,12 @@ import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Paper from '@material-ui/core/Paper';
 import Button from "@material-ui/core/Button";
 
+
+import { removeTurno, getTurnosByDNI } from 'controller/turnoController';
+
 function createData(razon, fecha, profesional, estado) {
   return { razon, fecha, profesional, estado };
 }
-
-let rows = [
-  createData('Electrocardiograma', new Date().toLocaleString(), 'Juan Quiroz', 'Confirmado'),
-  createData('Consulta General', new Date().toLocaleString(), 'Juan Quiroz', 'Confirmado'),
-  createData('Tomografia computada', new Date().toLocaleString(), 'Juan Quiroz', 'Confirmado'),
-  createData('Colonoscopia', new Date().toLocaleString(), 'Juan Quiroz', 'Confirmado'),
-];
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -65,14 +61,6 @@ function EnhancedTableHead(props) {
   return (
     <TableHead>
       <TableRow>
-        <TableCell padding="checkbox">
-          {/* <Checkbox
-            indeterminate={numSelected > 0 && numSelected < rowCount}
-            checked={rowCount > 0 && numSelected === rowCount}
-            onChange={onSelectAllClick}
-            inputProps={{ 'aria-label': 'select all desserts' }}
-          /> */}
-        </TableCell>
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
@@ -133,7 +121,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function EnhancedTable() {
+export default function EnhancedTable(props) {
   const classes = useStyles();
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('calories');
@@ -141,6 +129,30 @@ export default function EnhancedTable() {
   const [page, setPage] = React.useState(0);
   const [dense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [dni, setDNI] = React.useState(props.dniPaciente);
+  const [turnosAPI] = React.useState([]);
+  let [rows, setRows ] = React.useState([]);
+
+  useEffect(()=>{
+    let array = [];
+    async function componentDidMount() {
+      console.log("Este es el dni a buscar: ", dni);
+      let data = await getTurnosByDNI(dni);
+      for(let i=0; i<data.data.length; i++) {
+        turnosAPI.push(data.data[i]);
+        array.push(createData(data.data[i].razon, data.data[i].fecha, data.data[i].profesional, data.data[i].estado));
+        console.log(array[i]);
+      }
+      console.log("Estoy tiene rows: ", rows);
+      console.log("esto es lo que tiene array: ", array);
+      console.log("esto es lo que tiene rows despues de setar: ", rows);
+    }
+    componentDidMount();
+  },[]);
+
+  const handleSetDNI = (event) => {
+    setDNI(event.target.value);
+  }
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -173,7 +185,6 @@ export default function EnhancedTable() {
         selected.slice(selectedIndex + 1),
       );
     }
-
     setSelected(newSelected);
   };
 
@@ -186,8 +197,24 @@ export default function EnhancedTable() {
     setPage(0);
   };
 
+  // Eliminar el turno del servidor y de la pantalla
+  const handleDeleteItem = (event, name) => {
+    let date = new Date(2020, 8, 23, 15, 30)
+    console.log(date)
+    /* let datos = {
+      dni: dni,
+      fecha: name
+    }
+    let getLogin = await login(datos);
+      if (getLogin.rdo===0 ) {
+        removeTurnoFromScreen(name)
+      }
+      if (getLogin.rdo===1) {
+        alert(getLogin.mensaje)
+      } */
+  };
 
-  const deleteItem = (event, name) => {
+  /* const removeTurnoFromScreen = (name) => {
     const selectedIndex = rows.indexOf(name);
     var array = [...rows];
     var index = array.indexOf(name)
@@ -195,11 +222,42 @@ export default function EnhancedTable() {
       array.splice(index, 1);
       rows=array;
     }
-  };
+  } */
 
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+
+  const tableRow = (row, index) => {
+    const isItemSelected = isSelected(row.razon);
+    const labelId = `enhanced-table-checkbox-${index}`;
+    console.log("Esta es una row");
+    return (
+      <TableRow
+        hover
+        onClick={(event) => handleClick(event, row.razon)}
+        role="checkbox"
+        aria-checked={isItemSelected}
+        tabIndex={-1}
+        key={row.razon}
+        selected={isItemSelected}
+      >
+        <TableCell padding="checkbox">
+        </TableCell>
+        <TableCell component="th" id={labelId} scope="row" padding="none">
+          {row.razon}
+        </TableCell>
+        <TableCell align="right">{row.fecha}</TableCell>
+        <TableCell align="right">{row.profesional}</TableCell>
+        <TableCell align="right">{row.estado}</TableCell>
+        <TableCell>
+          <Button onClick={(event) => handleDeleteItem(event, row)} color="secondary">
+            Cancelar Turno
+          </Button>
+        </TableCell>
+      </TableRow>
+    );
+  }
 
   return (
     <div className={classes.root}>
@@ -225,35 +283,7 @@ export default function EnhancedTable() {
               {stableSort(rows, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                  const isItemSelected = isSelected(row.razon);
-                  const labelId = `enhanced-table-checkbox-${index}`;
-
-                  return (
-                    <TableRow
-                      hover
-                      onClick={(event) => handleClick(event, row.razon)}
-                      role="checkbox"
-                      aria-checked={isItemSelected}
-                      tabIndex={-1}
-                      key={row.razon}
-                      selected={isItemSelected}
-                    >
-                      <TableCell padding="checkbox">
-
-                      </TableCell>
-                      <TableCell component="th" id={labelId} scope="row" padding="none">
-                        {row.razon}
-                      </TableCell>
-                      <TableCell align="right">{row.fecha}</TableCell>
-                      <TableCell align="right">{row.profesional}</TableCell>
-                      <TableCell align="right">{row.estado}</TableCell>
-                      <TableCell>
-                        <Button onClick={(event) => deleteItem(event, row)} color="secondary">
-                          Cancelar Turno
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  );
+                  {tableRow(row, index)}
                 })}
               {emptyRows > 0 && (
                 <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
