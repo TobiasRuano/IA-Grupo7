@@ -15,7 +15,7 @@ export const register= async function(register) {
     formData.append('sexo', register.sexo);
     formData.append('fechaNac', parseFecha);
     formData.append('domicilio', register.domicilio);
-    formData.append('permiso', '1');
+    formData.append('permiso', '0');
     formData.append('telefono', 111111111);
 
     console.log(register.birthday);
@@ -38,8 +38,6 @@ export const register= async function(register) {
         console.log("jsonresponse",data);
             switch(rdo) {
                 case 201: {
-                   /*  //guardo token
-                    localStorage.setItem("x",data.loginUser.token); */
                     return ({rdo:0,mensaje:"Ok"});
                 }
                 case 202: {
@@ -79,7 +77,6 @@ export const login = async function(login) {
             body: formData,
             
         });
-        
         let rdo = response.status;
         console.log("response",response);
         let data = await response.json();
@@ -88,28 +85,10 @@ export const login = async function(login) {
                 case 201: {
                     //guardo token
                     localStorage.setItem("x",data.loginUser.token);
-                    //guardo usuario logueado
-                    let user = data.loginUser.user;
-                    /* localStorage.setItem("name",user.name);
-                    localStorage.setItem("surname", user.surname);
-                    localStorage.setItem("email",user.email);
-                    localStorage.setItem("dni",user.dni); */
-                    let data = {
-                        name: user.name,
-                        surname: user.surname,
-                        email: user.email,
-                        dni: user.dni,
-                        fechanac: user.fechaNac,
-                        domicilio: user.domicilio,
-                        permiso: user.permiso,
-                        telefono: user.telefono,
-                        sexo: user.sexo
-                    }
-                    localStorage.setItem("user", data);
-                    
-                    return ({rdo:0,mensaje:"Ok"});
+                    return ({userData: data.loginUser.user, rdo:0,mensaje:"Ok"});
                 }
                 case 202: {
+                    console.log(data.status)
                     return ({rdo:1,mensaje:"El mail ingresado no existe en nuestra base."});
                 }
                 case 203: {
@@ -131,15 +110,17 @@ export const updateUser= async function(updateUser) {
     let url = urlWebServices.updateUser;
     //armo json con datos
     const formData = new URLSearchParams();
-    formData.append('email', updateUser.email);
-    formData.append('password', updateUser.password);
+    formData.append('email', updateUser.email != null ? updateUser.email : null);
     formData.append('dni', updateUser.dni);
-    formData.append('nombre', updateUser.name);
-    formData.append('apellido', updateUser.surname);
-    formData.append('genero', updateUser.genre);
-    formData.append('fechaNac', updateUser.birthday);
-    formData.append('domicilio', updateUser.address);
-    formData.append('telefono', updateUser.telefono);
+    formData.append('nombre', updateUser.name != null ? updateUser.name : null);
+    formData.append('apellido', updateUser.surname != null ? updateUser.surname : null);
+    formData.append('genero', updateUser.genre != null ? updateUser.genre : null);
+    formData.append('fechaNac', updateUser.birthday != null ? updateUser.birthday : null);
+    formData.append('domicilio', updateUser.address != null ? updateUser.address : null);
+    formData.append('telefono', updateUser.telefono != null ? updateUser.telefono : null);
+    formData.append('permiso', updateUser.permiso != null ? updateUser.permiso : null);
+
+    console.log(updateUser.name != null ? updateUser.name : null);
 
     try {
         const token = localStorage.getItem("x");
@@ -159,7 +140,7 @@ export const updateUser= async function(updateUser) {
         let data = await response.json();
         console.log("jsonresponse",data);
             switch(rdo) {
-                case 201: {
+                case 201, 200: {
                     return ({rdo:0,mensaje:"Ok"});
                 }
                 case 202: {
@@ -217,15 +198,27 @@ export const remove= async function(remove) {
         return ({rdo:1,mensaje:"Ha ocurrido un grave error"});    
     };
 }
+
+export const getUserByDNI = async function(getUserByDNI) {
+    //url webservices
+    let url = urlWebServices.getUserByDNI;
+    //armo json con datos
+    const formData = new URLSearchParams();
+    formData.append('dni', getUserByDNI.dni);
+    console.log("dato",formData);
+    console.log("url",url);
+    try {
+        const token = localStorage.getItem("x");
         let response = await fetch(url,{
-            method: 'DELETE',
+            method: 'POST',
             mode: "cors",
             headers:{
                 'Accept':'application/x-www-form-urlencoded',
-                //'x-access-token': WebToken.webToken,
+                'x-access-token': token,
                 'Origin':'http://localhost:3000',
                 'Content-Type': 'application/x-www-form-urlencoded'},
             body: formData,
+            
         });
         
         let rdo = response.status;
@@ -237,12 +230,13 @@ export const remove= async function(remove) {
                     return ({rdo:0,mensaje:"Ok"});
                 }
                 default: {
-                    return ({rdo:1,mensaje:"Ha ocurrido un error al intentar eliminar el usuario"});                
+                    return ({rdo:1,mensaje:"Ha ocurrido un error"});                
                 }
             }
     }
     catch(error) {
         console.log("error",error);
+        return ({rdo:1,mensaje:"Ha ocurrido un grave error"});    
     };
 }
 
@@ -268,6 +262,43 @@ export const getMedicos = async function() {
             switch(rdo) {
                 case 201, 200: {
                     return ({data: data.data.docs,rdo:0,mensaje:"Ok"});
+                }
+                default: {
+                    return ({rdo:1,mensaje:"Ha ocurrido un error"});                
+                }
+            }
+    }
+    catch(error) {
+        console.log("error",error);
+        return ({rdo:1,mensaje:"Ha ocurrido un grave error"});    
+    };
+}
+
+export const getUsers = async function() {
+    //url webservices
+    let url = urlWebServices.getUsers;
+    //armo json con datos
+    const formData = new URLSearchParams();
+    try {
+        const token = localStorage.getItem("x");
+        let response = await fetch(url,{
+            method: 'GET',
+            mode: "cors",
+            headers:{
+                'Accept':'application/x-www-form-urlencoded',
+                'x-access-token': token,
+                'Origin':'http://localhost:3000',
+                'Content-Type': 'application/x-www-form-urlencoded'}
+            
+        });
+        
+        let rdo = response.status;
+        console.log("response",response);
+        let data = await response.json();
+        console.log("jsonresponse",data);
+            switch(rdo) {
+                case 201,200: {
+                    return ({data: data.data.docs, rdo:0,mensaje:"Ok"});
                 }
                 default: {
                     return ({rdo:1,mensaje:"Ha ocurrido un error"});                
