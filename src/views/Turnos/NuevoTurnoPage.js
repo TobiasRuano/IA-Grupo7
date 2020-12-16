@@ -54,6 +54,7 @@ export default function NuevoTurnoPage(props) {
     setEsp(event.target.value);
   };
   const handleProfChange = (event) => {
+    setTurno('');
     setProfesional(event.target.value);
     dniMedico = event.target.value;
     getTurnos();

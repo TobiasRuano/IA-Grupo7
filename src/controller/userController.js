@@ -256,9 +256,7 @@ export const getMedicos = async function() {
         });
         
         let rdo = response.status;
-        console.log("response",response);
         let data = await response.json();
-        console.log("La jsonresponse es: ",data);
             switch(rdo) {
                 case 201, 200: {
                     return ({data: data.data.docs,rdo:0,mensaje:"Ok"});
