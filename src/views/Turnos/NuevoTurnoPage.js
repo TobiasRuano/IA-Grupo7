@@ -23,13 +23,12 @@ import Card from "components/Card/Card.js";
 import CardBody from "components/Card/CardBody.js";
 import CardFooter from "components/Card/CardFooter.js";
 import CustomInput from "components/CustomInput/CustomInput.js";
-import ListaTurnos from "components/ListaTurnos.js";
 
 import styles from "assets/jss/material-kit-react/views/loginPage.js";
 import image from "assets/img/bg7.jpg";
 
 //importo llamada a endpoint
-import {asignarTurno} from "../../controller/turnoController.js";
+import {asignarTurno, getTurnosDisponibles} from "../../controller/turnoController.js";
 import {getMedicos} from "../../controller/userController.js";
 
 const useStyles = makeStyles(styles);
@@ -41,31 +40,35 @@ export default function NuevoTurnoPage(props) {
   const [cardAnimaton, setCardAnimation] = React.useState("cardHidden");
   const [esp, setEsp] = React.useState('');
   const [profesional, setProfesional] = React.useState('');
-  const [dniMedico, setDniMedico] = React.useState(-1);
-  const [turnoElegido, setTurnoElegido] = React.useState('');
+  const [turno, setTurno] = React.useState('');
   const [dni, setDNI] = React.useState('');
   const [estado, setEstado] = React.useState(false);
   const [arrayMedicos, setArrayMedicos] = React.useState([]);
+  const [array, setArray] = React.useState([]);
+  let dniMedico = -1;
+  /* let turnoElegido = undefined; */
+  var arrayTurnos = [];
+  var arrayEsp = ["Consulta general", "Pediatria", "Ortodoncia", "Cardiologia", "Rayos", "Electrocardiograma", "Análisis de sangre", "Tomografia computada"];
 
   const handleEspChange = (event) => {
     setEsp(event.target.value);
   };
   const handleProfChange = (event) => {
     setProfesional(event.target.value);
-    setDniMedico(event.target.value);
-    console.log("se actualizo el profesional", event.target.value);
+    dniMedico = event.target.value;
+    getTurnos();
   }
+
   const handleSelectTurno = (event) => {
-    setTurnoElegido(event.target.value);
+    setTurno(event.target.value);
   }
 
   const handleDNIChange = (event) => {
-    console.log(event.target.value);
     setDNI(event.target.value);
   }
 
   const solicitarTurno=()=> {
-    if (turnoElegido!=="" && dni!=="" && profesional!=="" && esp!=="") {
+    if (turno!=="" && dni!=="" && profesional!=="" && esp!=="") {
       validarSelectTurno();
     }
     else {
@@ -73,30 +76,46 @@ export default function NuevoTurnoPage(props) {
     }
   }
 
+  async function getTurnos() {
+      if (dniMedico !== -1 && dniMedico !== undefined) {
+        let data = await getTurnosDisponibles(dniMedico);
+        for(let i=0; i<data.data.length; i++) {
+          let dia = new Date(data.data[i].fecha);
+          dia.setMonth(dia.getMonth() + 1);
+          data.data[i].fecha = dia;
+          arrayTurnos.push(data.data[i]);
+        }
+        setArray(arrayTurnos);
+      }
+  }
+
   useEffect(()=>{
     async function componentDidMount() {
       let data = await getMedicos();
-      console.log(data);
+      let array = [];
       for(let i=0; i<data.data.length; i++) {
-        arrayMedicos.push(data.data[i]);
+        array.push(data.data[i]);
       }
-      console.log(arrayMedicos)
-      setArrayMedicos(arrayMedicos);
-      console.log("Array seteada")
+      setArrayMedicos(array);
     }
     componentDidMount();
   },[]);
 
   //Ejecuto el endopoint para validar login
   const validarSelectTurno= async function() {
-      let datos = {
-        dni: dni,
+    let index = arrayMedicos.findIndex(x => x.dni ===profesional);
+    let medico = arrayMedicos[index].name + " " + arrayMedicos[index].surname
+    console.log("iddddd: ", turno.id)
+      let data = {
+        id: turno.id,
+        userID: dni,
         razon: esp,
-        fecha: turnoElegido.fecha,
-        dniMedico: turnoElegido.dniMedico,
+        fecha: turno.fecha,
+        medico: medico,
+        dniMedico: profesional,
         estado: "Asignado"
       }
-      let getAsignacionTurno = await asignarTurno(datos);
+      let getAsignacionTurno = await asignarTurno(data);
       if (getAsignacionTurno.rdo===0 ) {
         setEstado(true);
       } else {
@@ -186,17 +205,9 @@ export default function NuevoTurnoPage(props) {
                           value={esp}
                           onChange={handleEspChange}
                         >
-                          <MenuItem value="">
-                            <em>Debe seleccionar una opcion</em>
-                          </MenuItem>
-                          <MenuItem value={10}>Consulta general</MenuItem>
-                          <MenuItem value={20}>Pediatria</MenuItem>
-                          <MenuItem value={30}>Ortodoncia</MenuItem>
-                          <MenuItem value={40}>Cardiologia</MenuItem>
-                          <MenuItem value={50}>Análisis de sangre</MenuItem>
-                          <MenuItem value={60}>Rayos</MenuItem>
-                          <MenuItem value={70}>Electrocardiograma</MenuItem>
-                          <MenuItem value={80}>Tomografia computada</MenuItem>
+                          {arrayEsp.map(esp=> (
+                            <MenuItem key={esp} value={esp}>{esp}</MenuItem>
+                          ))}
                         </Select>
                         <FormHelperText>Estamos trabajando para agregar mas especialidades</FormHelperText>
                       </FormControl>
@@ -208,9 +219,6 @@ export default function NuevoTurnoPage(props) {
                           value={profesional}
                           onChange={handleProfChange}
                         >
-                          <MenuItem value={-1}>
-                            <em>Debe seleccionar una opcion</em>
-                          </MenuItem>
                           {arrayMedicos.map(medico=> (
                             <MenuItem key={medico.dni} value={medico.dni}>{medico.name +" " + medico.surname}</MenuItem>
                           ))}
@@ -218,8 +226,19 @@ export default function NuevoTurnoPage(props) {
                         <FormHelperText>Estamos trabajando para agregar mas profesionales</FormHelperText>
                       </FormControl>
   
-                      <FormControl>
-                        <ListaTurnos dni={dniMedico}></ListaTurnos>
+                      <FormControl className={classes.formControl}>
+                        <InputLabel id="demo-simple-select-helper-label">Elija el Turno</InputLabel>
+                        <Select
+                          labelId="demo-simple-select-helper-label"
+                          id="demo-simple-select-helper"
+                          value={turno}
+                          onChange={handleSelectTurno}
+                        >
+                          {array.map(Turno=> (
+                            <MenuItem key={Turno._id} value={Turno}>{Turno.fecha.getDate() +"/"+ Turno.fecha.getMonth()+ "/"+ Turno.fecha.getFullYear() +" ---- Horario: "+ Turno.fecha.getUTCHours()+ ":"+ Turno.fecha.getMinutes()}</MenuItem>
+                          ))}
+                        </Select>
+                        {<FormHelperText>Estos son los turnos disponibles</FormHelperText>}
                       </FormControl>
   
                       <CustomInput

@@ -13,6 +13,7 @@ export const generarTurnos= async function(newTurno) {
     
     // Dia el cual el back generara los turnos de 9 a 18hs. Franja de media hora.
     formData.append('fecha', parseFecha);
+    formData.append('medico', newTurno.medico);
     formData.append('dniMedico', newTurno.dniMedico);
 
     try {
@@ -30,7 +31,6 @@ export const generarTurnos= async function(newTurno) {
         });
         
         let rdo = response.status;
-        console.log("response",response);
         let data = await response.json();
         console.log("jsonresponse",data);
             switch(rdo) {
@@ -54,40 +54,35 @@ export const asignarTurno= async function(turnoDisponible) {
     //armo json con datos
     const formData = new URLSearchParams();
     
+    formData.append('id', turnoDisponible.id);
     formData.append('fecha', turnoDisponible.fecha);
+    formData.append('medico', turnoDisponible.medico);
     formData.append('dniMedico', turnoDisponible.dniMedico);
     formData.append('estado', turnoDisponible.estado);
-    formData.append('dni', turnoDisponible.dni);
-    formData.append('razon', turnoDisponible.esp);
+    formData.append('userID', turnoDisponible.userID);
+    formData.append('razon', turnoDisponible.razon);
 
     try {
+        const token = localStorage.getItem("x");
         let response = await fetch(url,{
             method: 'PUT',
             mode: "cors",
             headers:{
                 'Accept':'application/x-www-form-urlencoded',
-               // 'x-access-token': WebToken.webToken,
+                'x-access-token': token,
+                'Access-Control-Allow-Origin': '*',
                 'Origin':'http://localhost:3000',
                 'Content-Type': 'application/x-www-form-urlencoded'},
             body: formData,
         });
         
         let rdo = response.status;
-        console.log("response",response);
         let data = await response.json();
         console.log("jsonresponse",data);
             switch(rdo) {
-                case 201: {
-                    //guardo token
-                    localStorage.setItem("x",data.loginUser.token);
+                case 200, 201: {
                     return ({rdo:0,mensaje:"Ok"});
                 }
-                /*case 202: {
-                    return ({rdo:1,mensaje:"El mail ingresado ya existe en nuestra base."});
-                }
-                case 203: {
-                    return ({rdo:1,mensaje:"El DNI ingresado ya existe en nuestra base de datos."});
-                }*/
                 default: {
                     return ({rdo:1,mensaje:"Ha ocurrido un error"});                
                 }
@@ -160,9 +155,7 @@ export const getTurnosByDNI = async function(dni) {
         });
         
         let rdo = response.status;
-        console.log("response",response);
         let data = await response.json();
-        console.log("jsonresponse",data);
             switch(rdo) {
                 case 201, 200: {
 
@@ -201,9 +194,7 @@ export const getTurnosDisponibles = async function(getTurnosDisponibles) {
         });
         
         let rdo = response.status;
-        console.log("response",response);
         let data = await response.json();
-        console.log("jsonresponse",data);
             switch(rdo) {
                 case 201, 200: {
                     return ({data: data.data.docs, rdo:0,mensaje:"Ok"});
