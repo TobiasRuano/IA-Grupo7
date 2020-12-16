@@ -14,7 +14,7 @@ const urlWebServices = {
     generarTurno: urlApi + "api/turnos/crearturnos",
     asignarTurno: urlApi + "api/turnos/asignarturno",
     misTurnos: urlApi + "api/turnos/misturnos",
-    deleteTurno: urlApi + "api/turnos/:id",
+    cancelarTurno: urlApi + "api/turnos/cancelarturno",
     turnosDisponibles: urlApi + "api/turnos/disponibles",
 
     createReceta: urlApi + "api/recetas/recetanueva",

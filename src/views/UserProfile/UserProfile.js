@@ -45,7 +45,6 @@ export default function UserProfile(props) {
   const { ...rest } = props;
   //datos paciente
   const isLoggedIn = React.useState(localStorage.getItem("user") ? true : false);
-  console.log("el valor de isLoggedIn es: ", isLoggedIn);
   const [name, setName] = React.useState(isLoggedIn[0] ? JSON.parse(localStorage.getItem('user')).name : "null");
   const [surname, setSurname] = React.useState(isLoggedIn[0] ? JSON.parse(localStorage.getItem('user')).surname : "null");
   const [dni, setDni] = React.useState(isLoggedIn[0] ? JSON.parse(localStorage.getItem('user')).dni : "null");

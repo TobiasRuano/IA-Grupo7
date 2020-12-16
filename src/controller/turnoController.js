@@ -96,19 +96,26 @@ export const asignarTurno= async function(turnoDisponible) {
 
 export const removeTurno= async function(removeTurno) {
     //url webservices
-    let url = urlWebServices.deleteTurno;
+    let url = urlWebServices.cancelarTurno;
     //armo json con datos
     const formData = new URLSearchParams();
-    formData.append('dni', removeTurno.dni);
+    formData.append('id', removeTurno.id);
     formData.append('fecha', removeTurno.fecha);
+    formData.append('medico', removeTurno.medico);
+    formData.append('dniMedico', removeTurno.dniMedico);
+    formData.append('estado', removeTurno.estado);
+    formData.append('userID', removeTurno.userID);
+    formData.append('razon', removeTurno.razon);
 
     try {
+        const token = localStorage.getItem("x");
         let response = await fetch(url,{
-            method: 'DELETE',
+            method: 'PUT',
             mode: "cors",
             headers:{
                 'Accept':'application/x-www-form-urlencoded',
-                //'x-access-token': WebToken.webToken,
+                'x-access-token': token,
+                'Access-Control-Allow-Origin': '*',
                 'Origin':'http://localhost:3000',
                 'Content-Type': 'application/x-www-form-urlencoded'},
             body: formData,
