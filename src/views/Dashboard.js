@@ -151,16 +151,19 @@ export default function Dashboard(props) {
 
 	//Ejecuto el endopoint para validar login
 	const validarGenerarTurnos= async function() {
-			let datos = {
-				fecha: dateSelected,
-				dniMedico: dniMedico
-			}
-			let getTurnoResponse = await generarTurnos(datos);
-			if (getTurnoResponse.rdo===0 ) {
-				setEstado(true);
-			} else {
-				alert(getTurnoResponse.mensaje)
-			}
+		let index = arrayMedicos.findIndex(x => x.dni ===dniMedico);
+    	let medico = arrayMedicos[index].name + " " + arrayMedicos[index].surname
+		let datos = {
+			fecha: dateSelected,
+			medico: medico,
+			dniMedico: dniMedico
+		}
+		let getTurnoResponse = await generarTurnos(datos);
+		if (getTurnoResponse.rdo===0 ) {
+			setEstado(true);
+		} else {
+			alert(getTurnoResponse.mensaje)
+		}
 	}
 
 	const redirect= ()=>{
