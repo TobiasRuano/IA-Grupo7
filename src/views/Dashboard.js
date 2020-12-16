@@ -121,9 +121,11 @@ export default function Dashboard(props) {
 		let getPermisoResponse = await updateUser(datos);
 		if (getPermisoResponse.rdo===0 ) {
 			let user = JSON.parse(localStorage.getItem('user'))
-			user.permiso = permisoUsuario
-			console.log("El permiso que estoy seteando es: ", permisoUsuario)
-      		localStorage.setItem("user", JSON.stringify(user));
+			if (user.dni === dniUsuario) {
+				user.permiso = permisoUsuario;
+				console.log("El permiso que estoy seteando es: ", permisoUsuario);
+      			localStorage.setItem("user", JSON.stringify(user));
+			}
 			setEstado(true);
 		} else {
 			alert(getPermisoResponse.mensaje)
