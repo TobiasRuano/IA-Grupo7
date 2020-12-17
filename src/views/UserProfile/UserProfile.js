@@ -22,7 +22,7 @@ import classNames from "classnames";
 import profile from "assets/img/faces/christian.jpg";
 
 import TablaTurnos from "components/TablaTurnos/TablaTurnos.js";
-import SectionDownload from "views/UserProfile/SectionDownload.js";
+import Acciones from "views/UserProfile/Acciones.js";
 
 import {updateUser} from "../../controller/userController";
 
@@ -293,7 +293,7 @@ export default function UserProfile(props) {
                 </CardBody>
               </Card>
               </GridContainer>
-              <SectionDownload dniPaciente={dni}></SectionDownload>
+              <Acciones dniPaciente={dni}></Acciones>
             </div>
           </div>
         </div>

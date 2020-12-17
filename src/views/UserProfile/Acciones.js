@@ -7,6 +7,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import GridContainer from "components/Grid/GridContainer.js";
 import GridItem from "components/Grid/GridItem.js";
 import Button from "components/CustomButtons/Button.js";
+import {Modal} from '@material-ui/core';
 // core components
 import styles from "assets/jss/material-kit-react/views/componentsSections/downloadStyle.js";
 
@@ -15,22 +16,37 @@ import {remove} from "../../controller/userController";
 
 const useStyles = makeStyles(styles);
 
-export default function SectionDownload(props) {
+const useStylesModal = makeStyles((styles) => ({
+  modal: {
+    position: 'absolute',
+    width: 400,
+    backgroundColor: styles.palette.background.paper,
+    border: '2px solid #000',
+    boxShadow: styles.shadows[5],
+    padding: styles.spacing(2, 4, 3),
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)'
+  }
+}));
+
+export default function Acciones(props) {
   const classes = useStyles();
-  const [dni, setDNI] = React.useState(props.dniPaciente);
+  const classesModal = useStylesModal();
+  const [dni] = React.useState(props.dniPaciente);
   const [estado, setEstado] = React.useState(false);
+  const [modalEliminar, setModalEliminar]= React.useState(false);
   console.log(props.dniPaciente);
 
 
   const handleDeleteAccount = () => {
-    deleteAccount();
+    abrirCerrarModalEliminar()
   }
 
   const deleteAccount = async function(){
     let datos = {
       dni: dni
     }
-    console.log("El dni a eliminar es: ", dni);
     let removeStatus = await remove(datos);
 
     if (removeStatus.rdo===0) {
@@ -43,6 +59,22 @@ export default function SectionDownload(props) {
       alert(removeStatus.mensaje)
     }
   }
+
+  const abrirCerrarModalEliminar=()=>{
+    setModalEliminar(!modalEliminar);
+  }
+
+  const bodyEliminar=(
+    <div className={classesModal.modal}>
+      <p>Estás seguro que deseas eliminar la cuenta? </p>
+      <div align="right">
+        <Button color="danger" onClick={()=>deleteAccount()}>Sí</Button>
+        <Button onClick={()=>abrirCerrarModalEliminar()}>No</Button>
+
+      </div>
+
+    </div>
+  )
 
   const redirect= ()=>{
 		if (estado) {
@@ -80,6 +112,11 @@ export default function SectionDownload(props) {
           </Button>
         </div>
       </div>
+      <Modal
+        open={modalEliminar}
+        onClose={abrirCerrarModalEliminar}>
+          {bodyEliminar}
+        </Modal>
     </div>
   );
 }
