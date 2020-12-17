@@ -56,7 +56,9 @@ function EnhancedTable(props) {
       let data = await getTurnosByDNI(dni);
       for(let i=0; i<data.data.length; i++) {
         turnosAPI.push(data.data[i]);
-        array.push(createData(data.data[i].razon, data.data[i].fecha, data.data[i].medico, data.data[i].estado, data.data[i].id));
+        let date = new Date(data.data[i].fecha);
+        let value = date.getDate() + "/" + date.getMonth() + "/" + date.getFullYear() + "  Horario: " + date.getUTCHours() + ":" + date.getUTCMinutes();
+        array.push(createData(data.data[i].razon, value, data.data[i].medico, data.data[i].estado, data.data[i].id));
       }
       setData(array);
   }

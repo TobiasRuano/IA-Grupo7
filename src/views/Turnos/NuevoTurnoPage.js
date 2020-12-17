@@ -82,7 +82,6 @@ export default function NuevoTurnoPage(props) {
         let data = await getTurnosDisponibles(dniMedico);
         for(let i=0; i<data.data.length; i++) {
           let dia = new Date(data.data[i].fecha);
-          dia.setMonth(dia.getMonth() + 1);
           data.data[i].fecha = dia;
           arrayTurnos.push(data.data[i]);
         }
@@ -106,12 +105,15 @@ export default function NuevoTurnoPage(props) {
   const validarSelectTurno= async function() {
     let index = arrayMedicos.findIndex(x => x.dni ===profesional);
     let medico = arrayMedicos[index].name + " " + arrayMedicos[index].surname
-    console.log("iddddd: ", turno.id)
+
+    arrayTurnos = array;
+    let indexTurno = arrayTurnos.findIndex(x => x.id ===turno.id);
+    let turnoDeseado = arrayTurnos[indexTurno]
       let data = {
-        id: turno.id,
+        id: turnoDeseado.id,
         userID: dni,
         razon: esp,
-        fecha: turno.fecha,
+        fecha: turnoDeseado.fecha,
         medico: medico,
         dniMedico: profesional,
         estado: "Asignado"
