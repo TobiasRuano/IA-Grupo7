@@ -114,13 +114,10 @@ export const updateUser= async function(updateUser) {
     formData.append('dni', updateUser.dni);
     formData.append('nombre', updateUser.name != null ? updateUser.name : null);
     formData.append('apellido', updateUser.surname != null ? updateUser.surname : null);
-    formData.append('genero', updateUser.genre != null ? updateUser.genre : null);
-    formData.append('fechaNac', updateUser.birthday != null ? updateUser.birthday : null);
+    formData.append('sexo', updateUser.genre != null ? updateUser.genre : null);
     formData.append('domicilio', updateUser.address != null ? updateUser.address : null);
     formData.append('telefono', updateUser.telefono != null ? updateUser.telefono : null);
     formData.append('permiso', updateUser.permiso != null ? updateUser.permiso : null);
-
-    console.log(updateUser.name != null ? updateUser.name : null);
 
     try {
         const token = localStorage.getItem("x");
@@ -136,7 +133,6 @@ export const updateUser= async function(updateUser) {
         });
         
         let rdo = response.status;
-        console.log("response",response);
         let data = await response.json();
         console.log("jsonresponse",data);
             switch(rdo) {

@@ -18,6 +18,10 @@ import HeaderLinks from "components/Header/HeaderLinks.js";
 import Footer from "components/Footer/Footer.js";
 import Parallax from "components/Parallax/Parallax.js";
 import classNames from "classnames";
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormLabel from '@material-ui/core/FormLabel';
 
 import profile from "assets/img/faces/christian.jpg";
 
@@ -45,9 +49,9 @@ export default function UserProfile(props) {
   const { ...rest } = props;
   //datos paciente
   const isLoggedIn = React.useState(localStorage.getItem("user") ? true : false);
-  const [name, setName] = React.useState(isLoggedIn[0] ? JSON.parse(localStorage.getItem('user')).name : "null");
-  const [surname, setSurname] = React.useState(isLoggedIn[0] ? JSON.parse(localStorage.getItem('user')).surname : "null");
-  const [dni, setDni] = React.useState(isLoggedIn[0] ? JSON.parse(localStorage.getItem('user')).dni : "null");
+  const [name] = React.useState(isLoggedIn[0] ? JSON.parse(localStorage.getItem('user')).name : "null");
+  const [surname] = React.useState(isLoggedIn[0] ? JSON.parse(localStorage.getItem('user')).surname : "null");
+  const [dni] = React.useState(isLoggedIn[0] ? JSON.parse(localStorage.getItem('user')).dni : "null");
   const [sexo, setSexo] = React.useState(isLoggedIn[0] ? JSON.parse(localStorage.getItem('user')).sexo : "null");
   const [fechanac, setFechanac] = React.useState(isLoggedIn[0] ? JSON.parse(localStorage.getItem('user')).fechanac : "null");
   const [email, setEmail] = React.useState(isLoggedIn[0] ? JSON.parse(localStorage.getItem('user')).email : "null");
@@ -55,12 +59,6 @@ export default function UserProfile(props) {
   const [telefono, setTel] = React.useState(isLoggedIn[0] ? JSON.parse(localStorage.getItem('user')).telefono : "null");
   const [isDisabled, setIsDisabled] = React.useState(true);
 
-  const handleChangeName = (event) => {
-    setName(event.target.value);
-  };
-  const handleChangeDni = (event) => {
-    setDni(event.target.value);
-  };
   const handleChangeEmail = (event) => {
     setEmail(event.target.value);
   };
@@ -69,9 +67,6 @@ export default function UserProfile(props) {
   };
   const handleChangeSexo = (event) => {
     setSexo(event.target.value);
-  };
-  const handleChangeSurname = (event) => {
-    setSurname(event.target.value);
   };
   const handleChangeTel = (event) => {
     setTel(event.target.value);
@@ -102,6 +97,19 @@ export default function UserProfile(props) {
     }
     let getResponse = await updateUser(datos);
     if (getResponse.rdo===0) {
+      let user = JSON.parse(localStorage.getItem('user'));
+      let data = {
+        name: user.name,
+        surname: user.surname,
+        email: email,
+        dni: user.dni,
+        fechanac: user.fechaNac,
+        domicilio: domicilio,
+        permiso: user.permiso,
+        telefono: telefono,
+        sexo: sexo
+      }
+      localStorage.setItem("user", JSON.stringify(data));
     }
     if (getResponse.rdo===1) {
       alert(getResponse.mensaje)
@@ -177,15 +185,13 @@ export default function UserProfile(props) {
                             nonValidate
                             autoComplete="off"
                           >
-                            <FormControl disabled={isDisabled}>
-                              <InputLabel htmlFor="component-sexo">
-                                Sexo
-                              </InputLabel>
-                              <Input
-                                id="component-disabled"
-                                value={sexo}
-                                onChange={handleChangeSexo}
-                              />
+                            <FormControl disabled={isDisabled} component="fieldset">
+                              <FormLabel id="component-disabled" component="legend">Genero</FormLabel>
+                              <RadioGroup aria-label="Sexo" name="gender1" value={sexo} onChange={handleChangeSexo}>
+                                <FormControlLabel value="female" control={<Radio />} label="Femenino" />
+                                <FormControlLabel value="male" control={<Radio />} label="Masculino" />
+                                <FormControlLabel value="other" control={<Radio />} label="Otro" />
+                              </RadioGroup>
                             </FormControl>
                           </form>
                         </GridItem>
@@ -196,7 +202,7 @@ export default function UserProfile(props) {
                             nonValidate
                             autoComplete="off"
                           >
-                            <FormControl disabled={isDisabled}>
+                            <FormControl disabled>
                               <InputLabel htmlFor="component-fechanac">
                                 Fecha de Nacimiento
                               </InputLabel>
@@ -206,6 +212,7 @@ export default function UserProfile(props) {
                                 onChange={handleChangeFechanac}
                               />
                             </FormControl>
+                            
                           </form>
                         </GridItem>
   
