@@ -68,7 +68,7 @@ function EnhancedTable(props) {
     let turnoBorrar = turnosAPI[index];
     let datos = {
         id: turnoBorrar.id,
-        userID: turnoBorrar.dni,
+        userID: dni,
         razon: turnoBorrar.razon,
         fecha: turnoBorrar.fecha,
         medico: turnoBorrar.medico,

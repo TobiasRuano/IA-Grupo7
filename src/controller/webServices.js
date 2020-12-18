@@ -1,7 +1,5 @@
 //const urlApi = "http://localhost:4000/";
 const urlApi = "https://ia-grupo7-api.herokuapp.com/";
-console.log("url",urlApi);
-
 const urlWebServices = {
     register: urlApi + "api/users/registration",
     login: urlApi + "api/users/login",
@@ -21,7 +19,6 @@ const urlWebServices = {
     getImagenesByID: urlApi + "api/recetas/getimgbyid",
     uploadFile: urlApi + "api/recetas/uploadfiles",
     guardarImagenUser:urlApi + "api/users/guardarImgUser"
-    
 }
 
 
